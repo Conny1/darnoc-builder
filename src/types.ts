@@ -10,7 +10,7 @@ export type BlockType =
 export type BlockDataType = {
   id: string;
   name: BlockType;
-  blocks?: BlockType[];
+  blocks?: { name: BlockType; id: string }[];
 };
 
 export const Droppableids = {

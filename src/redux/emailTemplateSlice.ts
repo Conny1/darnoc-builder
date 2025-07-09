@@ -1,0 +1,66 @@
+import { BlockDataType, BlockType } from "@/types";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+
+export interface emailtemplateState {
+  dropableData: BlockDataType[];
+}
+
+const initialState: emailtemplateState = {
+  dropableData: [],
+};
+
+export const emailtemplateSlice = createSlice({
+  name: "emailtemplate",
+  initialState,
+  reducers: {
+    addBlock: (state, action: PayloadAction<BlockDataType>) => {
+      let data: BlockDataType = action.payload;
+      state.dropableData.push(data);
+    },
+    addInlineBlock: (
+      state,
+      action: PayloadAction<{ parent_id: string; data: BlockDataType }>
+    ) => {
+      let data = action.payload;
+      state.dropableData.forEach((item) => {
+        if (item.id === data.parent_id) {
+          let ph = data.data;
+          if (item.blocks) {
+            item.blocks.push(ph);
+          } else {
+            item["blocks"] = [ph];
+          }
+        }
+      });
+    },
+
+    removeInlineBlock: (
+      state,
+      action: PayloadAction<{ parent_id: string; block_id: string }>
+    ) => {
+      let payload = action.payload;
+      state.dropableData.map((item) => {
+        if (item.id === payload.parent_id) {
+          item.blocks = item.blocks?.filter(
+            (target) => target.id !== payload.block_id
+          );
+        }
+      });
+    },
+
+    removeBlock: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+      let others = state.dropableData.filter(
+        (item) => item.id !== action.payload
+      );
+      state.dropableData = others;
+    },
+  },
+});
+
+// Action creators are generated for each case reducer function
+export const { addBlock, removeBlock, addInlineBlock, removeInlineBlock } =
+  emailtemplateSlice.actions;
+
+export default emailtemplateSlice.reducer;

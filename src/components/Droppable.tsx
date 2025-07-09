@@ -3,15 +3,16 @@ import { useDroppable } from "@dnd-kit/core";
 type Props = {
   id: string;
   children: React.ReactNode;
-  parentindex?: number;
+  parent_id?: String;
 };
-function Droppable({ id, children, parentindex }: Props) {
+function Droppable({ id, children, parent_id }: Props) {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
     data: {
-      parentindex,
+      parent_id,
     },
   });
+
   const style = {
     // opacity: isOver ? 1 : 0.5,
   };

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Droppable from "./Droppable";
 import { BlockDataType } from "@/types";
 import Block from "./Block";
-type Props = {
-  dropableData: BlockDataType[];
-};
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
-const Canva = ({ dropableData }: Props) => {
+const Canva = () => {
+  const dropableData = useSelector(
+    (state: RootState) => state.email.dropableData
+  );
   return (
     <div className="flex-1  flex p-3  ">
       <Droppable id="droppeble">
@@ -19,7 +21,7 @@ const Canva = ({ dropableData }: Props) => {
                 key={i}
                 item={item.name}
                 data={item.blocks}
-                parentindex={i}
+                block_id={item.id}
               />
             );
           })}
