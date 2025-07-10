@@ -4,6 +4,7 @@ import Droppable from "./Droppable";
 import RenderInlineBlock from "./RenderInlineBlock";
 import { useDispatch } from "react-redux";
 import { removeBlock } from "@/redux/emailTemplateSlice";
+import ResizeComponent from "./ResizeComponent";
 
 type Props = {
   item: BlockType;
@@ -21,7 +22,7 @@ const Block = ({ item, data, block_id }: Props) => {
     case "header":
       block = (
         <Droppable id={`headerDroppable-${id}`} parent_id={block_id}>
-          <div className=" bg-blue-600 text-white px-6 py-4 text-center rounded-md hover:border hover:border-dashed ">
+          <div className=" bg-blue-600 text-white px-6 py-4 text-center rounded-md h-auto  ">
             <h1 className="text-2xl font-bold">Welcome to Darnoc!</h1>
             <p className="text-sm mt-1">Thanks for joining us</p>
 
@@ -36,7 +37,7 @@ const Block = ({ item, data, block_id }: Props) => {
     case "body":
       block = (
         <Droppable id={`bodyDroppable-${id}`} parent_id={block_id}>
-          <div className="p-6 space-y-4 text-gray-700 hover:border hover:border-dashed ">
+          <div className="p-6 space-y-4 text-gray-700  ">
             <p>
               Hi <strong>Joel</strong>,
             </p>
@@ -60,7 +61,7 @@ const Block = ({ item, data, block_id }: Props) => {
         <div className="text-center py-4">
           <a
             href="#"
-            className="inline-block bg-blue-600 hover:bg-blue-700 hover:border hover:border-dashed text-white text-sm font-semibold px-5 py-3 rounded"
+            className="inline-block bg-blue-600 hover:bg-blue-700  text-white text-sm font-semibold px-5 py-3 rounded"
           >
             Start Building
           </a>
@@ -73,14 +74,14 @@ const Block = ({ item, data, block_id }: Props) => {
         <img
           src="https://via.placeholder.com/600x200"
           alt="email banner"
-          className="w-full rounded hover:border hover:border-dashed "
+          className="w-full rounded  "
         />
       );
       break;
 
     case "text":
       block = (
-        <p className="text-gray-700 p-4 hover:border hover:border-dashed ">
+        <p className="text-gray-700 p-4  ">
           This is an editable text block. You can write anything here.
         </p>
       );
@@ -88,7 +89,7 @@ const Block = ({ item, data, block_id }: Props) => {
     case "section":
       block = (
         <Droppable id={`sectionDroppable-${id}`} parent_id={block_id}>
-          <div className="p-6 space-y-4 text-gray-700 hover:border hover:border-dashed  bg-white">
+          <div className="p-6 space-y-4 text-gray-700   bg-white">
             {data && data.length > 0 ? (
               data.map((item, i) => (
                 <RenderInlineBlock key={i} item={item} parent_id={block_id} />
@@ -122,21 +123,31 @@ const Block = ({ item, data, block_id }: Props) => {
   }
 
   return (
-    <div
-      onMouseOver={() => setcloseBTN(true)}
-      onMouseLeave={() => setcloseBTN(false)}
-      className=" relative max-w-xl mx-auto bg-white shadow rounded overflow-hidden "
+    <ResizeComponent
+      tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded overflow-hidden hover:border hover:border-dashed"
+      styles={{
+        width: 576,
+        height: 200,
+        minConstraints: { x: 100, y: 100 },
+        maxConstraints: { x: 1000, y: 1000 },
+      }}
     >
-      <button
-        className={` ${
-          !closeBTN ? "hidden" : null
-        }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs  `}
-        onClick={() => dispatch(removeBlock(block_id))}
+      <div
+        onMouseOver={() => setcloseBTN(true)}
+        onMouseLeave={() => setcloseBTN(false)}
+        className="m-0  "
       >
-        ✕
-      </button>
-      {block}
-    </div>
+        <button
+          className={` ${
+            !closeBTN ? "hidden" : null
+          }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs  `}
+          onClick={() => dispatch(removeBlock(block_id))}
+        >
+          ✕
+        </button>
+        {block}
+      </div>
+    </ResizeComponent>
   );
 };
 

@@ -39,6 +39,7 @@ export const emailtemplateSlice = createSlice({
       state,
       action: PayloadAction<{ parent_id: string; block_id: string }>
     ) => {
+      console.log("presed", action.payload);
       let payload = action.payload;
       state.dropableData.map((item) => {
         if (item.id === payload.parent_id) {
