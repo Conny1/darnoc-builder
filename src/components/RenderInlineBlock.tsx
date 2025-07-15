@@ -3,6 +3,7 @@ import { BlockDataType } from "@/types";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ResizeComponent from "./ResizeComponent";
+import TextEditor from "./TextEditor";
 
 type Props = {
   item: BlockDataType;
@@ -16,25 +17,11 @@ const RenderInlineBlock = ({ item, parent_id }: Props) => {
 
   switch (item.name) {
     case "text":
-      block = (
-        <p
-          onMouseOver={() => setcloseBTN(true)}
-          onMouseLeave={() => setcloseBTN(false)}
-          key={item.name}
-          className=" relative text-gray-700 text-base p-2 "
-        >
-          {item.name || "Default text"}
-        </p>
-      );
+      block = <TextEditor element=" <p >  Default text</p>" />;
       break;
     case "button":
       block = (
-        <div
-          onMouseOver={() => setcloseBTN(true)}
-          onMouseLeave={() => setcloseBTN(false)}
-          key={item.name}
-          className=" relative text-center py-2 "
-        >
+        <div key={item.name} className=" relative text-center py-2 ">
           <a
             href="#"
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded"
@@ -46,12 +33,7 @@ const RenderInlineBlock = ({ item, parent_id }: Props) => {
       break;
     case "image":
       block = (
-        <div
-          onMouseOver={() => setcloseBTN(true)}
-          onMouseLeave={() => setcloseBTN(false)}
-          key={item.name}
-          className=" relative py-2 "
-        >
+        <div key={item.name} className=" relative py-2 ">
           <img
             src={"https://via.placeholder.com/600x200"}
             alt="image block"
@@ -62,12 +44,7 @@ const RenderInlineBlock = ({ item, parent_id }: Props) => {
       break;
     case "section":
       block = (
-        <div
-          onMouseOver={() => setcloseBTN(true)}
-          onMouseLeave={() => setcloseBTN(false)}
-          key={item.name}
-          className="relative bg-gray-50 p-4  rounded my-2 "
-        >
+        <div key={item.name} className="relative bg-gray-50 p-4  rounded my-2 ">
           <p>Section block</p>
         </div>
       );
@@ -89,7 +66,7 @@ const RenderInlineBlock = ({ item, parent_id }: Props) => {
       <div
         onMouseOver={() => setcloseBTN(true)}
         onMouseLeave={() => setcloseBTN(false)}
-        className="m-0  "
+        className="relative flex flex-col w-full h-full"
       >
         <button
           className={` ${

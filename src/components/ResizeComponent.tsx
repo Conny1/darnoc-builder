@@ -15,7 +15,7 @@ type Props = {
 const ResizeComponent = ({ children, tailwindStyles, styles }: Props) => {
   return (
     <ResizableBox
-      className={`${tailwindStyles} overflow-clip `}
+      className={`${tailwindStyles} overflow-clip  flex  `}
       width={styles.width}
       height={styles.height}
       draggableOpts={{ grid: [25, 25] }}

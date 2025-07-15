@@ -5,6 +5,7 @@ import RenderInlineBlock from "./RenderInlineBlock";
 import { useDispatch } from "react-redux";
 import { removeBlock } from "@/redux/emailTemplateSlice";
 import ResizeComponent from "./ResizeComponent";
+import TextEditor from "./TextEditor";
 
 type Props = {
   item: BlockType;
@@ -81,10 +82,13 @@ const Block = ({ item, data, block_id }: Props) => {
 
     case "text":
       block = (
-        <p className="text-gray-700 p-4  ">
+        <TextEditor
+          element=" <p>
           This is an editable text block. You can write anything here.
-        </p>
+        </p>"
+        />
       );
+
       break;
     case "section":
       block = (
@@ -124,7 +128,7 @@ const Block = ({ item, data, block_id }: Props) => {
 
   return (
     <ResizeComponent
-      tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded overflow-hidden hover:border hover:border-dashed"
+      tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded  hover:border hover:border-dashed"
       styles={{
         width: 576,
         height: 200,
@@ -135,12 +139,12 @@ const Block = ({ item, data, block_id }: Props) => {
       <div
         onMouseOver={() => setcloseBTN(true)}
         onMouseLeave={() => setcloseBTN(false)}
-        className="m-0  "
+        className="relative flex flex-col w-full h-full"
       >
         <button
           className={` ${
             !closeBTN ? "hidden" : null
-          }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs  `}
+          }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
           onClick={() => dispatch(removeBlock(block_id))}
         >
           ✕
