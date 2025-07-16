@@ -45,7 +45,7 @@ const Dashboard = () => {
     }
   };
   return (
-    <div className="h-[100vh] w-full flex gap-3">
+    <div className="h-[94svh] w-full flex gap-3">
       <DndContext onDragEnd={handleDragEnd}>
         <Sidebar />
         <Canva />
