@@ -2,33 +2,78 @@ import React from "react";
 import Droppable from "./Droppable";
 import { BlockDataType } from "@/types";
 import Block from "./Block";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { SortableItem } from "./Sortable";
+import { updateSortedBlocks } from "@/redux/emailTemplateSlice";
 
 const Canva = () => {
   const dropableData = useSelector(
     (state: RootState) => state.email.dropableData
   );
+  const dispatch = useDispatch();
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = dropableData.findIndex((item) => item.id === active.id);
+      const newIndex = dropableData.findIndex((item) => item.id === over?.id);
+      dispatch(updateSortedBlocks(arrayMove(dropableData, oldIndex, newIndex)));
+    }
+  }
 
   return (
     <div className="flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
       <Droppable id="droppeble">
-        <div className="min-h-[90vh] w-full border-2 border-dashed border-gray-300 bg-white rounded-xl shadow-sm p-6 transition-all duration-200">
-          {dropableData.length === 0 ? (
-            <p className="text-gray-400 text-center text-sm py-10">
-              📨 Drop your blocks here to start building
-            </p>
-          ) : (
-            dropableData.map((item, i) => (
-              <Block
-                key={i}
-                item={item.name}
-                data={item.blocks}
-                block_id={item.id}
-              />
-            ))
-          )}
-        </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={dropableData}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="min-h-[90vh] w-full border-2 border-dashed border-gray-300 bg-white rounded-xl shadow-sm p-6 transition-all duration-200">
+              {dropableData.length === 0 ? (
+                <p className="text-gray-400 text-center text-sm py-10">
+                  📨 Drop your blocks here to start building
+                </p>
+              ) : (
+                dropableData.map((item, i) => (
+                  <Block
+                    key={i}
+                    item={item.name}
+                    data={item.blocks}
+                    block_id={item.id}
+                  />
+                ))
+              )}
+            </div>
+          </SortableContext>
+        </DndContext>
       </Droppable>
     </div>
   );

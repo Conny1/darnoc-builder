@@ -18,6 +18,10 @@ export const emailtemplateSlice = createSlice({
       let data: BlockDataType = action.payload;
       state.dropableData.push(data);
     },
+    updateSortedBlocks: (state, action: PayloadAction<BlockDataType[]>) => {
+      let data: BlockDataType[] = action.payload;
+      state.dropableData = data;
+    },
     addInlineBlock: (
       state,
       action: PayloadAction<{ parent_id: string; data: BlockDataType }>
@@ -61,7 +65,12 @@ export const emailtemplateSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addBlock, removeBlock, addInlineBlock, removeInlineBlock } =
-  emailtemplateSlice.actions;
+export const {
+  addBlock,
+  removeBlock,
+  addInlineBlock,
+  removeInlineBlock,
+  updateSortedBlocks,
+} = emailtemplateSlice.actions;
 
 export default emailtemplateSlice.reducer;

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { removeBlock } from "@/redux/emailTemplateSlice";
 import ResizeComponent from "./ResizeComponent";
 import TextEditor from "./TextEditor";
+import { SortableItem } from "./Sortable";
 
 type Props = {
   item: BlockType;
@@ -127,31 +128,36 @@ const Block = ({ item, data, block_id }: Props) => {
   }
 
   return (
-    <ResizeComponent
-      tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded  hover:border hover:border-dashed"
-      styles={{
-        width: 576,
-        height: 200,
-        minConstraints: { x: 100, y: 100 },
-        maxConstraints: { x: 1000, y: 1000 },
-      }}
-    >
-      <div
-        onMouseOver={() => setcloseBTN(true)}
-        onMouseLeave={() => setcloseBTN(false)}
-        className="relative flex flex-col w-full h-full"
+    <SortableItem id={block_id}>
+      <ResizeComponent
+        tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded  hover:border hover:border-dashed"
+        styles={{
+          width: 576,
+          height: 200,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        }}
       >
-        <button
-          className={` ${
-            !closeBTN ? "hidden" : null
-          }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
-          onClick={() => dispatch(removeBlock(block_id))}
+        <div
+          onMouseOver={() => setcloseBTN(true)}
+          onMouseLeave={() => setcloseBTN(false)}
+          className=" flex flex-col w-full h-full"
         >
-          ✕
-        </button>
-        {block}
-      </div>
-    </ResizeComponent>
+          <button
+            className={` ${
+              !closeBTN ? "hidden" : null
+            }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
+            onClick={() => {
+              console.log("clicked");
+              dispatch(removeBlock(block_id));
+            }}
+          >
+            ✕
+          </button>
+          {block}
+        </div>
+      </ResizeComponent>
+    </SortableItem>
   );
 };
 
