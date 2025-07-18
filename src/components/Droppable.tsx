@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDroppable } from "@dnd-kit/core";
 type Props = {
   id: string;
@@ -18,7 +18,7 @@ function Droppable({ id, children, parent_id }: Props) {
   };
 
   return (
-    <div className="h-full w-[100%]  " ref={setNodeRef} style={style}>
+    <div className="h-full w-[100%]   " ref={setNodeRef} style={style}>
       {children}
     </div>
   );

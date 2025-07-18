@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ResizeComponent from "./ResizeComponent";
 import TextEditor from "./TextEditor";
+import { SortableItem } from "./Sortable";
 
 type Props = {
   item: BlockDataType;
@@ -11,6 +12,7 @@ type Props = {
 };
 const RenderInlineBlock = ({ item, parent_id }: Props) => {
   const [closeBTN, setcloseBTN] = useState(false);
+  const id = `${new Date().toISOString()}-${parent_id}`;
 
   const dispatch = useDispatch();
   let block;
@@ -54,33 +56,35 @@ const RenderInlineBlock = ({ item, parent_id }: Props) => {
   }
 
   return (
-    <ResizeComponent
-      tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded overflow-hidden hover:border hover:border-dashed "
-      styles={{
-        width: 257,
-        height: 100,
-        minConstraints: { x: 100, y: 100 },
-        maxConstraints: { x: 1000, y: 1000 },
-      }}
-    >
-      <div
-        onMouseOver={() => setcloseBTN(true)}
-        onMouseLeave={() => setcloseBTN(false)}
-        className="relative flex flex-col w-full h-full"
+    <SortableItem id={id}>
+      <ResizeComponent
+        tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded overflow-hidden hover:border hover:border-dashed "
+        styles={{
+          width: 257,
+          height: 100,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        }}
       >
-        <button
-          className={` ${
-            !closeBTN ? "hidden" : null
-          }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
-          onClick={() =>
-            dispatch(removeInlineBlock({ parent_id, block_id: item.id }))
-          }
+        <div
+          onMouseOver={() => setcloseBTN(true)}
+          onMouseLeave={() => setcloseBTN(false)}
+          className="relative flex flex-col w-full h-full"
         >
-          ✕
-        </button>
-        {block}
-      </div>
-    </ResizeComponent>
+          <button
+            className={` ${
+              !closeBTN ? "hidden" : null
+            }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
+            onClick={() =>
+              dispatch(removeInlineBlock({ parent_id, block_id: item.id }))
+            }
+          >
+            ✕
+          </button>
+          {block}
+        </div>
+      </ResizeComponent>
+    </SortableItem>
   );
 };
 

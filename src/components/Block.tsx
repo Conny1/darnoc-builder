@@ -130,7 +130,7 @@ const Block = ({ item, data, block_id }: Props) => {
   return (
     <SortableItem id={block_id}>
       <ResizeComponent
-        tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded  hover:border hover:border-dashed"
+        tailwindStyles=" mx-auto bg-white shadow rounded  hover:border hover:border-dashed"
         styles={{
           width: 576,
           height: 200,
@@ -141,10 +141,10 @@ const Block = ({ item, data, block_id }: Props) => {
         <div
           onMouseOver={() => setcloseBTN(true)}
           onMouseLeave={() => setcloseBTN(false)}
-          className=" flex flex-col w-full h-full"
+          className="relative flex flex-col w-full h-full"
         >
           <button
-            className={` ${
+            className={`${
               !closeBTN ? "hidden" : null
             }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
             onClick={() => {

@@ -34,46 +34,36 @@ const Canva = () => {
     })
   );
 
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-
-    if (active.id !== over?.id) {
-      const oldIndex = dropableData.findIndex((item) => item.id === active.id);
-      const newIndex = dropableData.findIndex((item) => item.id === over?.id);
-      dispatch(updateSortedBlocks(arrayMove(dropableData, oldIndex, newIndex)));
-    }
-  }
-
   return (
     <div className="flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
       <Droppable id="droppeble">
-        <DndContext
+        {/* <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
+        > */}
+        <SortableContext
+          items={dropableData}
+          strategy={verticalListSortingStrategy}
         >
-          <SortableContext
-            items={dropableData}
-            strategy={verticalListSortingStrategy}
-          >
-            <div className="min-h-[90vh] w-full border-2 border-dashed border-gray-300 bg-white rounded-xl shadow-sm p-6 transition-all duration-200">
-              {dropableData.length === 0 ? (
-                <p className="text-gray-400 text-center text-sm py-10">
-                  📨 Drop your blocks here to start building
-                </p>
-              ) : (
-                dropableData.map((item, i) => (
-                  <Block
-                    key={i}
-                    item={item.name}
-                    data={item.blocks}
-                    block_id={item.id}
-                  />
-                ))
-              )}
-            </div>
-          </SortableContext>
-        </DndContext>
+          <div className="min-h-[90vh] w-full border-2 border-dashed border-gray-300 bg-white rounded-xl shadow-sm p-6 transition-all duration-200">
+            {dropableData.length === 0 ? (
+              <p className="text-gray-400 text-center text-sm py-10">
+                📨 Drop your blocks here to start building
+              </p>
+            ) : (
+              dropableData.map((item, i) => (
+                <Block
+                  key={i}
+                  item={item.name}
+                  data={item.blocks}
+                  block_id={item.id}
+                />
+              ))
+            )}
+          </div>
+        </SortableContext>
+        {/* </DndContext> */}
       </Droppable>
     </div>
   );

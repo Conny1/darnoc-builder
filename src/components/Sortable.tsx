@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { GripVertical } from "lucide-react";
 
 type Props = {
   id: string;
   children: React.ReactNode;
 };
+
 export function SortableItem({ id, children }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: id });
+    useSortable({
+      id: id,
+      data: {
+        type: "sortable",
+      },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -16,13 +23,17 @@ export function SortableItem({ id, children }: Props) {
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className=" outline-1 w-fit justify-self-center z-0 "
-    >
+    <div style={style} className="relative w-fit justify-self-center  group">
+      {/* Styled drag handle */}
+      <button
+        ref={setNodeRef}
+        {...listeners}
+        {...attributes}
+        className=" cursor-grab absolute -left-7 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-gray-200"
+      >
+        <GripVertical className="w-6 h-6  text-gray-500" />
+      </button>
+
       {children}
     </div>
   );
