@@ -6,14 +6,18 @@ import { GripVertical } from "lucide-react";
 type Props = {
   id: string;
   children: React.ReactNode;
+  isParent: Boolean;
+  parent_id?: string;
 };
 
-export function SortableItem({ id, children }: Props) {
+export function SortableItem({ id, children, isParent, parent_id }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: id,
       data: {
         type: "sortable",
+        isParent: isParent,
+        parent_id: parent_id,
       },
     });
 

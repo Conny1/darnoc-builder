@@ -7,6 +7,10 @@ import { removeBlock } from "@/redux/emailTemplateSlice";
 import ResizeComponent from "./ResizeComponent";
 import TextEditor from "./TextEditor";
 import { SortableItem } from "./Sortable";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 type Props = {
   item: BlockType;
@@ -19,9 +23,21 @@ const Block = ({ item, data, block_id }: Props) => {
   const id = `${new Date().toISOString()}-${block_id}`;
   const dispatch = useDispatch();
   const [closeBTN, setcloseBTN] = useState(false);
+  let measurements = {
+    width: 576,
+    height: 200,
+    minConstraints: { x: 100, y: 100 },
+    maxConstraints: { x: 1000, y: 1000 },
+  };
 
   switch (item) {
     case "header":
+      measurements = {
+        width: 576,
+        height: 100,
+        minConstraints: { x: 100, y: 100 },
+        maxConstraints: { x: 1000, y: 500 },
+      };
       block = (
         <Droppable id={`headerDroppable-${id}`} parent_id={block_id}>
           <div className=" bg-blue-600 text-white px-6 py-4 text-center rounded-md h-auto  ">
@@ -37,28 +53,41 @@ const Block = ({ item, data, block_id }: Props) => {
       break;
 
     case "body":
-      block = (
-        <Droppable id={`bodyDroppable-${id}`} parent_id={block_id}>
-          <div className="p-6 space-y-4 text-gray-700  ">
-            <p>
-              Hi <strong>Joel</strong>,
-            </p>
-            <p>
-              We’re excited to have you on board. Start building beautiful email
-              templates with our drag-and-drop editor.
-            </p>
-            <p>Click below to begin:</p>
-            {data?.map((item, i) => {
-              return (
-                <RenderInlineBlock key={i} item={item} parent_id={block_id} />
-              );
-            })}
-          </div>
-        </Droppable>
-      );
+      (measurements = {
+        width: 576,
+        height: 400,
+        minConstraints: { x: 200, y: 200 },
+        maxConstraints: { x: 1000, y: 1000 },
+      }),
+        (block = (
+          <Droppable id={`bodyDroppable-${id}`} parent_id={block_id}>
+            <div className="p-6 space-y-4 text-gray-700  ">
+              <p>
+                Hi <strong>Joel</strong>,
+              </p>
+              <p>
+                We’re excited to have you on board. Start building beautiful
+                email templates with our drag-and-drop editor.
+              </p>
+              <p>Click below to begin:</p>
+
+              {data?.map((item, i) => {
+                return (
+                  <RenderInlineBlock key={i} item={item} parent_id={block_id} />
+                );
+              })}
+            </div>
+          </Droppable>
+        ));
       break;
 
     case "button":
+      measurements = {
+        width: 200,
+        height: 80,
+        minConstraints: { x: 80, y: 60 },
+        maxConstraints: { x: 400, y: 200 },
+      };
       block = (
         <div className="text-center py-4">
           <a
@@ -72,26 +101,44 @@ const Block = ({ item, data, block_id }: Props) => {
       break;
 
     case "image":
-      block = (
-        <img
-          src="https://via.placeholder.com/600x200"
-          alt="email banner"
-          className="w-full rounded  "
-        />
-      );
+      (measurements = {
+        width: 300,
+        height: 200,
+        minConstraints: { x: 100, y: 100 },
+        maxConstraints: { x: 700, y: 500 },
+      }),
+        (block = (
+          <img
+            src="https://via.placeholder.com/600x200"
+            alt="email banner"
+            className="w-full rounded  "
+          />
+        ));
       break;
 
     case "text":
-      block = (
-        <TextEditor
-          element=" <p>
+      (measurements = {
+        width: 400,
+        height: 70,
+        minConstraints: { x: 100, y: 80 },
+        maxConstraints: { x: 800, y: 600 },
+      }),
+        (block = (
+          <TextEditor
+            element=" <p>
           This is an editable text block. You can write anything here.
         </p>"
-        />
-      );
+          />
+        ));
 
       break;
     case "section":
+      measurements = {
+        width: 576,
+        height: 200,
+        minConstraints: { x: 150, y: 150 },
+        maxConstraints: { x: 900, y: 800 },
+      };
       block = (
         <Droppable id={`sectionDroppable-${id}`} parent_id={block_id}>
           <div className="p-6 space-y-4 text-gray-700   bg-white">
@@ -108,6 +155,12 @@ const Block = ({ item, data, block_id }: Props) => {
       break;
 
     case "footer":
+      measurements = {
+        width: 576,
+        height: 70,
+        minConstraints: { x: 50, y: 50 },
+        maxConstraints: { x: 800, y: 400 },
+      };
       block = (
         <Droppable id={`footerDroppable-${id}`} parent_id={block_id}>
           <div className="bg-gray-100 text-center text-sm text-gray-500 px-6 py-4">
@@ -128,35 +181,35 @@ const Block = ({ item, data, block_id }: Props) => {
   }
 
   return (
-    <SortableItem id={block_id}>
-      <ResizeComponent
-        tailwindStyles=" mx-auto bg-white shadow rounded  hover:border hover:border-dashed"
-        styles={{
-          width: 576,
-          height: 200,
-          minConstraints: { x: 100, y: 100 },
-          maxConstraints: { x: 1000, y: 1000 },
-        }}
+    <SortableItem id={block_id} isParent={true}>
+      <SortableContext
+        items={data || []}
+        strategy={verticalListSortingStrategy}
       >
-        <div
-          onMouseOver={() => setcloseBTN(true)}
-          onMouseLeave={() => setcloseBTN(false)}
-          className="relative flex flex-col w-full h-full"
+        <ResizeComponent
+          tailwindStyles=" mx-auto bg-white shadow rounded  hover:border hover:border-dashed"
+          styles={measurements}
         >
-          <button
-            className={`${
-              !closeBTN ? "hidden" : null
-            }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
-            onClick={() => {
-              console.log("clicked");
-              dispatch(removeBlock(block_id));
-            }}
+          <div
+            onMouseOver={() => setcloseBTN(true)}
+            onMouseLeave={() => setcloseBTN(false)}
+            className="relative flex flex-col w-full h-full"
           >
-            ✕
-          </button>
-          {block}
-        </div>
-      </ResizeComponent>
+            <button
+              className={`${
+                !closeBTN ? "hidden" : null
+              }  absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
+              onClick={() => {
+                console.log("clicked");
+                dispatch(removeBlock(block_id));
+              }}
+            >
+              ✕
+            </button>
+            {block}
+          </div>
+        </ResizeComponent>
+      </SortableContext>
     </SortableItem>
   );
 };

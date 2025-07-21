@@ -26,22 +26,10 @@ const Canva = () => {
   const dropableData = useSelector(
     (state: RootState) => state.email.dropableData
   );
-  const dispatch = useDispatch();
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   return (
     <div className="flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
       <Droppable id="droppeble">
-        {/* <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        > */}
         <SortableContext
           items={dropableData}
           strategy={verticalListSortingStrategy}
@@ -63,7 +51,6 @@ const Canva = () => {
             )}
           </div>
         </SortableContext>
-        {/* </DndContext> */}
       </Droppable>
     </div>
   );

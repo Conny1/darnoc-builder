@@ -12,16 +12,33 @@ type Props = {
 };
 const RenderInlineBlock = ({ item, parent_id }: Props) => {
   const [closeBTN, setcloseBTN] = useState(false);
-  const id = `${new Date().toISOString()}-${parent_id}`;
 
   const dispatch = useDispatch();
   let block;
+  let measurements = {
+    width: 576,
+    height: 200,
+    minConstraints: { x: 100, y: 100 },
+    maxConstraints: { x: 1000, y: 1000 },
+  };
 
   switch (item.name) {
     case "text":
-      block = <TextEditor element=" <p >  Default text</p>" />;
+      (measurements = {
+        width: 400,
+        height: 70,
+        minConstraints: { x: 100, y: 80 },
+        maxConstraints: { x: 800, y: 600 },
+      }),
+        (block = <TextEditor element=" <p >  Default text</p>" />);
       break;
     case "button":
+      measurements = {
+        width: 200,
+        height: 80,
+        minConstraints: { x: 80, y: 60 },
+        maxConstraints: { x: 400, y: 200 },
+      };
       block = (
         <div key={item.name} className=" relative text-center py-2 ">
           <a
@@ -34,19 +51,31 @@ const RenderInlineBlock = ({ item, parent_id }: Props) => {
       );
       break;
     case "image":
-      block = (
-        <div key={item.name} className=" relative py-2 ">
-          <img
-            src={"https://via.placeholder.com/600x200"}
-            alt="image block"
-            className="w-full rounded"
-          />
-        </div>
-      );
+      (measurements = {
+        width: 300,
+        height: 200,
+        minConstraints: { x: 100, y: 100 },
+        maxConstraints: { x: 700, y: 500 },
+      }),
+        (block = (
+          <div key={item.name} className=" relative py-2 ">
+            <img
+              src={"https://via.placeholder.com/600x200"}
+              alt="image block"
+              className="w-full rounded"
+            />
+          </div>
+        ));
       break;
     case "section":
+      measurements = {
+        width: 257,
+        height: 100,
+        minConstraints: { x: 50, y: 50 },
+        maxConstraints: { x: 800, y: 400 },
+      };
       block = (
-        <div key={item.name} className="relative bg-gray-50 p-4  rounded my-2 ">
+        <div key={item.name} className="relative p-4  rounded my-2 ">
           <p>Section block</p>
         </div>
       );
@@ -56,15 +85,10 @@ const RenderInlineBlock = ({ item, parent_id }: Props) => {
   }
 
   return (
-    <SortableItem id={id}>
+    <SortableItem id={item.id} isParent={false} parent_id={parent_id}>
       <ResizeComponent
         tailwindStyles="p-0 relative  mx-auto bg-white shadow rounded overflow-hidden hover:border hover:border-dashed "
-        styles={{
-          width: 257,
-          height: 100,
-          minConstraints: { x: 100, y: 100 },
-          maxConstraints: { x: 1000, y: 1000 },
-        }}
+        styles={measurements}
       >
         <div
           onMouseOver={() => setcloseBTN(true)}

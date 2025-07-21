@@ -22,6 +22,18 @@ export const emailtemplateSlice = createSlice({
       let data: BlockDataType[] = action.payload;
       state.dropableData = data;
     },
+    updateInlineSortedBlocks: (
+      state,
+      action: PayloadAction<{ data: BlockDataType[]; parent_id: string }>
+    ) => {
+      let data: BlockDataType[] = action.payload.data;
+      let parent_id = action.payload.parent_id;
+      state.dropableData.map((item) => {
+        if (item.id === parent_id) {
+          item.blocks = data;
+        }
+      });
+    },
     addInlineBlock: (
       state,
       action: PayloadAction<{ parent_id: string; data: BlockDataType }>
@@ -71,6 +83,7 @@ export const {
   addInlineBlock,
   removeInlineBlock,
   updateSortedBlocks,
+  updateInlineSortedBlocks,
 } = emailtemplateSlice.actions;
 
 export default emailtemplateSlice.reducer;
