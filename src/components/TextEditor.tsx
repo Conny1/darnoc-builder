@@ -30,7 +30,7 @@ const TextEditor = ({ element }: Props) => {
           shouldShow={() => showMenu}
           options={{ placement: "bottom", offset: 8 }}
         >
-          <div className="flex p-1 bg-white border border-gray-300 rounded-xl shadow-md space-x-1">
+          <div className="flex p-1 bg-white  space-x-1">
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
               className={`px-2 py-1 rounded transition ${
@@ -66,7 +66,7 @@ const TextEditor = ({ element }: Props) => {
       )}
       <EditorContent
         editor={editor}
-        className="w-full h-full break-words whitespace-pre-wrap p-2 outline-none"
+        className="w-full h-full break-words whitespace-pre-wrap   outline-none"
       />
     </>
   );

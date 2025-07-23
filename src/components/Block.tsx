@@ -35,7 +35,7 @@ const Block = ({ item, data, block_id }: Props) => {
       measurements = {
         width: 576,
         height: 100,
-        minConstraints: { x: 100, y: 100 },
+        minConstraints: { x: 70, y: 70 },
         maxConstraints: { x: 1000, y: 500 },
       };
       block = (
@@ -83,18 +83,18 @@ const Block = ({ item, data, block_id }: Props) => {
 
     case "button":
       measurements = {
-        width: 200,
-        height: 80,
-        minConstraints: { x: 80, y: 60 },
+        width: 100,
+        height: 40,
+        minConstraints: { x: 40, y: 20 },
         maxConstraints: { x: 400, y: 200 },
       };
       block = (
-        <div className="text-center py-4">
+        <div className="flex flex-1  items-center justify-center  bg-blue-600 hover:bg-blue-700">
           <a
             href="#"
-            className="inline-block bg-blue-600 hover:bg-blue-700  text-white text-sm font-semibold px-5 py-3 rounded"
+            className="inline-block  text-white text-sm font-semibold px-5 py-3 rounded"
           >
-            Start Building
+            Click me
           </a>
         </div>
       );
@@ -187,7 +187,7 @@ const Block = ({ item, data, block_id }: Props) => {
         strategy={verticalListSortingStrategy}
       >
         <ResizeComponent
-          tailwindStyles=" mx-auto bg-white shadow rounded  hover:border hover:border-dashed"
+          tailwindStyles=" mx-auto bg-white   hover:border hover:border-dashed"
           styles={measurements}
         >
           <div

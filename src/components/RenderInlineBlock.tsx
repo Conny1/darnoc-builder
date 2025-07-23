@@ -34,16 +34,19 @@ const RenderInlineBlock = ({ item, parent_id }: Props) => {
       break;
     case "button":
       measurements = {
-        width: 200,
-        height: 80,
-        minConstraints: { x: 80, y: 60 },
+        width: 70,
+        height: 40,
+        minConstraints: { x: 40, y: 20 },
         maxConstraints: { x: 400, y: 200 },
       };
       block = (
-        <div key={item.name} className=" relative text-center py-2 ">
+        <div
+          key={item.name}
+          className=" flex flex-1  items-center justify-center  bg-blue-600 hover:bg-blue-700"
+        >
           <a
             href="#"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded"
+            className="inline-block text-white text-sm font-semibold px-4 py-2 rounded"
           >
             {item.name || "Click Me"}
           </a>
