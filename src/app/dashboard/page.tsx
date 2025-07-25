@@ -10,7 +10,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { BlockDataType, BlockType, Droppableids } from "@/types";
+import { BlockType, Droppableids } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
