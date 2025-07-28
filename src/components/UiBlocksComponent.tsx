@@ -3,7 +3,7 @@ import Draggable from "./Draggable";
 
 const UiBlocksComponent = ({ name }: { name: string }) => {
   return (
-    <aside className="w-[260px] h-auto min-h-60 absolute left-30  overflow-y-scroll border-r bg-gray-50 shadow-sm flex flex-col ">
+    <aside className=" z-50 w-[260px] h-auto min-h-60 absolute left-30    border-r bg-gray-50 shadow-sm flex flex-col ">
       <div className="p-5 border-b bg-white sticky top-0 z-10">
         <h2 className="text-xl font-semibold text-gray-900">{name} 📦blocks</h2>
         <p className="text-sm text-gray-500 mt-1">

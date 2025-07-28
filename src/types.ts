@@ -1,17 +1,44 @@
 export type BlockType =
   | "header"
-  | "text"
+  | "hero"
+  | "features"
+  | "cta"
+  | "about"
+  | "services"
+  | "pricing"
+  | "testimonials"
+  | "team"
+  | "blog"
+  | "contact"
   | "footer"
-  | "body"
-  | "button"
-  | "image"
-  | "section";
+  | "faq"
+  | "gallery"
+  | "countdown"
+  | "video"
+  | "app_download"
+  | "text";
 
 export type BlockDataType = {
   id: string;
   name: BlockType;
-  styles?: string;
+  configs?: {
+    styles?: BlockStyles;
+    [key: string]: any;
+  };
   blocks?: BlockDataType[];
+};
+
+export type StyleObject = React.CSSProperties;
+
+export type BlockStyles = {
+  [elementKey: string]: StyleObject;
+};
+
+export type BlockConfigs = {
+  [blockKey: string]: {
+    styles?: BlockStyles;
+    [key: string]: any; // To allow flexibility for other possible properties
+  };
 };
 
 export const Droppableids = {

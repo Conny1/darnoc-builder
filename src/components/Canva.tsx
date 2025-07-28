@@ -28,7 +28,7 @@ const Canva = () => {
   );
 
   return (
-    <div className="flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
+    <div className=" z-30 flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
       <Droppable id="droppeble">
         <SortableContext
           items={dropableData}
@@ -40,14 +40,7 @@ const Canva = () => {
                 📨 Drop your blocks here to start building
               </p>
             ) : (
-              dropableData.map((item, i) => (
-                <Block
-                  key={i}
-                  item={item.name}
-                  data={item.blocks}
-                  block_id={item.id}
-                />
-              ))
+              dropableData.map((item, i) => <Block key={i} item={item} />)
             )}
           </div>
         </SortableContext>

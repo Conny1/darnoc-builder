@@ -43,13 +43,13 @@ const blockItems = [
 
 const Sidebar = () => {
   return (
-    <aside className="w-[260px] h-auto overflow-y-scroll border-r bg-gray-50 shadow-sm flex flex-col ">
+    <aside className="  w-[260px] overflow-y-scroll border-r bg-gray-50 shadow-sm flex flex-col ">
       <div className="p-5 border-b bg-white sticky top-0 z-10">
         <h2 className="text-xl font-semibold text-gray-900">📦 Blocks</h2>
         <p className="text-sm text-gray-500 mt-1">i will put something here</p>
       </div>
 
-      <div className="flex flex-col gap-2 p-4">
+      <div className=" flex flex-col gap-2 p-4">
         {blockItems.map(({ name, icon: Icon }, i) => {
           const [modal, setmodal] = useState(false);
 
@@ -60,7 +60,7 @@ const Sidebar = () => {
               key={i}
               className="  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
             >
-              <div className="flex items-center gap-3 px-3 py-2 bg-white rounded-md shadow-sm hover:bg-gray-100  border">
+              <div className="  flex items-center gap-3 px-3 py-2 bg-white rounded-md shadow-sm hover:bg-gray-100  border">
                 <Icon className="w-5 h-5 text-gray-600" />
                 <span className="capitalize text-sm font-medium text-gray-700">
                   {name}

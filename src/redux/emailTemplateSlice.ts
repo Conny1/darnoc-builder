@@ -1,3 +1,4 @@
+import { blockConfigs } from "@/lib/uiconfigs";
 import { BlockDataType, BlockType } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -16,6 +17,10 @@ export const emailtemplateSlice = createSlice({
   reducers: {
     addBlock: (state, action: PayloadAction<BlockDataType>) => {
       let data: BlockDataType = action.payload;
+      if (data.name in blockConfigs) {
+        data.configs = blockConfigs[data.name];
+      }
+
       state.dropableData.push(data);
     },
     updateSortedBlocks: (state, action: PayloadAction<BlockDataType[]>) => {
