@@ -10,7 +10,7 @@ export const blockConfigs: BlockConfigs = {
         textAlign: "center",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       },
-      image: { height: "50px", marginBottom: "10px" },
+      image: { height: "50px", margin: "auto", marginBottom: "10px" },
       title: {
         margin: 0,
         fontSize: "24px",
@@ -66,37 +66,39 @@ export const blockConfigs: BlockConfigs = {
   },
 
   features: {
-    parent: {
-      backgroundColor: "#ffffff",
-      padding: "40px 20px",
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      color: "#2c3e50",
-      textAlign: "left",
-    },
-    title: {
-      fontSize: "24px",
-      marginBottom: "20px",
-      textAlign: "center",
-      color: "#2c3e50",
-    },
-    list: {
-      listStyle: "none",
-      padding: 0,
-      maxWidth: "600px",
-      margin: "0 auto",
-    },
-    listItem: {
-      marginBottom: "15px",
-      display: "flex",
-      alignItems: "center",
-    },
-    bullet: {
-      display: "inline-block",
-      width: "10px",
-      height: "10px",
-      backgroundColor: "#3498db",
-      borderRadius: "50%",
-      marginRight: "10px",
+    styles: {
+      parent: {
+        backgroundColor: "#ffffff",
+        padding: "40px 20px",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        color: "#2c3e50",
+        textAlign: "left",
+      },
+      title: {
+        fontSize: "24px",
+        marginBottom: "20px",
+        textAlign: "center",
+        color: "#2c3e50",
+      },
+      list: {
+        listStyle: "none",
+        padding: 0,
+        maxWidth: "600px",
+        margin: "0 auto",
+      },
+      listItem: {
+        marginBottom: "15px",
+        display: "flex",
+        alignItems: "center",
+      },
+      bullet: {
+        display: "inline-block",
+        width: "10px",
+        height: "10px",
+        backgroundColor: "#3498db",
+        borderRadius: "50%",
+        marginRight: "10px",
+      },
     },
   },
 
@@ -297,6 +299,7 @@ export const blockConfigs: BlockConfigs = {
         width: "100px",
         height: "100px",
         objectFit: "cover",
+        margin: "auto",
         marginBottom: "10px",
       },
       name: {

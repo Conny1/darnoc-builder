@@ -21,6 +21,7 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableItem } from "./Sortable";
 import { updateSortedBlocks } from "@/redux/emailTemplateSlice";
+import StyleEditor from "./StyleEditor";
 
 const Canva = () => {
   const dropableData = useSelector(
@@ -28,7 +29,7 @@ const Canva = () => {
   );
 
   return (
-    <div className=" z-30 flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
+    <div className=" flex  gap-3 z-30 flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
       <Droppable id="droppeble">
         <SortableContext
           items={dropableData}
@@ -45,6 +46,8 @@ const Canva = () => {
           </div>
         </SortableContext>
       </Droppable>
+
+      <StyleEditor />
     </div>
   );
 };
