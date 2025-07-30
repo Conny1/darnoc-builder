@@ -19,7 +19,7 @@ const ResizeComponent = ({ children, tailwindStyles, styles }: Props) => {
   return (
     <div onMouseOver={() => sethandles(["n", "s", "e", "w"])} className="p-3">
       <ResizableBox
-        className={`${tailwindStyles} overflow-clip  flex   `}
+        className={`${tailwindStyles} overflow-clip  flex bg-inherit  `}
         width={styles.width}
         height={styles.height}
         draggableOpts={{ grid: [25, 25] }}

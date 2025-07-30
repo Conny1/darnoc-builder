@@ -5,10 +5,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface emailtemplateState {
   dropableData: BlockDataType[];
+  activeBlock: BlockDataType | null;
+  currentElementType?: string;
 }
 
 const initialState: emailtemplateState = {
   dropableData: [],
+  activeBlock: null,
+  currentElementType: "",
 };
 
 export const emailtemplateSlice = createSlice({
@@ -78,6 +82,19 @@ export const emailtemplateSlice = createSlice({
       );
       state.dropableData = others;
     },
+
+    setActiveBlock: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+      let others = state.dropableData.find(
+        (item) => item.id === action.payload
+      );
+      state.activeBlock = others || null;
+    },
+    setcurrentElementType: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+
+      state.currentElementType = action.payload;
+    },
   },
 });
 
@@ -89,6 +106,8 @@ export const {
   removeInlineBlock,
   updateSortedBlocks,
   updateInlineSortedBlocks,
+  setActiveBlock,
+  setcurrentElementType,
 } = emailtemplateSlice.actions;
 
 export default emailtemplateSlice.reducer;

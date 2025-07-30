@@ -29,7 +29,7 @@ const Canva = () => {
   );
 
   return (
-    <div className=" flex  gap-3 z-30 flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
+    <div className="  flex  gap-3 z-30 flex-1 p-6 bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
       <Droppable id="droppeble">
         <SortableContext
           items={dropableData}

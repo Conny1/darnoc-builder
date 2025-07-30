@@ -1,11 +1,25 @@
 import { BlockDataType, BlockType } from "@/types";
-import React, { JSX } from "react";
+import React, { JSX, useEffect } from "react";
 
 type Props = {
   block: BlockDataType;
+  setmeasurements: React.Dispatch<
+    React.SetStateAction<{
+      width: number;
+      height: number;
+      minConstraints: {
+        x: number;
+        y: number;
+      };
+      maxConstraints: {
+        x: number;
+        y: number;
+      };
+    }>
+  >;
 };
 
-const RenderBlock = ({ block }: Props): JSX.Element | null => {
+const RenderBlock = ({ block, setmeasurements }: Props): JSX.Element | null => {
   const baseStyle: React.CSSProperties = {
     padding: "20px",
     margin: "0 auto",
@@ -16,17 +30,31 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
   switch (block.name) {
     case "header":
       return (
-        <div style={block.configs?.styles?.parent}>
+        <div style={block.configs?.styles?.parent} element-type="container">
           <img
             src="https://placehold.co/100"
             alt="Your Brand Logo"
             style={block.configs?.styles?.image}
+            element-type="image"
           />
-          <h1 style={block.configs?.styles?.title}>Your Brand Name</h1>
-          <p style={block.configs?.styles?.subtitle}>Empowering Your Success</p>
+          <h1 element-type="text" style={block.configs?.styles?.title}>
+            Your Brand Name
+          </h1>
+          <p element-type="text" style={block.configs?.styles?.subtitle}>
+            Empowering Your Success
+          </p>
         </div>
       );
     case "hero":
+      useEffect(() => {
+        setmeasurements({
+          width: 576,
+          height: 500,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        });
+      }, []);
+
       return (
         <div style={block.configs?.styles?.parent}>
           <img
@@ -42,6 +70,14 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
         </div>
       );
     case "features":
+      useEffect(() => {
+        setmeasurements({
+          width: 576,
+          height: 250,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        });
+      }, []);
       return (
         <div style={block.configs?.styles?.parent}>
           <h2 style={block.configs?.styles?.title}>Our Features</h2>
@@ -85,6 +121,14 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
         </div>
       );
     case "services":
+      useEffect(() => {
+        setmeasurements({
+          width: 576,
+          height: 250,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        });
+      }, []);
       return (
         <div style={block.configs?.styles?.parent}>
           <h2 style={block.configs?.styles?.title}>Our Services</h2>
@@ -106,6 +150,14 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
         </div>
       );
     case "pricing":
+      useEffect(() => {
+        setmeasurements({
+          width: 576,
+          height: 270,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        });
+      }, []);
       return (
         <div style={block.configs?.styles?.parent}>
           <h2 style={block.configs?.styles?.title}>Pricing Plans</h2>
@@ -142,6 +194,14 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
         </div>
       );
     case "team":
+      useEffect(() => {
+        setmeasurements({
+          width: 576,
+          height: 850,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        });
+      }, []);
       return (
         <div style={block.configs?.styles?.parent}>
           <h2 style={block.configs?.styles?.title}>Meet the Team</h2>
@@ -201,6 +261,14 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
         </div>
       );
     case "blog":
+      useEffect(() => {
+        setmeasurements({
+          width: 576,
+          height: 500,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        });
+      }, []);
       return (
         <div style={block.configs?.styles?.parent}>
           <h2 style={block.configs?.styles?.title}>From the Blog</h2>
@@ -296,6 +364,14 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
         </div>
       );
     case "gallery":
+      useEffect(() => {
+        setmeasurements({
+          width: 576,
+          height: 500,
+          minConstraints: { x: 100, y: 100 },
+          maxConstraints: { x: 1000, y: 1000 },
+        });
+      }, []);
       return (
         <div style={block.configs?.styles?.parent}>
           <h2 style={block.configs?.styles?.heading}>Gallery</h2>

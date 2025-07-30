@@ -4,6 +4,8 @@ export const blockConfigs: BlockConfigs = {
   header: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "20px 0",
         borderBottom: "2px solid #e0e0e0",
@@ -25,6 +27,8 @@ export const blockConfigs: BlockConfigs = {
   hero: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#f9f9f9",
         padding: "40px 20px",
         textAlign: "center",
@@ -56,6 +60,8 @@ export const blockConfigs: BlockConfigs = {
   text: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -68,6 +74,8 @@ export const blockConfigs: BlockConfigs = {
   features: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -105,6 +113,8 @@ export const blockConfigs: BlockConfigs = {
   cta: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#f0f8ff",
         padding: "40px 20px",
         textAlign: "center",
@@ -133,6 +143,8 @@ export const blockConfigs: BlockConfigs = {
   about: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -156,6 +168,8 @@ export const blockConfigs: BlockConfigs = {
   services: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#fdfdfd",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -193,6 +207,8 @@ export const blockConfigs: BlockConfigs = {
   pricing: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -238,6 +254,8 @@ export const blockConfigs: BlockConfigs = {
   testimonials: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#fdfdfd",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -268,6 +286,8 @@ export const blockConfigs: BlockConfigs = {
   team: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -323,6 +343,8 @@ export const blockConfigs: BlockConfigs = {
   blog: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#fdfdfd",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -373,6 +395,8 @@ export const blockConfigs: BlockConfigs = {
   contact: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -406,6 +430,8 @@ export const blockConfigs: BlockConfigs = {
   footer: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#f5f5f5",
         padding: "30px 20px",
         textAlign: "center",
@@ -431,6 +457,8 @@ export const blockConfigs: BlockConfigs = {
   faq: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -471,6 +499,8 @@ export const blockConfigs: BlockConfigs = {
   gallery: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#ffffff",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -495,6 +525,8 @@ export const blockConfigs: BlockConfigs = {
   countdown: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#fff3cd",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -523,6 +555,8 @@ export const blockConfigs: BlockConfigs = {
   video: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#f9f9f9",
         padding: "40px 20px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
@@ -562,6 +596,8 @@ export const blockConfigs: BlockConfigs = {
   app_download: {
     styles: {
       parent: {
+        width: "100%",
+        height: "100%",
         backgroundColor: "#f8f9fa",
         padding: "40px 20px",
         borderRadius: "8px",
