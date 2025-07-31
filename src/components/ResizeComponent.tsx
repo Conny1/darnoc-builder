@@ -17,7 +17,7 @@ type ResizeHandleAxis = "s" | "w" | "e" | "n" | "sw" | "nw" | "se" | "ne";
 const ResizeComponent = ({ children, tailwindStyles, styles }: Props) => {
   const [handles, sethandles] = useState<ResizeHandleAxis[]>([]);
   return (
-    <div onMouseOver={() => sethandles(["n", "s", "e", "w"])} className="p-3">
+    <div onMouseOver={() => sethandles(["n", "s"])} className="p-3">
       <ResizableBox
         className={`${tailwindStyles} overflow-clip  flex bg-inherit  `}
         width={styles.width}

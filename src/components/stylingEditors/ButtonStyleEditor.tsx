@@ -1,31 +1,82 @@
-import React from "react";
+import { updateStyle } from "@/redux/emailTemplateSlice";
+import { RootState } from "@/redux/store";
+import React, { ChangeEvent, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
   <label className="text-xs text-gray-600">{text}</label>
 );
 
-const Input = ({ placeholder }: { placeholder?: string }) => (
+type InputProps = {
+  name: string;
+  placeholder?: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+};
+
+const TextInput = ({ name, placeholder, value, onChange }: InputProps) => (
   <input
+    name={name}
     type="text"
     placeholder={placeholder}
+    value={value}
+    onChange={onChange}
     className="w-full border rounded px-2 py-1 text-sm"
   />
 );
 
-const NumberInput = ({ placeholder }: { placeholder?: string }) => (
+const NumberInput = ({ name, placeholder, value, onChange }: InputProps) => (
   <input
+    name={name}
     type="number"
     placeholder={placeholder}
+    value={value}
+    onChange={onChange}
     className="w-full border rounded px-2 py-1 text-sm"
   />
 );
 
-const ColorInput = () => (
+const ColorInput = ({
+  name,
+  value,
+  onChange,
+}: {
+  name: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}) => (
   <input
+    name={name}
     type="color"
     className="w-full h-8 border rounded p-0"
-    defaultValue="#000000"
+    value={value}
+    onChange={onChange}
   />
+);
+
+const SelectInput = ({
+  name,
+  value,
+  onChange,
+  options,
+}: {
+  name: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  options: { label: string; value: string }[];
+}) => (
+  <select
+    name={name}
+    value={value}
+    onChange={onChange}
+    className="w-full px-2 py-1 border rounded text-sm"
+  >
+    {options.map((o) => (
+      <option key={o.value} value={o.value}>
+        {o.label}
+      </option>
+    ))}
+  </select>
 );
 
 const Section = ({
@@ -48,6 +99,68 @@ const Grid4 = ({ children }: { children: React.ReactNode }) => (
 );
 
 const ButtonStyleEditor = () => {
+  const [names, setNames] = React.useState<Record<string, string>>({
+    label: "Click Me",
+    fontSize: "16",
+    fontColor: "#000000",
+    fontWeight: "normal",
+    backgroundColor: "#ffffff",
+    borderRadius: "4",
+    borderColor: "#000000",
+    borderWidth: "1",
+    paddingTop: "8",
+    paddingRight: "8",
+    paddingBottom: "8",
+    paddingLeft: "8",
+    marginTop: "0",
+    marginRight: "0",
+    marginBottom: "0",
+    marginLeft: "0",
+    href: "https://example.com",
+  });
+
+  const activeBlock = useSelector(
+    (state: RootState) => state.email.activeBlock
+  );
+
+  const activeKey = useSelector(
+    (state: RootState) => state.email.currentElementKey
+  );
+
+  const dispatch = useDispatch();
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    let newVal = value;
+    if (
+      name.includes("padding") ||
+      name.includes("margin") ||
+      name.includes("borderWid") ||
+      name.includes("borderRadi") ||
+      name.includes("fontSi") ||
+      name.includes("letterSpaci")
+    ) {
+      newVal += "px";
+    }
+    setNames((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    if (activeBlock && activeKey && value !== "") {
+      dispatch(
+        updateStyle({
+          block_id: activeBlock?.id,
+          key: activeKey,
+          styleKey: name,
+          styleValue: newVal,
+        })
+      );
+    }
+  };
+
+  const namesArray = useMemo(() => Object.values(names), [names]);
+
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
       <h3 className="text-base font-semibold text-gray-800">Button Styles</h3>
@@ -56,23 +169,42 @@ const ButtonStyleEditor = () => {
       <Section title="Text">
         <div>
           <Label text="Button Label" />
-          <Input placeholder="Click Me" />
+          <TextInput
+            name="label"
+            placeholder="Click Me"
+            value={names.label}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <Label text="Font Size (px)" />
-          <NumberInput placeholder="16" />
+          <NumberInput
+            name="fontSize"
+            placeholder="16"
+            value={names.fontSize}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <Label text="Font Color" />
-          <ColorInput />
+          <ColorInput
+            name="fontColor"
+            value={names.fontColor}
+            onChange={(e) => handleChange(e as any)}
+          />
         </div>
         <div>
           <Label text="Font Weight" />
-          <select className="w-full px-2 py-1 border rounded text-sm">
-            <option value="normal">Normal</option>
-            <option value="bold">Bold</option>
-            <option value="lighter">Light</option>
-          </select>
+          <SelectInput
+            name="fontWeight"
+            value={names.fontWeight}
+            onChange={handleChange}
+            options={[
+              { label: "Normal", value: "normal" },
+              { label: "Bold", value: "bold" },
+              { label: "Light", value: "lighter" },
+            ]}
+          />
         </div>
       </Section>
 
@@ -80,43 +212,77 @@ const ButtonStyleEditor = () => {
       <Section title="Button Design">
         <div>
           <Label text="Background Color" />
-          <ColorInput />
+          <ColorInput
+            name="backgroundColor"
+            value={names.backgroundColor}
+            onChange={(e) => handleChange(e as any)}
+          />
         </div>
         <div>
           <Label text="Border Radius (px)" />
-          <NumberInput placeholder="4" />
+          <NumberInput
+            name="borderRadius"
+            placeholder="4"
+            value={names.borderRadius}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <Label text="Border Color" />
-          <ColorInput />
+          <ColorInput
+            name="borderColor"
+            value={names.borderColor}
+            onChange={(e) => handleChange(e as any)}
+          />
         </div>
         <div>
           <Label text="Border Width (px)" />
-          <NumberInput placeholder="1" />
+          <NumberInput
+            name="borderWidth"
+            placeholder="1"
+            value={names.borderWidth}
+            onChange={handleChange}
+          />
         </div>
       </Section>
 
       {/* Padding */}
       <Section title="Padding (px)">
         <Grid4>
-          {["Top", "Right", "Bottom", "Left"].map((pos) => (
-            <div key={pos}>
-              <Label text={pos} />
-              <NumberInput placeholder="8" />
-            </div>
-          ))}
+          {["Top", "Right", "Bottom", "Left"].map((pos) => {
+            const key = `padding${pos}` as const;
+            return (
+              <div key={pos}>
+                <Label text={pos} />
+                <NumberInput
+                  name={key}
+                  placeholder="8"
+                  value={names[key] || ""}
+                  onChange={handleChange}
+                />
+              </div>
+            );
+          })}
         </Grid4>
       </Section>
 
       {/* Margin */}
       <Section title="Margin (px)">
         <Grid4>
-          {["Top", "Right", "Bottom", "Left"].map((pos) => (
-            <div key={pos}>
-              <Label text={pos} />
-              <NumberInput placeholder="0" />
-            </div>
-          ))}
+          {["Top", "Right", "Bottom", "Left"].map((pos) => {
+            const key = `margin${pos}` as const;
+            return (
+              <div key={pos}>
+                <Label text={pos} />
+                <NumberInput
+                  name={key}
+                  placeholder="0"
+                  value={names[key] || ""}
+                  onChange={handleChange}
+                />
+              </div>
+            );
+          })}
         </Grid4>
       </Section>
 
@@ -124,9 +290,22 @@ const ButtonStyleEditor = () => {
       <Section title="Link">
         <div>
           <Label text="Href / URL" />
-          <Input placeholder="https://example.com" />
+          <TextInput
+            name="href"
+            placeholder="https://example.com"
+            value={names.href}
+            onChange={handleChange}
+          />
         </div>
       </Section>
+
+      {/* Debug */}
+      <div className="mt-2">
+        <Label text="Current names object (all values)" />
+        <pre className="text-[10px] bg-gray-100 p-2 rounded">
+          {JSON.stringify(namesArray, null, 2)}
+        </pre>
+      </div>
     </div>
   );
 };

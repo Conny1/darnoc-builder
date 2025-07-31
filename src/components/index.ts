@@ -6,5 +6,4 @@ export { default as Block } from "./Block";
 export { default as ResizeComponent } from "./ResizeComponent";
 export { default as TextEditor } from "./TextEditor";
 export { default as Nav } from "./Nav";
-export { default as UiBlocksComponent } from "./UiBlocksComponent";
 export { default as StyleEditor } from "./StyleEditor";

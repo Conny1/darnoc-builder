@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   removeBlock,
   setActiveBlock,
+  setcurrentElementKey,
   setcurrentElementType,
 } from "@/redux/emailTemplateSlice";
 import ResizeComponent from "./ResizeComponent";
@@ -37,10 +38,16 @@ const Block = ({ item }: Props) => {
   });
 
   const handleClick = (e: React.MouseEvent) => {
-    const elementType = (e.target as HTMLElement).getAttribute("element-type");
+    const elementType = (e.target as HTMLElement).getAttribute(
+      "data-element-type"
+    );
+    const elementKey = (e.target as HTMLElement).getAttribute(
+      "data-element-key"
+    );
 
-    console.log("Clicked:", elementType);
+    console.log("Clicked:", elementType, elementKey);
     dispatch(setcurrentElementType(elementType as string));
+    dispatch(setcurrentElementKey(elementKey as string));
   };
 
   return (
@@ -75,7 +82,7 @@ const Block = ({ item }: Props) => {
           >
             ✕
           </button>
-          <RenderBlock block={item} setmeasurements={setmeasurements} />
+          <RenderBlock block={item} />
         </div>
       </ResizeComponent>
       {/* </SortableContext> */}

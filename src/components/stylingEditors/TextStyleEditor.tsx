@@ -1,31 +1,82 @@
-import React from "react";
+import { updateStyle } from "@/redux/emailTemplateSlice";
+import { RootState } from "@/redux/store";
+import React, { ChangeEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
   <label className="text-xs text-gray-600">{text}</label>
 );
 
-const Input = ({ placeholder }: { placeholder?: string }) => (
-  <input
-    type="text"
-    placeholder={placeholder}
-    className="w-full border rounded px-2 py-1 text-sm"
-  />
-);
+type InputProps = {
+  name: string;
+  placeholder?: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+};
 
-const NumberInput = ({ placeholder }: { placeholder?: string }) => (
+// const TextInput = ({ name, placeholder, value, onChange }: InputProps) => (
+//   <input
+//     name={name}
+//     type="text"
+//     placeholder={placeholder}
+//     value={value}
+//     onChange={onChange}
+//     className="w-full border rounded px-2 py-1 text-sm"
+//   />
+// );
+
+const NumberInput = ({ name, placeholder, value, onChange }: InputProps) => (
   <input
+    name={name}
     type="number"
     placeholder={placeholder}
+    value={value}
+    onChange={onChange}
     className="w-full border rounded px-2 py-1 text-sm"
   />
 );
 
-const ColorInput = () => (
+const ColorInput = ({
+  name,
+  value,
+  onChange,
+}: {
+  name: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}) => (
   <input
+    name={name}
     type="color"
     className="w-full h-8 border rounded p-0"
-    defaultValue="#000000"
+    value={value}
+    onChange={onChange}
   />
+);
+
+const SelectInput = ({
+  name,
+  value,
+  onChange,
+  options,
+}: {
+  name: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  options: { label: string; value: string }[];
+}) => (
+  <select
+    name={name}
+    value={value}
+    onChange={onChange}
+    className="w-full px-2 py-1 border rounded text-sm"
+  >
+    {options.map((o) => (
+      <option key={o.value} value={o.value}>
+        {o.label}
+      </option>
+    ))}
+  </select>
 );
 
 const Section = ({
@@ -48,53 +99,141 @@ const Grid4 = ({ children }: { children: React.ReactNode }) => (
 );
 
 const TextStyleEditor = () => {
+  const [names, setNames] = React.useState<Record<string, string>>({
+    fontSize: "16",
+    fontWeight: "normal",
+    color: "#000000",
+    textAlign: "left",
+    lineHeight: "1.5",
+    letterSpacing: "0",
+    paddingTop: "0",
+    paddingRight: "0",
+    paddingBottom: "0",
+    paddingLeft: "0",
+    marginTop: "0",
+    marginRight: "0",
+    marginBottom: "0",
+    marginLeft: "0",
+  });
+
+  const activeBlock = useSelector(
+    (state: RootState) => state.email.activeBlock
+  );
+
+  const activeKey = useSelector(
+    (state: RootState) => state.email.currentElementKey
+  );
+
+  const dispatch = useDispatch();
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    let newVal = value;
+    if (
+      name.includes("padding") ||
+      name.includes("margin") ||
+      name.includes("borderWid") ||
+      name.includes("borderRadi") ||
+      name.includes("fontSi") ||
+      name.includes("letterSpaci")
+    ) {
+      newVal += "px";
+    }
+    setNames((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    if (activeBlock && activeKey && value !== "") {
+      dispatch(
+        updateStyle({
+          block_id: activeBlock?.id,
+          key: activeKey,
+          styleKey: name,
+          styleValue: newVal,
+        })
+      );
+    }
+  };
+
+  // const namesArray = useMemo(() => Object.values(names), [names]);
+
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
       <h3 className="text-base font-semibold text-gray-800">Text Styles</h3>
 
-      {/* Font settings */}
+      {/* Typography */}
       <Section title="Typography">
         <div>
           <Label text="Font Size (px)" />
-          <NumberInput placeholder="16" />
+          <NumberInput
+            name="fontSize"
+            placeholder="16"
+            value={names.fontSize}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <Label text="Font Weight" />
-          <select className="w-full px-2 py-1 border rounded text-sm">
-            <option value="normal">Normal</option>
-            <option value="bold">Bold</option>
-            <option value="lighter">Light</option>
-          </select>
+          <SelectInput
+            name="fontWeight"
+            value={names.fontWeight}
+            onChange={handleChange}
+            options={[
+              { label: "Normal", value: "normal" },
+              { label: "Bold", value: "bold" },
+              { label: "Light", value: "lighter" },
+            ]}
+          />
         </div>
         <div>
           <Label text="Font Color" />
-          <ColorInput />
+          <ColorInput
+            name="color"
+            value={names.color}
+            onChange={(e) => handleChange(e as any)}
+          />
         </div>
       </Section>
 
-      {/* Text alignment */}
+      {/* Text Alignment */}
       <Section title="Text Alignment">
         <div>
           <Label text="Align" />
-          <select className="w-full px-2 py-1 border rounded text-sm">
-            <option value="left">Left</option>
-            <option value="center">Center</option>
-            <option value="right">Right</option>
-            <option value="justify">Justify</option>
-          </select>
+          <SelectInput
+            name="textAlign"
+            value={names.textAlign}
+            onChange={handleChange}
+            options={[
+              { label: "Left", value: "left" },
+              { label: "Center", value: "center" },
+              { label: "Right", value: "right" },
+              { label: "Justify", value: "justify" },
+            ]}
+          />
         </div>
       </Section>
 
-      {/* Line height & spacing */}
+      {/* Spacing */}
       <Section title="Spacing">
         <div className="grid grid-cols-2 gap-2">
           <div>
             <Label text="Line Height" />
-            <NumberInput placeholder="1.5" />
+            <NumberInput
+              name="lineHeight"
+              placeholder="1.5"
+              value={names.lineHeight}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <Label text="Letter Spacing" />
-            <NumberInput placeholder="0" />
+            <NumberInput
+              name="letterSpacing"
+              placeholder="0"
+              value={names.letterSpacing}
+              onChange={handleChange}
+            />
           </div>
         </div>
       </Section>
@@ -102,26 +241,50 @@ const TextStyleEditor = () => {
       {/* Padding */}
       <Section title="Padding (px)">
         <Grid4>
-          {["Top", "Right", "Bottom", "Left"].map((pos) => (
-            <div key={pos}>
-              <Label text={pos} />
-              <NumberInput placeholder="0" />
-            </div>
-          ))}
+          {["Top", "Right", "Bottom", "Left"].map((pos) => {
+            const key = `padding${pos}` as const;
+            return (
+              <div key={pos}>
+                <Label text={pos} />
+                <NumberInput
+                  name={key}
+                  placeholder="0"
+                  value={names[key] || ""}
+                  onChange={handleChange}
+                />
+              </div>
+            );
+          })}
         </Grid4>
       </Section>
 
       {/* Margin */}
       <Section title="Margin (px)">
         <Grid4>
-          {["Top", "Right", "Bottom", "Left"].map((pos) => (
-            <div key={pos}>
-              <Label text={pos} />
-              <NumberInput placeholder="0" />
-            </div>
-          ))}
+          {["Top", "Right", "Bottom", "Left"].map((pos) => {
+            const key = `margin${pos}` as const;
+            return (
+              <div key={pos}>
+                <Label text={pos} />
+                <NumberInput
+                  name={key}
+                  placeholder="0"
+                  value={names[key] || ""}
+                  onChange={handleChange}
+                />
+              </div>
+            );
+          })}
         </Grid4>
       </Section>
+
+      {/* Debug / example usage */}
+      {/* <div className="mt-2">
+        <Label text="Current names object (all values)" />
+        <pre className="text-[10px] bg-gray-100 p-2 rounded">
+          {JSON.stringify(namesArray, null, 2)}
+        </pre>
+      </div> */}
     </div>
   );
 };

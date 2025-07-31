@@ -7,12 +7,14 @@ export interface emailtemplateState {
   dropableData: BlockDataType[];
   activeBlock: BlockDataType | null;
   currentElementType?: string;
+  currentElementKey?: string;
 }
 
 const initialState: emailtemplateState = {
   dropableData: [],
   activeBlock: null,
   currentElementType: "",
+  currentElementKey: "",
 };
 
 export const emailtemplateSlice = createSlice({
@@ -50,7 +52,7 @@ export const emailtemplateSlice = createSlice({
       let data = action.payload;
       state.dropableData.forEach((item) => {
         if (item.id === data.parent_id) {
-          let ph = data.data;
+          let ph = { ...data.data, configs: blockConfigs[data.data.name] };
           if (item.blocks) {
             item.blocks.push(ph);
           } else {
@@ -95,6 +97,37 @@ export const emailtemplateSlice = createSlice({
 
       state.currentElementType = action.payload;
     },
+    setcurrentElementKey: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+
+      state.currentElementKey = action.payload;
+    },
+
+    updateStyle: (
+      state,
+      action: PayloadAction<{
+        key: string;
+        styleKey: string;
+        styleValue: string;
+        block_id: string;
+      }>
+    ) => {
+      let payload = action.payload;
+      state.dropableData.map((item) => {
+        if (item.id === payload.block_id) {
+          let temp = item.configs?.styles;
+          if (temp) {
+            temp[payload.key] = {
+              ...temp[payload.key],
+              [payload.styleKey]: payload.styleValue,
+            };
+            console.log("temp changed", {
+              [payload.styleKey]: payload.styleValue,
+            });
+          }
+        }
+      });
+    },
   },
 });
 
@@ -108,6 +141,8 @@ export const {
   updateInlineSortedBlocks,
   setActiveBlock,
   setcurrentElementType,
+  setcurrentElementKey,
+  updateStyle,
 } = emailtemplateSlice.actions;
 
 export default emailtemplateSlice.reducer;

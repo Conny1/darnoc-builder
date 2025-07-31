@@ -1,31 +1,82 @@
-import React from "react";
+import { updateStyle } from "@/redux/emailTemplateSlice";
+import { RootState } from "@/redux/store";
+import React, { ChangeEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
   <label className="text-xs text-gray-600">{text}</label>
 );
 
-const Input = ({ placeholder }: { placeholder?: string }) => (
+type InputProps = {
+  name: string;
+  placeholder?: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+};
+
+const TextInput = ({ name, placeholder, value, onChange }: InputProps) => (
   <input
+    name={name}
     type="text"
     placeholder={placeholder}
+    value={value}
+    onChange={onChange}
     className="w-full border rounded px-2 py-1 text-sm"
   />
 );
 
-const NumberInput = ({ placeholder }: { placeholder?: string }) => (
+const NumberInput = ({ name, placeholder, value, onChange }: InputProps) => (
   <input
+    name={name}
     type="number"
     placeholder={placeholder}
+    value={value}
+    onChange={onChange}
     className="w-full border rounded px-2 py-1 text-sm"
   />
 );
 
-const ColorInput = () => (
+const ColorInput = ({
+  name,
+  value,
+  onChange,
+}: {
+  name: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}) => (
   <input
+    name={name}
     type="color"
     className="w-full h-8 border rounded p-0"
-    defaultValue="#000000"
+    value={value}
+    onChange={onChange}
   />
+);
+
+const SelectInput = ({
+  name,
+  value,
+  onChange,
+  options,
+}: {
+  name: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  options: { label: string; value: string }[];
+}) => (
+  <select
+    name={name}
+    value={value}
+    onChange={onChange}
+    className="w-full px-2 py-1 border rounded text-sm"
+  >
+    {options.map((o) => (
+      <option key={o.value} value={o.value}>
+        {o.label}
+      </option>
+    ))}
+  </select>
 );
 
 const Section = ({
@@ -48,6 +99,69 @@ const Grid4 = ({ children }: { children: React.ReactNode }) => (
 );
 
 const ContainerStyleEditor = () => {
+  const activeBlock = useSelector(
+    (state: RootState) => state.email.activeBlock
+  );
+
+  const activeKey = useSelector(
+    (state: RootState) => state.email.currentElementKey
+  );
+
+  // central state object named "names"
+  const [names, setNames] = React.useState<Record<string, string>>({
+    width: "100%",
+    height: "auto",
+    paddingTop: "0",
+    paddingRight: "0",
+    paddingBottom: "0",
+    paddingLeft: "0",
+    marginTop: "0",
+    marginRight: "0",
+    marginBottom: "0",
+    marginLeft: "0",
+    backgroundColor: "#000000",
+    backgroundImage: "",
+    borderWidth: "1",
+    borderColor: "#000000",
+    borderRadius: "4",
+    textAlign: "left",
+    fontSize: "14",
+    fontWeight: "normal",
+    fontColor: "#000000",
+  });
+  const dispatch = useDispatch();
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    let newVal = value;
+    if (
+      name.includes("padding") ||
+      name.includes("margin") ||
+      name.includes("borderWid") ||
+      name.includes("borderRadi")
+    ) {
+      newVal += "px";
+    }
+    setNames((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    if (activeBlock && activeKey && value !== "") {
+      dispatch(
+        updateStyle({
+          block_id: activeBlock?.id,
+          key: activeKey,
+          styleKey: name,
+          styleValue: newVal,
+        })
+      );
+    }
+  };
+
+  // array of all name values (formerly "values")
+  // const namesArray = useMemo(() => Object.values(names), [names]);
+
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
       <h3 className="text-base font-semibold text-gray-800">
@@ -55,15 +169,26 @@ const ContainerStyleEditor = () => {
       </h3>
 
       {/* Dimensions */}
-      <Section title="Dimensions (px)">
+      <Section title="Dimensions (px or %)">
         <div className="grid grid-cols-2 gap-2">
           <div>
             <Label text="Width" />
-            <NumberInput placeholder="100%" />
+            <TextInput
+              name="width"
+              placeholder="100%"
+              value={names.width}
+              onChange={handleChange}
+            />
           </div>
           <div>
-            <Label text="Height" />
-            <NumberInput placeholder="auto" />
+            {/* <Label text="Height" /> */}
+
+            {/* <TextInput
+              name="height"
+              placeholder="auto"
+              value={names.height}
+              onChange={handleChange}
+            /> */}
           </div>
         </div>
       </Section>
@@ -71,24 +196,40 @@ const ContainerStyleEditor = () => {
       {/* Padding */}
       <Section title="Padding (px)">
         <Grid4>
-          {["Top", "Right", "Bottom", "Left"].map((pos) => (
-            <div key={pos}>
-              <Label text={pos} />
-              <NumberInput placeholder="0" />
-            </div>
-          ))}
+          {["Top", "Right", "Bottom", "Left"].map((pos) => {
+            const key = `padding${pos}` as const;
+            return (
+              <div key={pos}>
+                <Label text={pos} />
+                <NumberInput
+                  name={key}
+                  placeholder="0"
+                  value={names[key] || ""}
+                  onChange={handleChange}
+                />
+              </div>
+            );
+          })}
         </Grid4>
       </Section>
 
       {/* Margin */}
       <Section title="Margin (px)">
         <Grid4>
-          {["Top", "Right", "Bottom", "Left"].map((pos) => (
-            <div key={pos}>
-              <Label text={pos} />
-              <NumberInput placeholder="0" />
-            </div>
-          ))}
+          {["Top", "Right", "Bottom", "Left"].map((pos) => {
+            const key = `margin${pos}` as const;
+            return (
+              <div key={pos}>
+                <Label text={pos} />
+                <NumberInput
+                  name={key}
+                  placeholder="0"
+                  value={names[key] || ""}
+                  onChange={handleChange}
+                />
+              </div>
+            );
+          })}
         </Grid4>
       </Section>
 
@@ -96,11 +237,20 @@ const ContainerStyleEditor = () => {
       <Section title="Background">
         <div className="space-y-1">
           <Label text="Background Color" />
-          <ColorInput />
+          <ColorInput
+            name="backgroundColor"
+            value={names.backgroundColor}
+            onChange={(e) => handleChange(e as any)}
+          />
         </div>
         <div className="space-y-1">
           <Label text="Background Image URL" />
-          <Input placeholder="https://..." />
+          <TextInput
+            name="backgroundImage"
+            placeholder="https://..."
+            value={names.backgroundImage}
+            onChange={handleChange}
+          />
         </div>
       </Section>
 
@@ -109,15 +259,29 @@ const ContainerStyleEditor = () => {
         <div className="grid grid-cols-3 gap-2">
           <div>
             <Label text="Width" />
-            <NumberInput placeholder="1" />
+            <NumberInput
+              name="borderWidth"
+              placeholder="1"
+              value={names.borderWidth}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <Label text="Color" />
-            <ColorInput />
+            <ColorInput
+              name="borderColor"
+              value={names.borderColor}
+              onChange={(e) => handleChange(e as any)}
+            />
           </div>
           <div>
             <Label text="Radius" />
-            <NumberInput placeholder="4" />
+            <NumberInput
+              name="borderRadius"
+              placeholder="4"
+              value={names.borderRadius}
+              onChange={handleChange}
+            />
           </div>
         </div>
       </Section>
@@ -126,34 +290,27 @@ const ContainerStyleEditor = () => {
       <Section title="Text Alignment">
         <div className="space-y-1">
           <Label text="Align" />
-          <select className="w-full px-2 py-1 border rounded text-sm">
-            <option value="left">Left</option>
-            <option value="center">Center</option>
-            <option value="right">Right</option>
-            <option value="justify">Justify</option>
-          </select>
+          <SelectInput
+            name="textAlign"
+            value={names.textAlign}
+            onChange={(e) => handleChange(e as any)}
+            options={[
+              { label: "Left", value: "left" },
+              { label: "Center", value: "center" },
+              { label: "Right", value: "right" },
+              { label: "Justify", value: "justify" },
+            ]}
+          />
         </div>
       </Section>
 
-      {/* Typography */}
-      <Section title="Typography">
-        <div className="space-y-1">
-          <Label text="Font Size (px)" />
-          <NumberInput placeholder="14" />
-        </div>
-        <div className="space-y-1">
-          <Label text="Font Weight" />
-          <select className="w-full px-2 py-1 border rounded text-sm">
-            <option value="normal">Normal</option>
-            <option value="bold">Bold</option>
-            <option value="lighter">Light</option>
-          </select>
-        </div>
-        <div className="space-y-1">
-          <Label text="Font Color" />
-          <ColorInput />
-        </div>
-      </Section>
+      {/* Debug / usage example */}
+      {/* <div className="mt-2">
+        <Label text="Current names object (all values)" />
+        <pre className="text-[10px] bg-gray-100 p-2 rounded">
+          {JSON.stringify(namesArray, null, 2)}
+        </pre>
+      </div> */}
     </div>
   );
 };

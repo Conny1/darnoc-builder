@@ -1,22 +1,12 @@
 export type BlockType =
-  | "header"
-  | "hero"
-  | "features"
-  | "cta"
-  | "about"
-  | "services"
-  | "pricing"
-  | "testimonials"
-  | "team"
-  | "blog"
-  | "contact"
-  | "footer"
-  | "faq"
-  | "gallery"
-  | "countdown"
-  | "video"
-  | "app_download"
-  | "text";
+  | "section"
+  | "column"
+  | "text"
+  | "image"
+  | "button"
+  | "divider"
+  | "table"
+  | "raw_html";
 
 export type BlockDataType = {
   id: string;
