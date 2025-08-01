@@ -102,7 +102,7 @@ const ButtonStyleEditor = () => {
   const [names, setNames] = React.useState<Record<string, string>>({
     label: "Click Me",
     fontSize: "16",
-    fontColor: "#000000",
+    color: "#000000",
     fontWeight: "normal",
     backgroundColor: "#ffffff",
     borderRadius: "4",
@@ -159,7 +159,7 @@ const ButtonStyleEditor = () => {
     }
   };
 
-  const namesArray = useMemo(() => Object.values(names), [names]);
+  // const namesArray = useMemo(() => Object.values(names), [names]);
 
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
@@ -188,8 +188,8 @@ const ButtonStyleEditor = () => {
         <div>
           <Label text="Font Color" />
           <ColorInput
-            name="fontColor"
-            value={names.fontColor}
+            name="color"
+            value={names.color}
             onChange={(e) => handleChange(e as any)}
           />
         </div>
@@ -299,13 +299,13 @@ const ButtonStyleEditor = () => {
         </div>
       </Section>
 
-      {/* Debug */}
+      {/* Debug
       <div className="mt-2">
         <Label text="Current names object (all values)" />
         <pre className="text-[10px] bg-gray-100 p-2 rounded">
           {JSON.stringify(namesArray, null, 2)}
         </pre>
-      </div>
+      </div> */}
     </div>
   );
 };

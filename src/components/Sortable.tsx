@@ -27,7 +27,7 @@ export function SortableItem({ id, children, isParent, parent_id }: Props) {
   };
 
   return (
-    <div style={style} className="relative w-fit justify-self-center  group">
+    <div style={style} className="relative w-fit  group h-fit   ">
       {/* Styled drag handle */}
       <button
         ref={setNodeRef}

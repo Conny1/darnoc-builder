@@ -49,43 +49,33 @@ const Block = ({ item }: Props) => {
     dispatch(setcurrentElementType(elementType as string));
     dispatch(setcurrentElementKey(elementKey as string));
   };
+  const activeKey = useSelector(
+    (state: RootState) => state.email.currentElementKey
+  );
 
   return (
     <SortableItem id={item.id} isParent={true}>
-      {/* <SortableContext
-        items={item.blocks || []}
-        strategy={verticalListSortingStrategy}
-      > */}
-      <ResizeComponent
-        tailwindStyles={`mx-auto   ${
-          active && activeid === item.id
-            ? "border"
-            : "hover:border hover:border-dashed"
-        }`}
-        styles={measurements}
+      <div
+        onMouseOver={() => setcloseBTN(true)}
+        onMouseLeave={() => setcloseBTN(false)}
+        onClick={(e) => {
+          setactive((prev) => !prev);
+          dispatch(setActiveBlock(item.id));
+          handleClick(e);
+        }}
+        className=" relative  hover:border hover:border-dashed  block "
+        style={item.configs?.styles?.[activeKey as string]}
       >
-        <div
-          onMouseOver={() => setcloseBTN(true)}
-          onMouseLeave={() => setcloseBTN(false)}
-          onClick={(e) => {
-            setactive((prev) => !prev);
-            dispatch(setActiveBlock(item.id));
-            handleClick(e);
-          }}
-          className="relative flex flex-col  w-full h-full"
+        <button
+          className={`${
+            !closeBTN ? "hidden" : null
+          } absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
+          onClick={() => dispatch(removeBlock(item.id))}
         >
-          <button
-            className={`${
-              !closeBTN ? "hidden" : null
-            } absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50`}
-            onClick={() => dispatch(removeBlock(item.id))}
-          >
-            ✕
-          </button>
-          <RenderBlock block={item} />
-        </div>
-      </ResizeComponent>
-      {/* </SortableContext> */}
+          ✕
+        </button>
+        <RenderBlock block={item} />
+      </div>
     </SortableItem>
   );
 };

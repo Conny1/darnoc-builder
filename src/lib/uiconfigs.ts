@@ -4,13 +4,15 @@ export const blockConfigs: BlockConfigs = {
   section: {
     styles: {
       parent: {
-        width: "100%",
-        height: "100%",
+        width: "500px",
+        maxWidth: "600px",
+        height: "250px",
         backgroundColor: "#ffffff",
-        padding: "20px 0",
-        borderBottom: "2px solid #e0e0e0",
+        // padding: "20px 0",
         textAlign: "center",
+        border: "1px solid #e1e8f9",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        position: "static",
       },
     },
   },
@@ -18,19 +20,23 @@ export const blockConfigs: BlockConfigs = {
   column: {
     styles: {
       column: {
-        display: "inline-block",
-        verticalAlign: "top" as const,
-        width: "100%",
-        boxSizing: "border-box" as const,
-        margin: 0,
-        padding: 0,
+        width: "500px",
+        height: "250px",
+        maxWidth: "600px",
+        backgroundColor: "#ffffff",
+        border: "1px solid #e1e8f9",
+        borderRadius: "6px",
+        // padding: "16px",
+        boxSizing: "border-box",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        color: "#1f2d3a",
       },
     },
   },
 
   text: {
     styles: {
-      wrapper: {
+      text: {
         width: "100%",
         fontSize: "16px",
         lineHeight: "1.5",
@@ -40,7 +46,7 @@ export const blockConfigs: BlockConfigs = {
         textAlign: "center",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         margin: 0,
-        padding: "40px 20px",
+        // padding: "40px 20px",
       },
     },
   },
@@ -63,8 +69,7 @@ export const blockConfigs: BlockConfigs = {
   button: {
     styles: {
       button: {
-        display: "inline-block",
-        padding: "12px 24px",
+        padding: "10px",
         textAlign: "center",
         backgroundColor: "#2563eb",
         color: "#ffffff",
@@ -76,9 +81,7 @@ export const blockConfigs: BlockConfigs = {
         cursor: "pointer",
         lineHeight: "1",
         letterSpacing: "0.5px",
-        transition: "background-color .2s ease, transform .1s ease",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
       },
     },
   },
@@ -86,7 +89,7 @@ export const blockConfigs: BlockConfigs = {
   divider: {
     styles: {
       divider: {
-        width: "100%",
+        width: "500px",
         height: "1px",
         backgroundColor: "#e6ecf5",
         margin: "20px 0",
@@ -98,7 +101,7 @@ export const blockConfigs: BlockConfigs = {
   table: {
     styles: {
       table: {
-        width: "100%",
+        width: "500px",
         borderCollapse: "collapse" as const,
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         margin: "0 auto",

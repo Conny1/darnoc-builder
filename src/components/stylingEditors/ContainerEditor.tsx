@@ -109,8 +109,8 @@ const ContainerStyleEditor = () => {
 
   // central state object named "names"
   const [names, setNames] = React.useState<Record<string, string>>({
-    width: "100%",
-    height: "auto",
+    width: "500px",
+    height: "250px",
     paddingTop: "0",
     paddingRight: "0",
     paddingBottom: "0",
@@ -169,26 +169,28 @@ const ContainerStyleEditor = () => {
       </h3>
 
       {/* Dimensions */}
-      <Section title="Dimensions (px or %)">
+      <Section title="Dimensions (px only)">
         <div className="grid grid-cols-2 gap-2">
+          {activeKey === "column" && (
+            <div>
+              <Label text="Width" />
+              <TextInput
+                name="width"
+                placeholder="100%"
+                value={names.width}
+                onChange={handleChange}
+              />
+            </div>
+          )}
           <div>
-            <Label text="Width" />
-            <TextInput
-              name="width"
-              placeholder="100%"
-              value={names.width}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            {/* <Label text="Height" /> */}
+            <Label text="Height" />
 
-            {/* <TextInput
+            <TextInput
               name="height"
               placeholder="auto"
               value={names.height}
               onChange={handleChange}
-            /> */}
+            />
           </div>
         </div>
       </Section>

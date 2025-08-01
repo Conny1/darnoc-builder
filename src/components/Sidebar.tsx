@@ -17,9 +17,9 @@ const blockItems = [
   { name: "text", icon: Type },
   { name: "image", icon: ImageIcon },
   { name: "button", icon: TextCursor },
-  { name: "divider", icon: Minus },
-  { name: "table", icon: Table },
-  { name: "raw_html", icon: Code },
+  // { name: "divider", icon: Minus },
+  // { name: "table", icon: Table },
+  // { name: "raw_html", icon: Code },
 ];
 
 const Sidebar = () => {
