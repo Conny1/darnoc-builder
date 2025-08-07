@@ -17,9 +17,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.ProseMirror {
-  height: 100%;
-  white-space: pre-wrap;
-  word-break: break-word;
-  overflow-wrap: break-word;
+
+
+.active_element:hover {
+  border: 1px dashed currentColor; /* Or a specific color like #ccc */
 }
+

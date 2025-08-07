@@ -21,7 +21,7 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableItem } from "./Sortable";
 import { updateSortedBlocks } from "@/redux/emailTemplateSlice";
-import StyleEditor from "./StyleEditor";
+import StyleEditor from "./StyleEditor"; 
 
 const Canva = () => {
   const dropableData = useSelector(

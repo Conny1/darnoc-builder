@@ -13,6 +13,9 @@ export const blockConfigs: BlockConfigs = {
         border: "1px solid #e1e8f9",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         position: "static",
+        // 
+      
+
       },
     },
   },
@@ -20,7 +23,7 @@ export const blockConfigs: BlockConfigs = {
   column: {
     styles: {
       column: {
-        width: "500px",
+        width: "250px",
         height: "250px",
         maxWidth: "600px",
         backgroundColor: "#ffffff",
@@ -28,8 +31,11 @@ export const blockConfigs: BlockConfigs = {
         borderRadius: "6px",
         // padding: "16px",
         boxSizing: "border-box",
+
         fontFamily: "Helvetica, Arial, sans-serif",
         color: "#1f2d3a",
+        // 
+          display: "inline-block"
       },
     },
   },
@@ -47,6 +53,9 @@ export const blockConfigs: BlockConfigs = {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         margin: 0,
         // padding: "40px 20px",
+        border: "1px solid #e1e8f9",
+        // 
+          display: "inline-block"
       },
     },
   },
@@ -58,10 +67,12 @@ export const blockConfigs: BlockConfigs = {
         maxWidth: "100%",
         height: "auto",
         margin: 0,
-        border: 0,
+        // border: 0,
         outline: "none",
         textDecoration: "none",
         lineHeight: "100%",
+        border: "1px solid #e1e8f9",
+        
       },
     },
   },

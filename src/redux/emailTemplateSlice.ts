@@ -50,16 +50,24 @@ export const emailtemplateSlice = createSlice({
       action: PayloadAction<{ parent_id: string; data: BlockDataType }>
     ) => {
       let data = action.payload;
-      state.dropableData.forEach((item) => {
-        if (item.id === data.parent_id) {
-          let ph = { ...data.data, configs: blockConfigs[data.data.name] };
-          if (item.blocks) {
-            item.blocks.push(ph);
+      const recisiveUpdate = (blocks?: BlockDataType[]) => {
+        if (!blocks || blocks.length === 0) return;
+        console.log("recusive running");
+        for (let item of blocks) {
+          if (item.id === data.parent_id) {
+            let ph = { ...data.data, configs: blockConfigs[data.data.name] };
+            if (item.blocks) {
+              item.blocks.push(ph);
+            } else {
+              item["blocks"] = [ph];
+            }
+            return;
           } else {
-            item["blocks"] = [ph];
+            recisiveUpdate(item.blocks);
           }
         }
-      });
+      };
+      recisiveUpdate(state.dropableData);
     },
 
     removeInlineBlock: (
@@ -87,9 +95,18 @@ export const emailtemplateSlice = createSlice({
 
     setActiveBlock: (state, action: PayloadAction<string>) => {
       console.log(action.payload);
-      let others = state.dropableData.find(
-        (item) => item.id === action.payload
-      );
+      const recusiveSet = (data?: BlockDataType[]) => {
+        if (!data || data.length === 0) return null;
+        for (const item of data) {
+          if (item.id === action.payload) {
+            return item;
+          } else {
+           return recusiveSet(item.blocks);
+          }
+        }
+      };
+      let others = recusiveSet(state.dropableData);
+
       state.activeBlock = others || null;
     },
     setcurrentElementType: (state, action: PayloadAction<string>) => {
@@ -113,20 +130,28 @@ export const emailtemplateSlice = createSlice({
       }>
     ) => {
       let payload = action.payload;
-      state.dropableData.map((item) => {
-        if (item.id === payload.block_id) {
-          let temp = item.configs?.styles;
-          if (temp) {
-            temp[payload.key] = {
-              ...temp[payload.key],
-              [payload.styleKey]: payload.styleValue,
-            };
-            console.log("temp changed", {
-              [payload.styleKey]: payload.styleValue,
-            });
+      const recusiveUpdate = (data?: BlockDataType[]) => {
+        if (!data || data.length === 0) return;
+        for (let item of data) {
+          if (item.id === payload.block_id) {
+            let temp = item.configs?.styles;
+            if (temp) {
+              temp[payload.key] = {
+                ...temp[payload.key],
+                [payload.styleKey]: payload.styleValue,
+              };
+              console.log("temp changed", {
+                [payload.styleKey]: payload.styleValue,
+              });
+              return;
+            }
+          } else {
+            recusiveUpdate(item.blocks);
           }
         }
-      });
+      };
+
+      recusiveUpdate(state.dropableData);
     },
   },
 });

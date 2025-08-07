@@ -18,6 +18,7 @@ import {
 } from "@dnd-kit/sortable";
 import RenderBlock from "./RenderBlock";
 import { RootState } from "@/redux/store";
+import { X } from "lucide-react";
 
 type Props = {
   item: BlockDataType;
@@ -25,57 +26,20 @@ type Props = {
 
 const Block = ({ item }: Props) => {
   const dispatch = useDispatch();
-  const activeid = useSelector(
-    (state: RootState) => state.email.activeBlock?.id
-  );
+
   const [closeBTN, setcloseBTN] = useState(false);
-  const [active, setactive] = useState(false);
-  const [measurements, setmeasurements] = useState({
-    width: 576,
-    height: 200,
-    minConstraints: { x: 100, y: 100 },
-    maxConstraints: { x: 1000, y: 1000 },
-  });
-
-  const handleClick = (e: React.MouseEvent) => {
-    const elementType = (e.target as HTMLElement).getAttribute(
-      "data-element-type"
-    );
-    const elementKey = (e.target as HTMLElement).getAttribute(
-      "data-element-key"
-    );
-
-    console.log("Clicked:", elementType, elementKey);
-    dispatch(setcurrentElementType(elementType as string));
-    dispatch(setcurrentElementKey(elementKey as string));
-  };
-  const activeKey = useSelector(
-    (state: RootState) => state.email.currentElementKey
-  );
 
   return (
     <SortableItem id={item.id} isParent={true}>
-      <div
-        onMouseOver={() => setcloseBTN(true)}
-        onMouseLeave={() => setcloseBTN(false)}
-        onClick={(e) => {
-          setactive((prev) => !prev);
-          dispatch(setActiveBlock(item.id));
-          handleClick(e);
-        }}
-        className=" relative  hover:border hover:border-dashed  block "
-        style={item.configs?.styles?.[activeKey as string]}
+      <button
+        className={`${
+          !closeBTN ? "hidden" : null
+        } absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
+        onClick={() => dispatch(removeBlock(item.id))}
       >
-        <button
-          className={`${
-            !closeBTN ? "hidden" : null
-          } absolute top-2 right-2 text-white bg-black hover:bg-red-600 p-1 rounded-full text-xs z-50  `}
-          onClick={() => dispatch(removeBlock(item.id))}
-        >
-          ✕
-        </button>
-        <RenderBlock block={item} />
-      </div>
+        <X/>
+      </button>
+      <RenderBlock block={item} closeBTN={closeBTN} setcloseBTN={setcloseBTN} />
     </SortableItem>
   );
 };

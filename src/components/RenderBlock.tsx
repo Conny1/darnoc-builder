@@ -1,18 +1,64 @@
 import { BlockDataType, BlockType } from "@/types";
-import React, { JSX, useEffect } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import Droppable from "./Droppable";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setActiveBlock,
+  setcurrentElementKey,
+  setcurrentElementType,
+} from "@/redux/emailTemplateSlice";
+import { RootState } from "@/redux/store";
+import "../app/globals.css";
 
 type Props = {
   block: BlockDataType;
+  setcloseBTN: React.Dispatch<React.SetStateAction<boolean>>;
+  closeBTN: boolean;
 };
 
-const RenderBlock = ({ block }: Props): JSX.Element | null => {
+const RenderBlock = ({
+  block,
+  closeBTN,
+  setcloseBTN,
+}: Props): JSX.Element | null => {
+  const [active, setactive] = useState(false);
+  const [closeChild, setcloseChild] = useState(false);
+  const dispatch = useDispatch();
+  const activeid = useSelector(
+    (state: RootState) => state.email.activeBlock?.id
+  );
+  const activeKey = useSelector(
+    (state: RootState) => state.email.currentElementKey
+  );
+  const handleClick = (e: React.MouseEvent) => {
+    const elementType = (e.target as HTMLElement).getAttribute(
+      "data-element-type"
+    );
+    const elementKey = (e.target as HTMLElement).getAttribute(
+      "data-element-key"
+    );
+
+    console.log("Clicked:", elementType, elementKey);
+    dispatch(setcurrentElementType(elementType as string));
+    dispatch(setcurrentElementKey(elementKey as string));
+  };
+
   switch (block.name) {
     case "section":
       return (
         <Droppable id="sectionDroppable" parent_id={block.id}>
           <div
+            onMouseOver={() => setcloseBTN(true)}
+            onMouseLeave={() => setcloseBTN(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+
+              setactive((prev) => !prev);
+              dispatch(setActiveBlock(block.id));
+              handleClick(e);
+            }}
             style={block.configs?.styles?.parent}
+            className="hover:border hover:border-dashed"
             data-element-type="container"
             data-element-key="parent"
           >
@@ -20,7 +66,12 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
               <p>Section Container</p>
             ) : (
               block.blocks?.map((child) => (
-                <RenderBlock key={child.id} block={child} />
+                <RenderBlock
+                  key={child.id}
+                  block={child}
+                  closeBTN={closeChild}
+                  setcloseBTN={setcloseChild}
+                />
               ))
             )}
           </div>
@@ -29,21 +80,46 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
 
     case "column":
       return (
-        <div
-          style={block.configs?.styles?.column}
-          data-element-type="container"
-          data-element-key="column"
-        >
-          {block.blocks?.map((child) => (
-            <RenderBlock key={child.id} block={child} />
-          ))}
-        </div>
+        <Droppable id="columnDroppable" parent_id={block.id}>
+          <div
+            onMouseOver={() => setcloseBTN(true)}
+            onMouseLeave={() => setcloseBTN(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+
+              setactive((prev) => !prev);
+              dispatch(setActiveBlock(block.id));
+              handleClick(e);
+            }}
+            style={block.configs?.styles?.column}
+            data-element-type="container"
+            data-element-key="column"
+          >
+            {block.blocks?.map((child) => (
+              <RenderBlock
+                key={child.id}
+                block={child}
+                closeBTN={closeChild}
+                setcloseBTN={setcloseChild}
+              />
+            ))}
+          </div>
+        </Droppable>
       );
 
     case "text":
       return (
         <div
-          style={block.configs?.styles?.wrapper}
+          onMouseOver={() => setcloseBTN(true)}
+          onMouseLeave={() => setcloseBTN(false)}
+          onClick={(e) => {
+            e.stopPropagation();
+
+            setactive((prev) => !prev);
+            dispatch(setActiveBlock(block.id));
+            handleClick(e);
+          }}
+          style={block.configs?.styles?.text}
           data-element-type="text"
           data-element-key="text"
         >
@@ -54,6 +130,15 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
     case "image":
       return (
         <img
+          onMouseOver={() => setcloseBTN(true)}
+          onMouseLeave={() => setcloseBTN(false)}
+          onClick={(e) => {
+            e.stopPropagation();
+
+            setactive((prev) => !prev);
+            dispatch(setActiveBlock(block.id));
+            handleClick(e);
+          }}
           src={block.configs?.src}
           alt={block.configs?.alt || ""}
           style={block.configs?.styles?.image}
@@ -65,6 +150,15 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
     case "button":
       return (
         <a
+          onMouseOver={() => setcloseBTN(true)}
+          onMouseLeave={() => setcloseBTN(false)}
+          onClick={(e) => {
+            e.stopPropagation();
+
+            setactive((prev) => !prev);
+            dispatch(setActiveBlock(block.id));
+            handleClick(e);
+          }}
           href={block.configs?.href || "#"}
           style={block.configs?.styles?.button}
           data-element-type="button"

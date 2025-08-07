@@ -87,9 +87,7 @@ const Dashboard = () => {
       let droppable_id = (over.id as string).split("-")[0];
       console.log(droppable_id, over.id, "active", active.id);
       if (
-        droppable_id === Droppableids.BODY ||
-        droppable_id === Droppableids.FOOTER ||
-        droppable_id === Droppableids.HEADER ||
+        droppable_id === Droppableids.COLUMN ||
         droppable_id === Droppableids.SECTION
       ) {
         // alert(over.data.current.parentindex);
