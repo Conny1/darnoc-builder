@@ -85,10 +85,9 @@ const Dashboard = () => {
       }
 
       let droppable_id = (over.id as string).split("-")[0];
-      console.log(droppable_id, over.id, "active", active.id);
+      console.log( over.id , over.data.current?.parent_id, "active", active.id);
       if (
-        droppable_id === Droppableids.COLUMN ||
-        droppable_id === Droppableids.SECTION
+        over?.id === over.data.current?.parent_id+Droppableids.inline
       ) {
         // alert(over.data.current.parentindex);
         if (over.data.current) {
@@ -104,7 +103,7 @@ const Dashboard = () => {
           return;
         }
       }
-      if (droppable_id === "droppeble" && type !== "sortable") {
+      if (droppable_id === Droppableids.body_id && type !== "sortable") {
         dispatch(addBlock({ id: `${movable_id}-${date}`, name: name }));
       }
       if (type === "sortable") {

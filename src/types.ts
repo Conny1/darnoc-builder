@@ -32,6 +32,7 @@ export type BlockConfigs = {
 };
 
 export const Droppableids = {
-  COLUMN:"columnDroppable",
-  SECTION: "sectionDroppable",
+  body_id:"mainDroppable",
+  inline:"inlineDroppable"
+
 };

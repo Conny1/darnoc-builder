@@ -8,14 +8,19 @@ export const blockConfigs: BlockConfigs = {
         maxWidth: "600px",
         height: "250px",
         backgroundColor: "#ffffff",
-        // padding: "20px 0",
+        paddingTop: "20px",
+        paddingLeft: "20px",
+        paddingBottom: "20px",
+        paddingRight: "20px",
         textAlign: "center",
         border: "1px solid #e1e8f9",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         position: "static",
-        // 
-      
-
+        //
+        marginTop:"10px",
+        marginBottom:"10px",
+        marginLeft:'10px',
+        marginRight:"10px"
       },
     },
   },
@@ -29,13 +34,19 @@ export const blockConfigs: BlockConfigs = {
         backgroundColor: "#ffffff",
         border: "1px solid #e1e8f9",
         borderRadius: "6px",
-        // padding: "16px",
         boxSizing: "border-box",
-
         fontFamily: "Helvetica, Arial, sans-serif",
         color: "#1f2d3a",
-        // 
-          display: "inline-block"
+        //
+        display: "inline-block",
+        paddingTop: "20px",
+        paddingLeft: "20px",
+        paddingBottom: "20px",
+        paddingRight: "20px",
+          marginTop:"10px",
+        marginBottom:"10px",
+        marginLeft:'10px',
+        marginRight:"10px"
       },
     },
   },
@@ -54,8 +65,16 @@ export const blockConfigs: BlockConfigs = {
         margin: 0,
         // padding: "40px 20px",
         border: "1px solid #e1e8f9",
-        // 
-          display: "inline-block"
+        //
+        display: "inline-block",
+        paddingTop: "20px",
+        paddingLeft: "20px",
+        paddingBottom: "20px",
+        paddingRight: "20px",
+          marginTop:"10px",
+        marginBottom:"10px",
+        marginLeft:'10px',
+        marginRight:"10px"
       },
     },
   },
@@ -72,7 +91,6 @@ export const blockConfigs: BlockConfigs = {
         textDecoration: "none",
         lineHeight: "100%",
         border: "1px solid #e1e8f9",
-        
       },
     },
   },
@@ -80,7 +98,10 @@ export const blockConfigs: BlockConfigs = {
   button: {
     styles: {
       button: {
-        padding: "10px",
+        paddingTop: "20px",
+        paddingLeft: "20px",
+        paddingBottom: "20px",
+        paddingRight: "20px",
         textAlign: "center",
         backgroundColor: "#2563eb",
         color: "#ffffff",
@@ -93,6 +114,12 @@ export const blockConfigs: BlockConfigs = {
         lineHeight: "1",
         letterSpacing: "0.5px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        // 
+        display:"inline-block",
+          marginTop:"10px",
+        marginBottom:"10px",
+        marginLeft:'10px',
+        marginRight:"10px"
       },
     },
   },

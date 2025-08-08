@@ -1,4 +1,4 @@
-import { BlockDataType, BlockType } from "@/types";
+import { BlockDataType, BlockType, Droppableids } from "@/types";
 import React, { JSX, useEffect, useState } from "react";
 import Droppable from "./Droppable";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,7 +46,7 @@ const RenderBlock = ({
   switch (block.name) {
     case "section":
       return (
-        <Droppable id="sectionDroppable" parent_id={block.id}>
+        <Droppable id={block.id+Droppableids.inline} parent_id={block.id}>
           <div
             onMouseOver={() => setcloseBTN(true)}
             onMouseLeave={() => setcloseBTN(false)}
@@ -80,7 +80,7 @@ const RenderBlock = ({
 
     case "column":
       return (
-        <Droppable id="columnDroppable" parent_id={block.id}>
+        <Droppable id={block.id+Droppableids.inline} parent_id={block.id}>
           <div
             onMouseOver={() => setcloseBTN(true)}
             onMouseLeave={() => setcloseBTN(false)}

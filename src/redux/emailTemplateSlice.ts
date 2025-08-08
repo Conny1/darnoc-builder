@@ -51,9 +51,10 @@ export const emailtemplateSlice = createSlice({
     ) => {
       let data = action.payload;
       const recisiveUpdate = (blocks?: BlockDataType[]) => {
-        if (!blocks || blocks.length === 0) return;
-        console.log("recusive running");
+        if (!blocks) return;
+        console.log("recusive running, inline block");
         for (let item of blocks) {
+          console.log("running")
           if (item.id === data.parent_id) {
             let ph = { ...data.data, configs: blockConfigs[data.data.name] };
             if (item.blocks) {
@@ -61,10 +62,14 @@ export const emailtemplateSlice = createSlice({
             } else {
               item["blocks"] = [ph];
             }
-            return;
-          } else {
-            recisiveUpdate(item.blocks);
+            return true
+          } else{
+                         recisiveUpdate(item.blocks)
+
           }
+            
+           
+          
         }
       };
       recisiveUpdate(state.dropableData);
@@ -94,15 +99,21 @@ export const emailtemplateSlice = createSlice({
     },
 
     setActiveBlock: (state, action: PayloadAction<string>) => {
-      console.log(action.payload);
-      const recusiveSet = (data?: BlockDataType[]) => {
-        if (!data || data.length === 0) return null;
-        for (const item of data) {
+    
+      const recusiveSet = (data?: BlockDataType[]):BlockDataType | undefined => {
+        if (!data ) return undefined;
+        for (let item of data) {
           if (item.id === action.payload) {
+      
             return item;
-          } else {
-           return recusiveSet(item.blocks);
           }
+        let resp = recusiveSet(item.blocks)
+                if(resp){
+                  return resp
+                }
+          
+           
+          
         }
       };
       let others = recusiveSet(state.dropableData);
@@ -131,7 +142,7 @@ export const emailtemplateSlice = createSlice({
     ) => {
       let payload = action.payload;
       const recusiveUpdate = (data?: BlockDataType[]) => {
-        if (!data || data.length === 0) return;
+        if (!data ) return;
         for (let item of data) {
           if (item.id === payload.block_id) {
             let temp = item.configs?.styles;
@@ -145,8 +156,9 @@ export const emailtemplateSlice = createSlice({
               });
               return;
             }
-          } else {
-            recusiveUpdate(item.blocks);
+          } 
+          if(item.blocks) {
+             recusiveUpdate(item.blocks);
           }
         }
       };

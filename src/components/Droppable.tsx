@@ -12,7 +12,7 @@ function Droppable({ id, children, parent_id }: Props) {
       parent_id,
     },
   });
-
+  
   const style = {
     // opacity: isOver ? 1 : 0.5,
   };
