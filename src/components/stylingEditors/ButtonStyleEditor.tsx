@@ -1,6 +1,7 @@
+import { removeCSSvalues } from "@/lib/uiconfigs";
 import { updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
-import React, { ChangeEvent, useMemo } from "react";
+import React, { ChangeEvent, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
@@ -99,26 +100,6 @@ const Grid4 = ({ children }: { children: React.ReactNode }) => (
 );
 
 const ButtonStyleEditor = () => {
-  const [names, setNames] = React.useState<Record<string, string>>({
-    label: "Click Me",
-    fontSize: "16",
-    color: "#000000",
-    fontWeight: "normal",
-    backgroundColor: "#ffffff",
-    borderRadius: "4",
-    borderColor: "#000000",
-    borderWidth: "1",
-    paddingTop: "8",
-    paddingRight: "8",
-    paddingBottom: "8",
-    paddingLeft: "8",
-    marginTop: "0",
-    marginRight: "0",
-    marginBottom: "0",
-    marginLeft: "0",
-    href: "https://example.com",
-  });
-
   const activeBlock = useSelector(
     (state: RootState) => state.email.activeBlock
   );
@@ -126,6 +107,50 @@ const ButtonStyleEditor = () => {
   const activeKey = useSelector(
     (state: RootState) => state.email.currentElementKey
   );
+  let style: Record<string, string> = {};
+  if (activeKey) {
+    if (activeBlock?.configs?.styles) {
+      style = activeBlock?.configs?.styles[activeKey] as Record<string, string>;
+    }
+  }
+
+  const [names, setNames] = React.useState<Record<string, string>>({
+    fontSize: removeCSSvalues(style.fontSize),
+    color: removeCSSvalues(style.color),
+    fontWeight: removeCSSvalues(style.fontWeight),
+    backgroundColor: removeCSSvalues(style.backgroundColor),
+    borderRadius: removeCSSvalues(style.borderRadius),
+    borderColor: removeCSSvalues(style.borderColor),
+    borderWidth: removeCSSvalues(style.borderWidth),
+    paddingTop: removeCSSvalues(style.paddingTop),
+    paddingRight: removeCSSvalues(style.paddingRight),
+    paddingBottom: removeCSSvalues(style.paddingRight),
+    paddingLeft: removeCSSvalues(style.paddingLeft),
+    marginTop: removeCSSvalues(style.marginTop),
+    marginRight: removeCSSvalues(style.marginRight),
+    marginBottom: removeCSSvalues(style.marginBottom),
+    marginLeft: removeCSSvalues(style.marginBottom),
+  });
+
+  useEffect(() => {
+    setNames({
+      fontSize: removeCSSvalues(style.fontSize),
+      color: removeCSSvalues(style.color),
+      fontWeight: removeCSSvalues(style.fontWeight),
+      backgroundColor: removeCSSvalues(style.backgroundColor),
+      borderRadius: removeCSSvalues(style.borderRadius),
+      borderColor: removeCSSvalues(style.borderColor),
+      borderWidth: removeCSSvalues(style.borderWidth),
+      paddingTop: removeCSSvalues(style.paddingTop),
+      paddingRight: removeCSSvalues(style.paddingRight),
+      paddingBottom: removeCSSvalues(style.paddingRight),
+      paddingLeft: removeCSSvalues(style.paddingLeft),
+      marginTop: removeCSSvalues(style.marginTop),
+      marginRight: removeCSSvalues(style.marginRight),
+      marginBottom: removeCSSvalues(style.marginBottom),
+      marginLeft: removeCSSvalues(style.marginBottom),
+    });
+  }, [activeBlock]);
 
   const dispatch = useDispatch();
   const handleChange = (

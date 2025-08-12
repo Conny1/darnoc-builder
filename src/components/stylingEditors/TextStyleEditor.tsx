@@ -1,6 +1,7 @@
+import { removeCSSvalues } from "@/lib/uiconfigs";
 import { updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
@@ -99,30 +100,60 @@ const Grid4 = ({ children }: { children: React.ReactNode }) => (
 );
 
 const TextStyleEditor = () => {
+   const activeBlock = useSelector(
+      (state: RootState) => state.email.activeBlock
+    );
+  
+    const activeKey = useSelector(
+      (state: RootState) => state.email.currentElementKey
+    );
+    let style:Record<string, string > ={}
+  if(activeKey){
+    if(activeBlock?.configs?.styles){
+      style = activeBlock?.configs?.styles[activeKey] as Record<string,  string > 
+    
+
+    }
+
+  }
   const [names, setNames] = React.useState<Record<string, string>>({
-    fontSize: "16",
-    fontWeight: "normal",
-    color: "#000000",
-    textAlign: "left",
-    lineHeight: "1.5",
-    letterSpacing: "0",
-    paddingTop: "0",
-    paddingRight: "0",
-    paddingBottom: "0",
-    paddingLeft: "0",
-    marginTop: "0",
-    marginRight: "0",
-    marginBottom: "0",
-    marginLeft: "0",
+    fontSize: removeCSSvalues(style?.fontSize ) ,
+    fontWeight: removeCSSvalues(style?.fontWeight ) ,
+    color: removeCSSvalues(style?.color ) ,
+    textAlign: removeCSSvalues(style?.textAlign),
+    lineHeight: removeCSSvalues(style?.lineHeight) ,
+    letterSpacing: removeCSSvalues(style?.letterSpacing ) ,
+    paddingTop: removeCSSvalues(style?.paddingTop ) ,
+    paddingRight: removeCSSvalues(style?.paddingRight ) ,
+    paddingBottom: removeCSSvalues(style?.paddingBottom ) ,
+    paddingLeft: removeCSSvalues(style?.paddingLeft ) ,
+    marginTop: removeCSSvalues(style?.marginTop ) ,
+    marginRight: removeCSSvalues(style?.marginRight ) ,
+    marginBottom:removeCSSvalues(style?.marginBottom ) ,
+    marginLeft: removeCSSvalues(style?.marginLeft ) ,
   });
 
-  const activeBlock = useSelector(
-    (state: RootState) => state.email.activeBlock
-  );
+  useEffect(() => {
+    setNames({
+       fontSize: removeCSSvalues(style?.fontSize ) ,
+    fontWeight: removeCSSvalues(style?.fontWeight ) ,
+    color: removeCSSvalues(style?.color ) ,
+    textAlign: removeCSSvalues(style?.textAlign),
+    lineHeight: removeCSSvalues(style?.lineHeight) ,
+    letterSpacing: removeCSSvalues(style?.letterSpacing ) ,
+    paddingTop: removeCSSvalues(style?.paddingTop ) ,
+    paddingRight: removeCSSvalues(style?.paddingRight ) ,
+    paddingBottom: removeCSSvalues(style?.paddingBottom ) ,
+    paddingLeft: removeCSSvalues(style?.paddingLeft ) ,
+    marginTop: removeCSSvalues(style?.marginTop ) ,
+    marginRight: removeCSSvalues(style?.marginRight ) ,
+    marginBottom:removeCSSvalues(style?.marginBottom ) ,
+    marginLeft: removeCSSvalues(style?.marginLeft ) ,
+    })
+  
 
-  const activeKey = useSelector(
-    (state: RootState) => state.email.currentElementKey
-  );
+  }, [activeBlock])
+  
 
   const dispatch = useDispatch();
   const handleChange = (

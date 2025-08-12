@@ -1,6 +1,7 @@
+import { removeCSSvalues } from "@/lib/uiconfigs";
 import { updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, CSSProperties, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
@@ -106,28 +107,37 @@ const ContainerStyleEditor = () => {
   const activeKey = useSelector(
     (state: RootState) => state.email.currentElementKey
   );
+  let style:Record<string, string > ={}
+  if(activeKey){
+    if(activeBlock?.configs?.styles){
+      style = activeBlock?.configs?.styles[activeKey] as Record<string,  string > 
+    
+
+    }
+
+  }
 
   // central state object named "names"
   const [names, setNames] = React.useState<Record<string, string>>({
-    width: "500px",
-    height: "250px",
-    paddingTop: "0",
-    paddingRight: "0",
-    paddingBottom: "0",
-    paddingLeft: "0",
-    marginTop: "0",
-    marginRight: "0",
-    marginBottom: "0",
-    marginLeft: "0",
-    backgroundColor: "#000000",
-    backgroundImage: "",
-    borderWidth: "1",
-    borderColor: "#000000",
-    borderRadius: "4",
-    textAlign: "left",
-    fontSize: "14",
-    fontWeight: "normal",
-    fontColor: "#000000",
+    width: removeCSSvalues(style?.width ) ,
+    height:  removeCSSvalues(style?.height ) ,
+    paddingTop:  removeCSSvalues(style?.paddingTop ) , 
+    paddingRight:  removeCSSvalues(style?.paddingRight) ,
+    paddingBottom:  removeCSSvalues(style?.paddingBottom ) ,
+    paddingLeft:  removeCSSvalues(style?.paddingLeft ) ,
+    marginTop:  removeCSSvalues(style?.marginTop ) ,
+    marginRight:  removeCSSvalues(style?.marginRight ) ,
+    marginBottom:  removeCSSvalues(style?.margingBottom) ,
+    marginLeft:  removeCSSvalues(style?.marginLeft ) ,
+    backgroundColor:  removeCSSvalues(style?.backgroundColor ) ,
+    backgroundImage:  removeCSSvalues(style?.backgroundImage ) ,
+    borderWidth:  removeCSSvalues(style?.borderWidth ) ,
+    borderColor:  removeCSSvalues(style?.borderColor ) ,
+    borderRadius:  removeCSSvalues(style?.borderRadius ) ,
+    textAlign:  removeCSSvalues(style?.textAlign ) ,
+    fontSize:  removeCSSvalues(style?.fontSize) ,
+    fontWeight:  removeCSSvalues(style?.fontWeight ) ,
+    fontColor:  removeCSSvalues(style?.color ) ,
   });
   const dispatch = useDispatch();
   const handleChange = (
@@ -139,6 +149,8 @@ const ContainerStyleEditor = () => {
       name.includes("padding") ||
       name.includes("margin") ||
       name.includes("borderWid") ||
+       name.includes("widt") ||
+        name.includes("height") ||
       name.includes("borderRadi")
     ) {
       newVal += "px";
@@ -161,6 +173,31 @@ const ContainerStyleEditor = () => {
 
   // array of all name values (formerly "values")
   // const namesArray = useMemo(() => Object.values(names), [names]);
+useEffect(() => {
+  setNames({
+    width: removeCSSvalues(style?.width ) ,
+    height:  removeCSSvalues(style?.height ) ,
+    paddingTop:  removeCSSvalues(style?.paddingTop ) , 
+    paddingRight:  removeCSSvalues(style?.paddingRight) ,
+    paddingBottom:  removeCSSvalues(style?.paddingBottom ) ,
+    paddingLeft:  removeCSSvalues(style?.paddingLeft ) ,
+    marginTop:  removeCSSvalues(style?.marginTop ) ,
+    marginRight:  removeCSSvalues(style?.marginRight ) ,
+    marginBottom:  removeCSSvalues(style?.margingBottom) ,
+    marginLeft:  removeCSSvalues(style?.marginLeft ) ,
+    backgroundColor:  removeCSSvalues(style?.backgroundColor ) ,
+    backgroundImage:  removeCSSvalues(style?.backgroundImage ) ,
+    borderWidth:  removeCSSvalues(style?.borderWidth ) ,
+    borderColor:  removeCSSvalues(style?.borderColor ) ,
+    borderRadius:  removeCSSvalues(style?.borderRadius ) ,
+    textAlign:  removeCSSvalues(style?.textAlign ) ,
+    fontSize:  removeCSSvalues(style?.fontSize) ,
+    fontWeight:  removeCSSvalues(style?.fontWeight ) ,
+    fontColor:  removeCSSvalues(style?.color ) ,
+  })
+
+ 
+}, [activeBlock])
 
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
@@ -174,23 +211,23 @@ const ContainerStyleEditor = () => {
           {activeKey === "column" && (
             <div>
               <Label text="Width" />
-              <TextInput
-                name="width"
-                placeholder="100%"
-                value={names.width}
-                onChange={handleChange}
-              />
+              <NumberInput
+                  name="width"
+                  placeholder="350px"
+                  value={names.width || ""}
+                  onChange={handleChange}
+                />
             </div>
           )}
           <div>
             <Label text="Height" />
 
-            <TextInput
-              name="height"
-              placeholder="auto"
-              value={names.height}
-              onChange={handleChange}
-            />
+           <NumberInput
+                  name="height"
+                  placeholder="350px"
+                  value={names.height|| ""}
+                  onChange={handleChange}
+                />
           </div>
         </div>
       </Section>
