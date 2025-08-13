@@ -100,60 +100,56 @@ const Grid4 = ({ children }: { children: React.ReactNode }) => (
 );
 
 const TextStyleEditor = () => {
-   const activeBlock = useSelector(
-      (state: RootState) => state.email.activeBlock
-    );
-  
-    const activeKey = useSelector(
-      (state: RootState) => state.email.currentElementKey
-    );
-    let style:Record<string, string > ={}
-  if(activeKey){
-    if(activeBlock?.configs?.styles){
-      style = activeBlock?.configs?.styles[activeKey] as Record<string,  string > 
-    
+  const activeBlock = useSelector(
+    (state: RootState) => state.email.activeBlock
+  );
 
+  const activeKey = useSelector(
+    (state: RootState) => state.email.currentElementKey
+  );
+  let style: Record<string, string> = {};
+  if (activeKey) {
+    if (activeBlock?.configs?.styles) {
+      style = activeBlock?.configs?.styles[activeKey] as Record<string, string>;
     }
-
   }
   const [names, setNames] = React.useState<Record<string, string>>({
-    fontSize: removeCSSvalues(style?.fontSize ) ,
-    fontWeight: removeCSSvalues(style?.fontWeight ) ,
-    color: removeCSSvalues(style?.color ) ,
+    width: removeCSSvalues(style?.width),
+    fontSize: removeCSSvalues(style?.fontSize),
+    fontWeight: removeCSSvalues(style?.fontWeight),
+    color: removeCSSvalues(style?.color),
     textAlign: removeCSSvalues(style?.textAlign),
-    lineHeight: removeCSSvalues(style?.lineHeight) ,
-    letterSpacing: removeCSSvalues(style?.letterSpacing ) ,
-    paddingTop: removeCSSvalues(style?.paddingTop ) ,
-    paddingRight: removeCSSvalues(style?.paddingRight ) ,
-    paddingBottom: removeCSSvalues(style?.paddingBottom ) ,
-    paddingLeft: removeCSSvalues(style?.paddingLeft ) ,
-    marginTop: removeCSSvalues(style?.marginTop ) ,
-    marginRight: removeCSSvalues(style?.marginRight ) ,
-    marginBottom:removeCSSvalues(style?.marginBottom ) ,
-    marginLeft: removeCSSvalues(style?.marginLeft ) ,
+    lineHeight: removeCSSvalues(style?.lineHeight),
+    letterSpacing: removeCSSvalues(style?.letterSpacing),
+    paddingTop: removeCSSvalues(style?.paddingTop),
+    paddingRight: removeCSSvalues(style?.paddingRight),
+    paddingBottom: removeCSSvalues(style?.paddingBottom),
+    paddingLeft: removeCSSvalues(style?.paddingLeft),
+    marginTop: removeCSSvalues(style?.marginTop),
+    marginRight: removeCSSvalues(style?.marginRight),
+    marginBottom: removeCSSvalues(style?.marginBottom),
+    marginLeft: removeCSSvalues(style?.marginLeft),
   });
 
   useEffect(() => {
     setNames({
-       fontSize: removeCSSvalues(style?.fontSize ) ,
-    fontWeight: removeCSSvalues(style?.fontWeight ) ,
-    color: removeCSSvalues(style?.color ) ,
-    textAlign: removeCSSvalues(style?.textAlign),
-    lineHeight: removeCSSvalues(style?.lineHeight) ,
-    letterSpacing: removeCSSvalues(style?.letterSpacing ) ,
-    paddingTop: removeCSSvalues(style?.paddingTop ) ,
-    paddingRight: removeCSSvalues(style?.paddingRight ) ,
-    paddingBottom: removeCSSvalues(style?.paddingBottom ) ,
-    paddingLeft: removeCSSvalues(style?.paddingLeft ) ,
-    marginTop: removeCSSvalues(style?.marginTop ) ,
-    marginRight: removeCSSvalues(style?.marginRight ) ,
-    marginBottom:removeCSSvalues(style?.marginBottom ) ,
-    marginLeft: removeCSSvalues(style?.marginLeft ) ,
-    })
-  
-
-  }, [activeBlock])
-  
+      width: removeCSSvalues(style?.width),
+      fontSize: removeCSSvalues(style?.fontSize),
+      fontWeight: removeCSSvalues(style?.fontWeight),
+      color: removeCSSvalues(style?.color),
+      textAlign: removeCSSvalues(style?.textAlign),
+      lineHeight: removeCSSvalues(style?.lineHeight),
+      letterSpacing: removeCSSvalues(style?.letterSpacing),
+      paddingTop: removeCSSvalues(style?.paddingTop),
+      paddingRight: removeCSSvalues(style?.paddingRight),
+      paddingBottom: removeCSSvalues(style?.paddingBottom),
+      paddingLeft: removeCSSvalues(style?.paddingLeft),
+      marginTop: removeCSSvalues(style?.marginTop),
+      marginRight: removeCSSvalues(style?.marginRight),
+      marginBottom: removeCSSvalues(style?.marginBottom),
+      marginLeft: removeCSSvalues(style?.marginLeft),
+    });
+  }, [activeBlock]);
 
   const dispatch = useDispatch();
   const handleChange = (
@@ -167,6 +163,7 @@ const TextStyleEditor = () => {
       name.includes("borderWid") ||
       name.includes("borderRadi") ||
       name.includes("fontSi") ||
+      name.includes("width") ||
       name.includes("letterSpaci")
     ) {
       newVal += "px";
@@ -192,6 +189,19 @@ const TextStyleEditor = () => {
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
       <h3 className="text-base font-semibold text-gray-800">Text Styles</h3>
+
+      {/* Dimentions */}
+      <Section title="Width">
+        <div>
+          <Label text=" Width (px)" />
+          <NumberInput
+            name="width"
+            placeholder="16"
+            value={names.width}
+            onChange={handleChange}
+          />
+        </div>
+      </Section>
 
       {/* Typography */}
       <Section title="Typography">

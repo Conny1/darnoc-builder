@@ -183,7 +183,7 @@ useEffect(() => {
     paddingLeft:  removeCSSvalues(style?.paddingLeft ) ,
     marginTop:  removeCSSvalues(style?.marginTop ) ,
     marginRight:  removeCSSvalues(style?.marginRight ) ,
-    marginBottom:  removeCSSvalues(style?.margingBottom) ,
+    marginBottom:  removeCSSvalues(style?.marginBottom) ,
     marginLeft:  removeCSSvalues(style?.marginLeft ) ,
     backgroundColor:  removeCSSvalues(style?.backgroundColor ) ,
     backgroundImage:  removeCSSvalues(style?.backgroundImage ) ,

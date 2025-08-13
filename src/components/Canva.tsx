@@ -35,7 +35,7 @@ const Canva = () => {
           items={dropableData}
           strategy={verticalListSortingStrategy}
         >
-          <div className="min-h-[90vh] w-[600px] border-2 border-dashed border-gray-300 bg-white rounded-xl shadow-sm p-6 transition-all duration-200">
+          <div className="min-h-[90vh] w-[800px] border-2 border-dashed border-gray-300 bg-white rounded-xl shadow-sm p-6 transition-all duration-200">
             {dropableData.length === 0 ? (
               <p className="text-gray-400 text-center text-sm py-10">
                 📨 Drop your blocks here to start building

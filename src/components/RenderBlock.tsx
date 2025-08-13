@@ -46,63 +46,78 @@ const RenderBlock = ({
   switch (block.name) {
     case "section":
       return (
-        <Droppable id={block.id+Droppableids.inline} parent_id={block.id}>
+        <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
           <div
-            onMouseOver={() => setcloseBTN(true)}
-            onMouseLeave={() => setcloseBTN(false)}
-            onClick={(e) => {
-              e.stopPropagation();
-
-              setactive((prev) => !prev);
-              dispatch(setActiveBlock(block.id));
-              handleClick(e);
-            }}
-            style={block.configs?.styles?.parent}
-            className="hover:border hover:border-dashed"
             data-element-type="container"
             data-element-key="parent"
+            className={`    hover:border hover:border-dashed  m-0 p-0 h-fit w-fit  ${
+              activeid === block.id ? "border" : null
+            } `}
           >
-            {block?.blocks && block.blocks.length === 0 ? (
-              <p>Section Container</p>
-            ) : (
-              block.blocks?.map((child) => (
-                <RenderBlock
-                  key={child.id}
-                  block={child}
-                  closeBTN={closeChild}
-                  setcloseBTN={setcloseChild}
-                />
-              ))
-            )}
+            <div
+              onMouseOver={() => setcloseBTN(true)}
+              onMouseLeave={() => setcloseBTN(false)}
+              onClick={(e) => {
+                e.stopPropagation();
+
+                setactive((prev) => !prev);
+                dispatch(setActiveBlock(block.id));
+                handleClick(e);
+              }}
+              style={block.configs?.styles?.parent}
+              data-element-type="container"
+              data-element-key="parent"
+            >
+              {block?.blocks && block.blocks.length === 0 ? (
+                <p>Section Container</p>
+              ) : (
+                block.blocks?.map((child) => (
+                  <RenderBlock
+                    key={child.id}
+                    block={child}
+                    closeBTN={closeChild}
+                    setcloseBTN={setcloseChild}
+                  />
+                ))
+              )}
+            </div>
           </div>
         </Droppable>
       );
 
     case "column":
       return (
-        <Droppable id={block.id+Droppableids.inline} parent_id={block.id}>
+        <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
           <div
-            onMouseOver={() => setcloseBTN(true)}
-            onMouseLeave={() => setcloseBTN(false)}
-            onClick={(e) => {
-              e.stopPropagation();
-
-              setactive((prev) => !prev);
-              dispatch(setActiveBlock(block.id));
-              handleClick(e);
-            }}
-            style={block.configs?.styles?.column}
             data-element-type="container"
             data-element-key="column"
+            className={` inline-block  align-top hover:border hover:border-dashed  m-0 p-0 p-b h-fit w-fit  ${
+              activeid === block.id ? "border" : null
+            } `}
           >
-            {block.blocks?.map((child) => (
-              <RenderBlock
-                key={child.id}
-                block={child}
-                closeBTN={closeChild}
-                setcloseBTN={setcloseChild}
-              />
-            ))}
+            <div
+              onMouseOver={() => setcloseBTN(true)}
+              onMouseLeave={() => setcloseBTN(false)}
+              onClick={(e) => {
+                e.stopPropagation();
+
+                setactive((prev) => !prev);
+                dispatch(setActiveBlock(block.id));
+                handleClick(e);
+              }}
+              style={block.configs?.styles?.column}
+              data-element-type="container"
+              data-element-key="column"
+            >
+              {block.blocks?.map((child) => (
+                <RenderBlock
+                  key={child.id}
+                  block={child}
+                  closeBTN={closeChild}
+                  setcloseBTN={setcloseChild}
+                />
+              ))}
+            </div>
           </div>
         </Droppable>
       );
@@ -110,20 +125,28 @@ const RenderBlock = ({
     case "text":
       return (
         <div
-          onMouseOver={() => setcloseBTN(true)}
-          onMouseLeave={() => setcloseBTN(false)}
-          onClick={(e) => {
-            e.stopPropagation();
-
-            setactive((prev) => !prev);
-            dispatch(setActiveBlock(block.id));
-            handleClick(e);
-          }}
-          style={block.configs?.styles?.text}
           data-element-type="text"
           data-element-key="text"
+          className={` inline-block  align-top hover:border hover:border-dashed  p-0 m-0 text-center  h-fit w-fit  ${
+            activeid === block.id ? "border" : null
+          } `}
         >
-          {block.configs?.content || "TEXT AREA."}
+          <div
+            onMouseOver={() => setcloseBTN(true)}
+            onMouseLeave={() => setcloseBTN(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+
+              setactive((prev) => !prev);
+              dispatch(setActiveBlock(block.id));
+              handleClick(e);
+            }}
+            style={block.configs?.styles?.text}
+            data-element-type="text"
+            data-element-key="text"
+          >
+            {block.configs?.content || "TEXT AREA."}
+          </div>
         </div>
       );
 
@@ -149,23 +172,31 @@ const RenderBlock = ({
 
     case "button":
       return (
-        <a
-          onMouseOver={() => setcloseBTN(true)}
-          onMouseLeave={() => setcloseBTN(false)}
-          onClick={(e) => {
-            e.stopPropagation();
-
-            setactive((prev) => !prev);
-            dispatch(setActiveBlock(block.id));
-            handleClick(e);
-          }}
-          href={block.configs?.href || "#"}
-          style={block.configs?.styles?.button}
+        <div
           data-element-type="button"
           data-element-key="button"
+          className={` inline-block  align-top  hover:border hover:border-dashed  m-0 p-0 h-fit w-fit  ${
+            activeid === block.id ? "border" : null
+          } `}
         >
-          {block.configs?.content || "Click me"}
-        </a>
+          <a
+            onMouseOver={() => setcloseBTN(true)}
+            onMouseLeave={() => setcloseBTN(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+
+              setactive((prev) => !prev);
+              dispatch(setActiveBlock(block.id));
+              handleClick(e);
+            }}
+            href={block.configs?.href || "#"}
+            style={block.configs?.styles?.button}
+            data-element-type="button"
+            data-element-key="button"
+          >
+            {block.configs?.content || "Click me"}
+          </a>
+        </div>
       );
 
     // case "divider":

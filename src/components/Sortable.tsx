@@ -24,10 +24,14 @@ export function SortableItem({ id, children, isParent, parent_id }: Props) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    
+        display: "inline-block",
+        verticalAlign: "top",
+      
   };
 
   return (
-    <div style={style} className="relative w-fit  group h-fit   ">
+    <div style={style} className="relative w-fit  group h-fit   " >
       {/* Styled drag handle */}
       <button
         ref={setNodeRef}

@@ -15,6 +15,8 @@ function Droppable({ id, children, parent_id }: Props) {
   
   const style = {
     // opacity: isOver ? 1 : 0.5,
+       display: "inline-block",
+        verticalAlign: "top",
   };
 
   return (
