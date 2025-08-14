@@ -13,19 +13,18 @@ export const blockConfigs: BlockConfigs = {
         paddingBottom: "4px",
         paddingRight: "4px",
         textAlign: "center",
-        borderWidth:"0",
-        borderRadius:"0px",
-        borderColor:"#ffffff",
+        borderWidth: "0",
+        borderRadius: "0px",
+        borderColor: "#ffffff",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         position: "static",
-        fontWeight:"normal",
-        color:"#00000",
+        fontWeight: "normal",
+        color: "#00000",
         marginTop: "4px",
         marginBottom: "4px",
         marginLeft: "4px",
         marginRight: "4px",
-        fontSize:"0px"
-        
+        fontSize: "0px",
       },
     },
   },
@@ -42,20 +41,20 @@ export const blockConfigs: BlockConfigs = {
         paddingBottom: "4px",
         paddingRight: "4px",
         textAlign: "center",
-        borderWidth:"0",
-        borderRadius:"0px",
-        borderColor:"#ffffff",
+        borderWidth: "0",
+        borderRadius: "0px",
+        borderColor: "#ffffff",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         position: "static",
-        fontWeight:"normal",
-        color:"#00000",
+        fontWeight: "normal",
+        color: "#00000",
         marginTop: "4px",
         marginBottom: "4px",
         marginLeft: "4px",
         marginRight: "4px",
         // constants
-        display:"inline-block",
-        verticalAlign:"top",
+        display: "inline-block",
+        verticalAlign: "top",
         // fontSize:"0px"
       },
     },
@@ -72,7 +71,7 @@ export const blockConfigs: BlockConfigs = {
         letterSpacing: "0.2px",
         textAlign: "center",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        
+
         // padding: "40px 20px",
         border: "1px solid #e1e8f9",
         //
@@ -85,24 +84,44 @@ export const blockConfigs: BlockConfigs = {
         marginBottom: "4px",
         marginLeft: "4px",
         marginRight: "4px",
+        textTransform: "capitalize",
+        height:"auto",
+        overflowWrap:"break-word"
       },
     },
+     content:{
+      text:"Text area",
+      
+    }
   },
 
   image: {
     styles: {
       image: {
-        display: "block",
+        width:"200px",
+        display: "inline-block",
         maxWidth: "100%",
-        height: "auto",
-        margin: 0,
-        // border: 0,
-        outline: "none",
-        textDecoration: "none",
-        lineHeight: "100%",
-        border: "1px solid #e1e8f9",
+        height: "110px",
+      
+        borderWidth:"0px",
+        borderColor:"#fffffff",
+        borderRadius:"0px",
+        paddingTop: "0px",
+        paddingLeft: "0px",
+        paddingBottom: "0px",
+        paddingRight: "0px",
+        marginTop: "4px",
+        marginBottom: "4px",
+        marginLeft: "4px",
+        marginRight: "4px",
       },
+      
     },
+    content:{
+      text:"place holder image",
+      link:"https://placehold.co/200x100"
+      
+    }
   },
 
   button: {
@@ -119,8 +138,8 @@ export const blockConfigs: BlockConfigs = {
         fontSize: "15px",
         textDecoration: "none",
         borderRadius: "6px",
-        borderWidth:"0px",
-        borderColor:"#000000",
+        borderWidth: "0px",
+        borderColor: "#000000",
         cursor: "pointer",
         lineHeight: "1",
         letterSpacing: "0.5px",
@@ -131,8 +150,14 @@ export const blockConfigs: BlockConfigs = {
         marginBottom: "4px",
         marginLeft: "4px",
         marginRight: "4px",
+        textTransform: "capitalize",
       },
     },
+    content:{
+      text:"Click me",
+      
+    }
+
   },
 
   divider: {
@@ -198,14 +223,14 @@ export const blockConfigs: BlockConfigs = {
 export const removeCSSvalues = (style: string) => {
   let newVal = style;
   if (style?.includes("px")) {
-    let temp = style.split("px")
-    newVal = temp[0]
+    let temp = style.split("px");
+    newVal = temp[0];
   }
 
-   if (style?.includes("%")) {
-    let temp = style.split("%")
-    newVal = temp[0]
+  if (style?.includes("%")) {
+    let temp = style.split("%");
+    newVal = temp[0];
   }
-  
+
   return newVal;
 };

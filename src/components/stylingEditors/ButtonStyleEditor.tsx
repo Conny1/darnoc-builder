@@ -1,5 +1,5 @@
 import { removeCSSvalues } from "@/lib/uiconfigs";
-import { updateStyle } from "@/redux/emailTemplateSlice";
+import { updateContent, updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
 import React, { ChangeEvent, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -130,7 +130,12 @@ const ButtonStyleEditor = () => {
     marginRight: removeCSSvalues(style.marginRight),
     marginBottom: removeCSSvalues(style.marginBottom),
     marginLeft: removeCSSvalues(style.marginBottom),
+    textTransform: removeCSSvalues(style?.textTransform),
   });
+
+  const [text, settext] = React.useState<string>(
+    activeBlock?.configs?.content?.text || ""
+  );
 
   useEffect(() => {
     setNames({
@@ -149,6 +154,7 @@ const ButtonStyleEditor = () => {
       marginRight: removeCSSvalues(style.marginRight),
       marginBottom: removeCSSvalues(style.marginBottom),
       marginLeft: removeCSSvalues(style.marginBottom),
+      textTransform: removeCSSvalues(style?.textTransform),
     });
   }, [activeBlock]);
 
@@ -195,10 +201,21 @@ const ButtonStyleEditor = () => {
         <div>
           <Label text="Button Label" />
           <TextInput
-            name="label"
+            name="text"
             placeholder="Click Me"
-            value={names.label}
-            onChange={handleChange}
+            value={text}
+            onChange={(e) => {
+              let val = e.target.value as string;
+              if (val.length === 0) return;
+
+              settext(() => val);
+
+              if (activeBlock?.id) {
+                dispatch(
+                  updateContent({ content: val, block_id: activeBlock?.id, type:"text" })
+                );
+              }
+            }}
           />
         </div>
         <div>
@@ -228,6 +245,20 @@ const ButtonStyleEditor = () => {
               { label: "Normal", value: "normal" },
               { label: "Bold", value: "bold" },
               { label: "Light", value: "lighter" },
+            ]}
+          />
+        </div>
+        <div>
+          <Label text="Text Case" />
+          <SelectInput
+            name="textTransform"
+            value={names.textTransform}
+            onChange={handleChange}
+            options={[
+              { label: "Normal", value: "none" },
+              { label: "UPPERCASE", value: "uppercase" },
+              { label: "lowercase", value: "lowercase" },
+              { label: "Capitalize", value: "capitalize" },
             ]}
           />
         </div>

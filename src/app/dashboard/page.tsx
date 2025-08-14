@@ -43,26 +43,7 @@ const Dashboard = () => {
       );
     }
 
-    if (active.id !== over?.id && !isParent) {
-      let parent_id = null;
-      if (active.data?.current && "parent_id" in active?.data.current) {
-        parent_id = active.data.current.parent_id;
-      }
-      let data = dropableData.find((item) => item.id === parent_id);
-      console.log("inline", active.id, parent_id, over?.id, data);
-      if (data && data.blocks) {
-        const oldIndex = data?.blocks.findIndex(
-          (item) => item.id === active.id
-        );
-        const newIndex = data.blocks.findIndex((item) => item.id === over?.id);
-        return dispatch(
-          updateInlineSortedBlocks({
-            data: arrayMove(data.blocks, oldIndex, newIndex),
-            parent_id,
-          })
-        );
-      }
-    }
+  
   }
 
   const handleDragEnd = (event: DragEndEvent) => {

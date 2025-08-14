@@ -1,6 +1,7 @@
-import { updateStyle } from "@/redux/emailTemplateSlice";
+import { removeCSSvalues } from "@/lib/uiconfigs";
+import { updateContent, updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
-import React, { ChangeEvent, useMemo } from "react";
+import React, { ChangeEvent, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
@@ -74,25 +75,6 @@ const Grid4 = ({ children }: { children: React.ReactNode }) => (
 );
 
 const ImageStyleEditor = () => {
-  const [names, setNames] = React.useState<Record<string, string>>({
-    imageUrl: "",
-    altText: "",
-    width: "100%",
-    height: "auto",
-    borderRadius: "0",
-    borderColor: "#000000",
-    borderWidth: "1",
-    paddingTop: "0",
-    paddingRight: "0",
-    paddingBottom: "0",
-    paddingLeft: "0",
-    marginTop: "0",
-    marginRight: "0",
-    marginBottom: "0",
-    marginLeft: "0",
-    imageLink: "",
-  });
-
   const activeBlock = useSelector(
     (state: RootState) => state.email.activeBlock
   );
@@ -100,6 +82,48 @@ const ImageStyleEditor = () => {
   const activeKey = useSelector(
     (state: RootState) => state.email.currentElementKey
   );
+  let style: Record<string, string> = {};
+  if (activeKey) {
+    if (activeBlock?.configs?.styles) {
+      style = activeBlock?.configs?.styles[activeKey] as Record<string, string>;
+    }
+  }
+  const [names, setNames] = React.useState<Record<string, string>>({
+    width: removeCSSvalues(style?.width),
+    height: removeCSSvalues(style?.height),
+    borderRadius: removeCSSvalues(style?.borderRadius),
+    borderColor: removeCSSvalues(style?.borderColor),
+    borderWidth: removeCSSvalues(style?.borderColor),
+    paddingTop: removeCSSvalues(style?.paddingTop),
+    paddingRight: removeCSSvalues(style?.paddingRight),
+    paddingBottom: removeCSSvalues(style?.paddingBottom),
+    paddingLeft: removeCSSvalues(style?.paddingLeft),
+    marginTop: removeCSSvalues(style?.marginTop),
+    marginRight: removeCSSvalues(style?.marginRight),
+    marginBottom: removeCSSvalues(style?.marginBottom),
+    marginLeft: removeCSSvalues(style?.marginLeft),
+  });
+  const [link, setlink] = React.useState<string>(
+    activeBlock?.configs?.content?.link || ""
+  );
+
+  useEffect(() => {
+    setNames({
+      width: removeCSSvalues(style?.width),
+      height: removeCSSvalues(style?.height),
+      borderRadius: removeCSSvalues(style?.borderRadius),
+      borderColor: removeCSSvalues(style?.borderColor),
+      borderWidth: removeCSSvalues(style?.borderWidth),
+      paddingTop: removeCSSvalues(style?.paddingTop),
+      paddingRight: removeCSSvalues(style?.paddingRight),
+      paddingBottom: removeCSSvalues(style?.paddingBottom),
+      paddingLeft: removeCSSvalues(style?.paddingLeft),
+      marginTop: removeCSSvalues(style?.marginTop),
+      marginRight: removeCSSvalues(style?.marginRight),
+      marginBottom: removeCSSvalues(style?.marginBottom),
+      marginLeft: removeCSSvalues(style?.marginLeft),
+    });
+  }, [activeBlock]);
 
   const dispatch = useDispatch();
   const handleChange = (
@@ -113,7 +137,9 @@ const ImageStyleEditor = () => {
       name.includes("borderWid") ||
       name.includes("borderRadi") ||
       name.includes("fontSi") ||
-      name.includes("letterSpaci")
+      name.includes("letterSpaci") ||
+      name.includes("width") ||
+      name.includes("height")
     ) {
       newVal += "px";
     }
@@ -133,7 +159,7 @@ const ImageStyleEditor = () => {
     }
   };
 
-  const namesArray = useMemo(() => Object.values(names), [names]);
+  // const namesArray = useMemo(() => Object.values(names), [names]);
 
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
@@ -143,14 +169,29 @@ const ImageStyleEditor = () => {
       <Section title="Source">
         <div>
           <Label text="Image URL" />
-          <TextInput
-            name="imageUrl"
-            placeholder="https://example.com/image.png"
-            value={names.imageUrl}
-            onChange={handleChange}
-          />
+          <div className="flex gap-1 ">
+            <TextInput
+              name="imageUrl"
+              placeholder="https://example.com/image.png"
+              value={link}
+              onChange={(e) => setlink(e.target.value)}
+            />
+            <button
+              className="bg-blue-600 p-1 cursor-pointer text-white text-[10px] font-bold rounded  "
+              onClick={() => {
+                if (activeBlock?.id && link) {
+                  dispatch(
+                    updateContent({ content: link, block_id: activeBlock?.id, type:"link" })
+                  );
+                }
+              }}
+            >
+              {" "}
+              Appy
+            </button>
+          </div>
         </div>
-        <div>
+        {/* <div>
           <Label text="Alt Text" />
           <TextInput
             name="altText"
@@ -158,25 +199,25 @@ const ImageStyleEditor = () => {
             value={names.altText}
             onChange={handleChange}
           />
-        </div>
+        </div> */}
       </Section>
 
       {/* Size */}
       <Section title="Size">
         <div>
           <Label text="Width (px or %)" />
-          <TextInput
+          <NumberInput
             name="width"
-            placeholder="100%"
+            placeholder="eg 200px"
             value={names.width}
             onChange={handleChange}
           />
         </div>
         <div>
           <Label text="Height (px or auto)" />
-          <TextInput
+          <NumberInput
             name="height"
-            placeholder="auto"
+            placeholder="100px"
             value={names.height}
             onChange={handleChange}
           />
@@ -253,7 +294,7 @@ const ImageStyleEditor = () => {
         </Grid4>
       </Section>
 
-      {/* Link */}
+      {/* Link
       <Section title="Link (Optional)">
         <div>
           <Label text="Image Link (URL)" />
@@ -264,15 +305,15 @@ const ImageStyleEditor = () => {
             onChange={handleChange}
           />
         </div>
-      </Section>
+      </Section> */}
 
       {/* Debug / usage example */}
-      <div className="mt-2">
+      {/* <div className="mt-2">
         <Label text="Current names object (all values)" />
         <pre className="text-[10px] bg-gray-100 p-2 rounded">
           {JSON.stringify(namesArray, null, 2)}
         </pre>
-      </div>
+      </div> */}
     </div>
   );
 };

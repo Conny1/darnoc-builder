@@ -1,5 +1,5 @@
 import { removeCSSvalues } from "@/lib/uiconfigs";
-import { updateStyle } from "@/redux/emailTemplateSlice";
+import { updateContent, updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
 import React, { ChangeEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,25 +8,34 @@ const Label = ({ text }: { text: string }) => (
   <label className="text-xs text-gray-600">{text}</label>
 );
 
-type InputProps = {
+type InputProps<T extends HTMLElement> = {
   name: string;
   placeholder?: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onChange: (e: ChangeEvent<T>) => void;
 };
 
-// const TextInput = ({ name, placeholder, value, onChange }: InputProps) => (
-//   <input
-//     name={name}
-//     type="text"
-//     placeholder={placeholder}
-//     value={value}
-//     onChange={onChange}
-//     className="w-full border rounded px-2 py-1 text-sm"
-//   />
-// );
+const TextInput = ({
+  name,
+  value,
+  onChange,
+}: InputProps<HTMLTextAreaElement>) => (
+  <textarea
+    name={name}
+    // placeholder={placeholder}
+    value={value}
+    onChange={(e) => onChange(e)}
+    className="w-full border rounded px-2 py-1 text-sm"
+    rows={5}
+  />
+);
 
-const NumberInput = ({ name, placeholder, value, onChange }: InputProps) => (
+const NumberInput = ({
+  name,
+  placeholder,
+  value,
+  onChange,
+}: InputProps<HTMLInputElement>) => (
   <input
     name={name}
     type="number"
@@ -129,7 +138,11 @@ const TextStyleEditor = () => {
     marginRight: removeCSSvalues(style?.marginRight),
     marginBottom: removeCSSvalues(style?.marginBottom),
     marginLeft: removeCSSvalues(style?.marginLeft),
+    textTransform: removeCSSvalues(style?.textTransform),
   });
+  const [text, settext] = React.useState<string>(
+    activeBlock?.configs?.content?.text || ""
+  );
 
   useEffect(() => {
     setNames({
@@ -148,6 +161,7 @@ const TextStyleEditor = () => {
       marginRight: removeCSSvalues(style?.marginRight),
       marginBottom: removeCSSvalues(style?.marginBottom),
       marginLeft: removeCSSvalues(style?.marginLeft),
+      textTransform: removeCSSvalues(style?.textTransform),
     });
   }, [activeBlock]);
 
@@ -189,6 +203,33 @@ const TextStyleEditor = () => {
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
       <h3 className="text-base font-semibold text-gray-800">Text Styles</h3>
+      {/* text content */}
+      <Section title="Content">
+        <div>
+          <Label text="Text content" />
+          <TextInput
+            name="text"
+            value={text}
+            onChange={(e) => {
+              console.log(e.target.value);
+              let val = e.target.value as string;
+              if (val.length === 0) return;
+
+              settext(() => val);
+
+              if (activeBlock?.id) {
+                dispatch(
+                  updateContent({
+                    content: val,
+                    block_id: activeBlock?.id,
+                    type: "text",
+                  })
+                );
+              }
+            }}
+          />
+        </div>
+      </Section>
 
       {/* Dimentions */}
       <Section title="Width">
@@ -233,6 +274,21 @@ const TextStyleEditor = () => {
             name="color"
             value={names.color}
             onChange={(e) => handleChange(e as any)}
+          />
+        </div>
+
+        <div>
+          <Label text="Text Case" />
+          <SelectInput
+            name="textTransform"
+            value={names.textTransform}
+            onChange={handleChange}
+            options={[
+              { label: "Normal", value: "none" },
+              { label: "UPPERCASE", value: "uppercase" },
+              { label: "lowercase", value: "lowercase" },
+              { label: "Capitalize", value: "capitalize" },
+            ]}
           />
         </div>
       </Section>

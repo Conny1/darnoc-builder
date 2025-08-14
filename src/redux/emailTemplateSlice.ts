@@ -54,7 +54,7 @@ export const emailtemplateSlice = createSlice({
         if (!blocks) return;
         console.log("recusive running, inline block");
         for (let item of blocks) {
-          console.log("running")
+          console.log("running");
           if (item.id === data.parent_id) {
             let ph = { ...data.data, configs: blockConfigs[data.data.name] };
             if (item.blocks) {
@@ -62,58 +62,44 @@ export const emailtemplateSlice = createSlice({
             } else {
               item["blocks"] = [ph];
             }
-            return true
-          } else{
-                         recisiveUpdate(item.blocks)
-
+            return true;
+          } else {
+            recisiveUpdate(item.blocks);
           }
-            
-           
-          
         }
       };
       recisiveUpdate(state.dropableData);
     },
 
-    removeInlineBlock: (
-      state,
-      action: PayloadAction<{ parent_id: string; block_id: string }>
-    ) => {
-      console.log("presed", action.payload);
-      let payload = action.payload;
-      state.dropableData.map((item) => {
-        if (item.id === payload.parent_id) {
-          item.blocks = item.blocks?.filter(
-            (target) => target.id !== payload.block_id
-          );
-        }
-      });
-    },
+
 
     removeBlock: (state, action: PayloadAction<string>) => {
-      console.log(action.payload);
-      let others = state.dropableData.filter(
-        (item) => item.id !== action.payload
-      );
-      state.dropableData = others;
+      const id = action.payload;
+
+      const recusiveRemove = (data?: BlockDataType[]): BlockDataType[] => {
+        if (!data) return [];
+        return data
+          .map((item) => {
+            return { ...item, blocks: recusiveRemove(item.blocks) };
+          })
+          .filter((block) => block.id !== id);
+      };
+      state.dropableData = recusiveRemove(state.dropableData);
     },
 
     setActiveBlock: (state, action: PayloadAction<string>) => {
-    
-      const recusiveSet = (data?: BlockDataType[]):BlockDataType | undefined => {
-        if (!data ) return undefined;
+      const recusiveSet = (
+        data?: BlockDataType[]
+      ): BlockDataType | undefined => {
+        if (!data) return undefined;
         for (let item of data) {
           if (item.id === action.payload) {
-      
             return item;
           }
-        let resp = recusiveSet(item.blocks)
-                if(resp){
-                  return resp
-                }
-          
-           
-          
+          let resp = recusiveSet(item.blocks);
+          if (resp) {
+            return resp;
+          }
         }
       };
       let others = recusiveSet(state.dropableData);
@@ -142,7 +128,7 @@ export const emailtemplateSlice = createSlice({
     ) => {
       let payload = action.payload;
       const recusiveUpdate = (data?: BlockDataType[]) => {
-        if (!data ) return;
+        if (!data) return;
         for (let item of data) {
           if (item.id === payload.block_id) {
             let temp = item.configs?.styles;
@@ -156,9 +142,38 @@ export const emailtemplateSlice = createSlice({
               });
               return;
             }
-          } 
-          if(item.blocks) {
-             recusiveUpdate(item.blocks);
+          }
+          if (item.blocks) {
+            recusiveUpdate(item.blocks);
+          }
+        }
+      };
+
+      recusiveUpdate(state.dropableData);
+    },
+
+    updateContent: (
+      state,
+      action: PayloadAction<{
+        content: string;
+        block_id: string;
+        type: "text" | "link";
+      }>
+    ) => {
+      let payload = action.payload;
+      const recusiveUpdate = (data?: BlockDataType[]) => {
+        if (!data || data.length === 0) return;
+        for (let item of data) {
+          if (item.id === payload.block_id) {
+            if (item.configs && item.configs.content) {
+              let type = payload.type;
+              item.configs.content[type] = payload.content;
+
+              return;
+            }
+          }
+          if (item.blocks) {
+            recusiveUpdate(item.blocks);
           }
         }
       };
@@ -173,13 +188,13 @@ export const {
   addBlock,
   removeBlock,
   addInlineBlock,
-  removeInlineBlock,
   updateSortedBlocks,
   updateInlineSortedBlocks,
   setActiveBlock,
   setcurrentElementType,
   setcurrentElementKey,
   updateStyle,
+  updateContent,
 } = emailtemplateSlice.actions;
 
 export default emailtemplateSlice.reducer;

@@ -13,6 +13,10 @@ export type BlockDataType = {
   name: BlockType;
   configs?: {
     styles?: BlockStyles;
+    content?:{
+      text?:string,
+      link?:string
+    }
     [key: string]: any;
   };
   blocks?: BlockDataType[];
