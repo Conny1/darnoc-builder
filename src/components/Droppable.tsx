@@ -20,7 +20,7 @@ function Droppable({ id, children, parent_id }: Props) {
   };
 
   return (
-    <div className="h-auto w-fit " ref={setNodeRef} style={style}>
+    <div className=" removable h-auto w-fit  " ref={setNodeRef} style={style}>
       {children}
     </div>
   );

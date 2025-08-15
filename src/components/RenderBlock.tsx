@@ -46,7 +46,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
             <div
               data-element-type="container"
               data-element-key="parent"
-              className={`    hover:border hover:border-dashed  m-0 p-0 h-fit w-fit  ${
+              className={` removable   hover:border hover:border-dashed  m-0 p-0 h-fit w-fit  ${
                 activeid === block.id ? "border" : null
               } `}
             >
@@ -82,7 +82,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
             <div
               data-element-type="container"
               data-element-key="column"
-              className={` inline-block  align-top hover:border hover:border-dashed  m-0 p-0 p-b h-fit w-fit  ${
+              className={` removable inline-block  align-top hover:border hover:border-dashed  m-0 p-0 p-b h-fit w-fit  ${
                 activeid === block.id ? "border" : null
               } `}
             >
@@ -113,7 +113,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
           <div
             data-element-type="text"
             data-element-key="text"
-            className={` inline-block  align-top hover:border hover:border-dashed  p-0 m-0 text-center  h-fit w-fit  ${
+            className={` removable inline-block  align-top hover:border hover:border-dashed  p-0 m-0 text-center  h-fit w-fit  ${
               activeid === block.id ? "border" : null
             } `}
           >
@@ -141,7 +141,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
           <div
             data-element-type="text"
             data-element-key="text"
-            className={` inline-block  align-top hover:border hover:border-dashed  p-0 m-0 text-center  h-fit w-fit  ${
+            className={`  removable inline-block  align-top hover:border hover:border-dashed  p-0 m-0 text-center  h-fit w-fit  ${
               activeid === block.id ? "border" : null
             } `}
           >
@@ -170,7 +170,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
           <div
             data-element-type="button"
             data-element-key="button"
-            className={` inline-block  align-top  hover:border hover:border-dashed  m-0 p-0 h-fit w-fit  ${
+            className={` removable inline-block  align-top  hover:border hover:border-dashed  m-0 p-0 h-fit w-fit  ${
               activeid === block.id ? "border" : null
             } `}
           >

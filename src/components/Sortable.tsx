@@ -27,15 +27,15 @@ export function SortableItem({ id, children}: Props) {
   };
 
   return (
-    <div style={style} className="relative w-fit  group h-fit   " >
+    <div style={style} className="removable relative w-fit  group h-fit   " >
       {/* Styled drag handle */}
       <button
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        className=" cursor-grab absolute -left-7 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-gray-200"
+        className=" removable cursor-grab absolute -left-7 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-gray-200"
       >
-        <GripVertical className="w-6 h-6  text-gray-500" />
+        <GripVertical className="  removable w-6 h-6  text-gray-500" />
       </button>
 
       {children}

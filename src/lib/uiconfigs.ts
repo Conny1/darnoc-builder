@@ -4,15 +4,15 @@ export const blockConfigs: BlockConfigs = {
   section: {
     styles: {
       parent: {
-        width: "630px",
-        maxWidth: "640px",
+        width: "600px",
+        maxWidth: "600px",
         height: "350px",
         backgroundColor: "#ffffff",
         paddingTop: "4px",
         paddingLeft: "4px",
         paddingBottom: "4px",
         paddingRight: "4px",
-        textAlign: "center",
+        textAlign: "justify",
         borderWidth: "0",
         borderRadius: "0px",
         borderColor: "#ffffff",
@@ -34,13 +34,13 @@ export const blockConfigs: BlockConfigs = {
       column: {
         width: "250px",
         height: "250px",
-        maxWidth: "500px",
+        maxWidth: "600px",
         backgroundColor: "#ffffff",
         paddingTop: "4px",
         paddingLeft: "4px",
         paddingBottom: "4px",
         paddingRight: "4px",
-        textAlign: "center",
+        textAlign: "justify",
         borderWidth: "0",
         borderRadius: "0px",
         borderColor: "#ffffff",
@@ -69,13 +69,14 @@ export const blockConfigs: BlockConfigs = {
         color: "#2c3e50",
         fontWeight: "normal",
         letterSpacing: "0.2px",
-        textAlign: "center",
+        textAlign: "justify",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
 
         // padding: "40px 20px",
-        border: "1px solid #e1e8f9",
+        // border: "1px solid #e1e8f9",
         //
         display: "inline-block",
+        verticalAlign:"top",
         paddingTop: "4px",
         paddingLeft: "4px",
         paddingBottom: "4px",
@@ -84,7 +85,7 @@ export const blockConfigs: BlockConfigs = {
         marginBottom: "4px",
         marginLeft: "4px",
         marginRight: "4px",
-        textTransform: "capitalize",
+        textTransform: "none",
         height:"auto",
         overflowWrap:"break-word"
       },
@@ -100,6 +101,7 @@ export const blockConfigs: BlockConfigs = {
       image: {
         width:"200px",
         display: "inline-block",
+        verticalAlign:"top",
         maxWidth: "100%",
         height: "110px",
       
@@ -146,6 +148,7 @@ export const blockConfigs: BlockConfigs = {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         //
         display: "inline-block",
+        verticalAlign:"top",
         marginTop: "4px",
         marginBottom: "4px",
         marginLeft: "4px",
