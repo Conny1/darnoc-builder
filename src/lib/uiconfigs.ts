@@ -5,13 +5,14 @@ export const blockConfigs: BlockConfigs = {
     styles: {
       parent: {
         width: "600px",
-        maxWidth: "600px",
-        height: "350px",
+        maxWidth: "100%",
+        minHeight:"150px",
+        height: "auto",
         backgroundColor: "#ffffff",
-        paddingTop: "4px",
-        paddingLeft: "4px",
-        paddingBottom: "4px",
-        paddingRight: "4px",
+        paddingTop: "0px",
+        paddingLeft: "0px",
+        paddingBottom: "0px",
+        paddingRight: "0px",
         textAlign: "justify",
         borderWidth: "0",
         borderRadius: "0px",
@@ -19,11 +20,11 @@ export const blockConfigs: BlockConfigs = {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         position: "static",
         fontWeight: "normal",
-        color: "#00000",
-        marginTop: "4px",
-        marginBottom: "4px",
-        marginLeft: "4px",
-        marginRight: "4px",
+        color: "#000000",
+        marginTop: "0px",
+        marginBottom: "0px",
+        marginLeft: "0px",
+        marginRight: "0px",
         fontSize: "0px",
       },
     },
@@ -34,7 +35,7 @@ export const blockConfigs: BlockConfigs = {
       column: {
         width: "250px",
         height: "250px",
-        maxWidth: "600px",
+        maxWidth: "100%",
         backgroundColor: "#ffffff",
         paddingTop: "4px",
         paddingLeft: "4px",
@@ -64,6 +65,7 @@ export const blockConfigs: BlockConfigs = {
     styles: {
       text: {
         width: "200px",
+        maxWidth:"95%",
         fontSize: "16px",
         lineHeight: "1.5",
         color: "#2c3e50",
@@ -102,7 +104,7 @@ export const blockConfigs: BlockConfigs = {
         width:"200px",
         display: "inline-block",
         verticalAlign:"top",
-        maxWidth: "100%",
+        maxWidth: "95%",
         height: "110px",
       
         borderWidth:"0px",
@@ -154,6 +156,7 @@ export const blockConfigs: BlockConfigs = {
         marginLeft: "4px",
         marginRight: "4px",
         textTransform: "capitalize",
+        maxWidth:"95%"
       },
     },
     content:{

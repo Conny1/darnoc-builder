@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Droppable from "./Droppable";
 import { BlockDataType, Droppableids } from "@/types";
 import Block from "./Block";
@@ -33,7 +33,25 @@ const Canva = () => {
   const [showCode, setshowCode] = useState(false);
   const [code, setcode] = useState("");
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">(
+    "desktop"
+  );
 
+  // Apply mobile scaling transform
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    if (previewMode === "mobile") {
+      const containerWidth = containerRef.current.offsetWidth;
+      const mobileWidth = 300; // Standard mobile width
+      const scale = mobileWidth / containerWidth;
+
+      containerRef.current.style.transform = `scale(${scale})`;
+      containerRef.current.style.transformOrigin = "top left";
+    } else {
+      containerRef.current.style.transform = "none";
+    }
+  }, [previewMode]);
   const generateCode = () => {
     if (!containerRef.current) {
       console.warn("Email container not found");
@@ -70,18 +88,35 @@ const Canva = () => {
       <div className="flex-1 flex flex-col items-center  ">
         <div className="flex w-full max-w-[800px] gap-3 bg-blue-300 p-3 items-center justify-center text-white ">
           <button
-            onClick={() => setshowCode(false)}
-            className=" cursor-pointer "
+            onClick={() => {
+              setPreviewMode("desktop");
+              setshowCode(false);
+            }}
+            className={` p-1 rounded-2xl cursor-pointer ${
+              !showCode && previewMode === "desktop"
+                ? "bg-blue-600"
+                : "bg-inherit"
+            } `}
           >
             <Monitor />
           </button>
-          <button className=" cursor-pointer ">
+          <button
+            onClick={() => {
+              setPreviewMode("mobile");
+              setshowCode(false);
+            }}
+            className={` p-1 rounded-2xl cursor-pointer ${
+              !showCode && previewMode === "mobile"
+                ? "bg-blue-600"
+                : "bg-inherit"
+            } `}
+          >
             <Smartphone />
           </button>
 
-          <button onClick={generateCode} className=" cursor-pointer  ">
+      { previewMode !=="mobile" &&   <button onClick={generateCode} className=" cursor-pointer  ">
             <Code />
-          </button>
+          </button>}
         </div>
         {showCode ? (
           <DisplayCode code={code} />
@@ -90,29 +125,28 @@ const Canva = () => {
             <SortableContext
               items={dropableData}
               strategy={verticalListSortingStrategy}
-            > 
-            <div className=" inline-block w-fit h-fit p-3 border-2 border-dashed border-gray-300 bg-white" >
-               <div
-                ref={containerRef}
-                style={{
-                  display: "inline-block",
-                   textAlign:"center",
-                  minHeight: "90vh",
-                  width: "601px",
-                // Tailwind's gray-300
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                {dropableData.length === 0 ? (
-                  <p className="text-gray-400 text-center text-sm py-10">
-                    📨 Drop your blocks here to start building
-                  </p>
-                ) : (
-                  dropableData.map((item, i) => <Block key={i} item={item} />)
-                )}
+            >
+              <div className=" h-[90vh] p-3 border-2 border-dashed border-gray-300 bg-red">
+                <div
+                  ref={containerRef}
+                  style={{
+                    display: "inline-block",
+                    textAlign: "center",
+                    width: "601px",
+                    maxWidth: "100%",
+                    height:"100%",
+                    backgroundColor: "#ffffff",
+                  }}
+                >
+                  {dropableData.length === 0 ? (
+                    <p className="text-gray-400 text-center text-sm py-10">
+                      📨 Drop your blocks here to start building
+                    </p>
+                  ) : (
+                    dropableData.map((item, i) => <Block key={i} item={item} />)
+                  )}
+                </div>
               </div>
-            </div>
-             
             </SortableContext>
           </Droppable>
         )}

@@ -206,7 +206,7 @@ useEffect(() => {
       </h3>
 
       {/* Dimensions */}
-      <Section title="Dimensions (px only)">
+   { activeBlock?.name !=="section" &&    <Section title="Dimensions (px only)">
         <div className="grid grid-cols-2 gap-2">
           {activeKey === "column" && (
             <div>
@@ -230,7 +230,7 @@ useEffect(() => {
                 />
           </div>
         </div>
-      </Section>
+      </Section>}
 
       {/* Padding */}
       <Section title="Padding (px)">
