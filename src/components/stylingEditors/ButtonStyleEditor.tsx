@@ -1,7 +1,7 @@
 import { removeCSSvalues } from "@/lib/uiconfigs";
 import { updateContent, updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
-import React, { ChangeEvent, useEffect, useMemo } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
@@ -205,7 +205,7 @@ const ButtonStyleEditor = () => {
             placeholder="Click Me"
             value={text}
             onChange={(e) => {
-              let val = e.target.value as string;
+              const val = e.target.value as string;
               if (val.length === 0) return;
 
               settext(() => val);
@@ -232,7 +232,7 @@ const ButtonStyleEditor = () => {
           <ColorInput
             name="color"
             value={names.color}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div>
@@ -271,11 +271,11 @@ const ButtonStyleEditor = () => {
           <ColorInput
             name="backgroundColor"
             value={names.backgroundColor}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div>
-          <Label text="Border Radius (px)" />
+          <Label text="Border Radius (" />
           <NumberInput
             name="borderRadius"
             placeholder="4"
@@ -288,11 +288,11 @@ const ButtonStyleEditor = () => {
           <ColorInput
             name="borderColor"
             value={names.borderColor}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div>
-          <Label text="Border Width (px)" />
+          <Label text="Border Width " />
           <NumberInput
             name="borderWidth"
             placeholder="1"
@@ -303,7 +303,7 @@ const ButtonStyleEditor = () => {
       </Section>
 
       {/* Padding */}
-      <Section title="Padding (px)">
+      <Section title="Padding ">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `padding${pos}` as const;
@@ -323,7 +323,7 @@ const ButtonStyleEditor = () => {
       </Section>
 
       {/* Margin */}
-      <Section title="Margin (px)">
+      <Section title="Margin">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `margin${pos}` as const;

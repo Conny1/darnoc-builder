@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Layout,
   Columns,
   Type,
   ImageIcon,
   TextCursor,
-  Minus,
-  Table,
-  Code,
+
 } from "lucide-react"; // replace with your actual icon imports
 import Draggable from "./Draggable";
 

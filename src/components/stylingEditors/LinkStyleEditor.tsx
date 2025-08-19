@@ -199,7 +199,7 @@ const LinkStyleEditor = () => {
           <ColorInput
             name="textColor"
             value={names.textColor}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e )}
           />
         </div>
         <div>
@@ -207,7 +207,7 @@ const LinkStyleEditor = () => {
           <ColorInput
             name="backgroundColor"
             value={names.backgroundColor}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e)}
           />
         </div>
       </Section>

@@ -1,6 +1,6 @@
 "use client";
 import { Canva, Sidebar } from "@/components";
-import React, { useState } from "react";
+import React from "react";
 import {
   closestCenter,
   DndContext,
@@ -10,7 +10,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { BlockType, Droppableids } from "@/types";
+import {  BlockType, Droppableids } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
@@ -32,47 +32,58 @@ const Dashboard = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  function handleSortEvent(event: DragEndEvent, isParent: Boolean) {
+  function handleSortEvent(event: DragEndEvent) {
     const { active, over } = event;
 
-    if (active.id !== over?.id && isParent) {
+    if (active.id !== over?.id) {
+      console.log(
+        over?.id,
+        "active",
+        active.id,
+        "parent",
+        active?.data.current?.parent_id
+      );
+  if( !active?.data.current?.parent_id){
       const oldIndex = dropableData.findIndex((item) => item.id === active.id);
       const newIndex = dropableData.findIndex((item) => item.id === over?.id);
+      // console.log("working", oldIndex, newIndex,)
       return dispatch(
         updateSortedBlocks(arrayMove(dropableData, oldIndex, newIndex))
       );
-    }
 
-  
+  } 
+  if(active.data.current?.parent_id){
+    const id = active.data.current?.parent_id
+    const over_id = over?.id as string
+     const active_id = active.id as string
+    dispatch(updateInlineSortedBlocks({parent_id:id,over_id, active_id}))
+  }
+    
+    }
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
-    let date = new Date().toISOString();
+    const date = new Date().toISOString();
 
-    let { over, active } = event;
+    const { over, active } = event;
     if (over && active) {
-      let movable_id = active.id as string;
+      const movable_id = active.id as string;
       let name: BlockType = "text";
       let type;
-      let isParent = true;
       if (active.data?.current && "type" in active?.data.current) {
         type = active.data.current.type;
       }
-      if (active.data?.current && "isParent" in active?.data.current) {
-        isParent = active.data.current.isParent;
-      }
+
       if (active.data?.current && "name" in active?.data.current) {
         name = active.data.current.name;
       }
 
-      let droppable_id = (over.id as string).split("-")[0];
-      console.log( over.id , over.data.current?.parent_id, "active", active.id);
-      if (
-        over?.id === over.data.current?.parent_id+Droppableids.inline
-      ) {
+      const droppable_id = (over.id as string).split("-")[0];
+      // console.log( over.id , over.data.current?.parent_id, "active", active.id);
+      if (over?.id === over.data.current?.parent_id + Droppableids.inline) {
         // alert(over.data.current.parentindex);
         if (over.data.current) {
-          let parent_id = String(over.data.current.parent_id);
+          const parent_id = String(over.data.current.parent_id);
 
           dispatch(
             addInlineBlock({
@@ -88,7 +99,7 @@ const Dashboard = () => {
         dispatch(addBlock({ id: `${movable_id}-${date}`, name: name }));
       }
       if (type === "sortable") {
-        return handleSortEvent(event, isParent);
+        return handleSortEvent(event);
       }
     }
   };

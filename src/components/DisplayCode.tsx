@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 
 function DisplayCode({code}:{code:string}) {
 

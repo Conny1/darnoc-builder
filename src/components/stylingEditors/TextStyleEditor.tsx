@@ -234,7 +234,7 @@ const TextStyleEditor = () => {
       {/* Dimentions */}
       <Section title="Width">
         <div>
-          <Label text=" Width (px)" />
+          <Label text=" Width " />
           <NumberInput
             name="width"
             placeholder="16"
@@ -247,7 +247,7 @@ const TextStyleEditor = () => {
       {/* Typography */}
       <Section title="Typography">
         <div>
-          <Label text="Font Size (px)" />
+          <Label text="Font Size" />
           <NumberInput
             name="fontSize"
             placeholder="16"
@@ -273,7 +273,7 @@ const TextStyleEditor = () => {
           <ColorInput
             name="color"
             value={names.color}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e)}
           />
         </div>
 
@@ -336,7 +336,7 @@ const TextStyleEditor = () => {
       </Section>
 
       {/* Padding */}
-      <Section title="Padding (px)">
+      <Section title="Padding ">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `padding${pos}` as const;
@@ -356,7 +356,7 @@ const TextStyleEditor = () => {
       </Section>
 
       {/* Margin */}
-      <Section title="Margin (px)">
+      <Section title="Margin ">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `margin${pos}` as const;

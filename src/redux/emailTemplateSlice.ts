@@ -1,5 +1,6 @@
 import { blockConfigs } from "@/lib/uiconfigs";
-import { BlockDataType, BlockType } from "@/types";
+import { BlockDataType } from "@/types";
+import { arrayMove } from "@dnd-kit/sortable";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -22,7 +23,7 @@ export const emailtemplateSlice = createSlice({
   initialState,
   reducers: {
     addBlock: (state, action: PayloadAction<BlockDataType>) => {
-      let data: BlockDataType = action.payload;
+      const data: BlockDataType = action.payload;
       if (data.name in blockConfigs) {
         data.configs = blockConfigs[data.name];
       }
@@ -30,33 +31,52 @@ export const emailtemplateSlice = createSlice({
       state.dropableData.push(data);
     },
     updateSortedBlocks: (state, action: PayloadAction<BlockDataType[]>) => {
-      let data: BlockDataType[] = action.payload;
+      const data: BlockDataType[] = action.payload;
       state.dropableData = data;
     },
     updateInlineSortedBlocks: (
       state,
-      action: PayloadAction<{ data: BlockDataType[]; parent_id: string }>
+      action: PayloadAction<{
+        parent_id: string;
+        over_id: string;
+        active_id: string;
+      }>
     ) => {
-      let data: BlockDataType[] = action.payload.data;
-      let parent_id = action.payload.parent_id;
-      state.dropableData.map((item) => {
-        if (item.id === parent_id) {
-          item.blocks = data;
-        }
-      });
+      const payload = action.payload;
+      function swapNodes(data?: BlockDataType[]):BlockDataType[] | undefined {
+        if (!data) return;
+        return data.map((item) => {
+          if (item.id === payload.parent_id && item.blocks) {
+            const oldIndex = item.blocks.findIndex(
+              (val) => val.id === payload.active_id
+            );
+            const newIndex = item.blocks.findIndex(
+              (val) => val.id === payload.over_id
+            );
+            item.blocks = arrayMove(item.blocks, oldIndex, newIndex);
+            return item
+          }
+          return {
+            ...item,
+            blocks: swapNodes(item.blocks),
+          };
+        });
+      }
+
+      swapNodes(state.dropableData)
     },
     addInlineBlock: (
       state,
       action: PayloadAction<{ parent_id: string; data: BlockDataType }>
     ) => {
-      let data = action.payload;
+      const data = action.payload;
       const recisiveUpdate = (blocks?: BlockDataType[]) => {
         if (!blocks) return;
         console.log("recusive running, inline block");
-        for (let item of blocks) {
+        for (const item of blocks) {
           console.log("running");
           if (item.id === data.parent_id) {
-            let ph = { ...data.data, configs: blockConfigs[data.data.name] };
+            const ph = { ...data.data, configs: blockConfigs[data.data.name] };
             if (item.blocks) {
               item.blocks.push(ph);
             } else {
@@ -70,8 +90,6 @@ export const emailtemplateSlice = createSlice({
       };
       recisiveUpdate(state.dropableData);
     },
-
-
 
     removeBlock: (state, action: PayloadAction<string>) => {
       const id = action.payload;
@@ -92,17 +110,17 @@ export const emailtemplateSlice = createSlice({
         data?: BlockDataType[]
       ): BlockDataType | undefined => {
         if (!data) return undefined;
-        for (let item of data) {
+        for (const item of data) {
           if (item.id === action.payload) {
             return item;
           }
-          let resp = recusiveSet(item.blocks);
+          const resp = recusiveSet(item.blocks);
           if (resp) {
             return resp;
           }
         }
       };
-      let others = recusiveSet(state.dropableData);
+      const others = recusiveSet(state.dropableData);
 
       state.activeBlock = others || null;
     },
@@ -126,12 +144,12 @@ export const emailtemplateSlice = createSlice({
         block_id: string;
       }>
     ) => {
-      let payload = action.payload;
+      const payload = action.payload;
       const recusiveUpdate = (data?: BlockDataType[]) => {
         if (!data) return;
-        for (let item of data) {
+        for (const item of data) {
           if (item.id === payload.block_id) {
-            let temp = item.configs?.styles;
+            const temp = item.configs?.styles;
             if (temp) {
               temp[payload.key] = {
                 ...temp[payload.key],
@@ -160,13 +178,13 @@ export const emailtemplateSlice = createSlice({
         type: "text" | "link";
       }>
     ) => {
-      let payload = action.payload;
+      const payload = action.payload;
       const recusiveUpdate = (data?: BlockDataType[]) => {
         if (!data || data.length === 0) return;
-        for (let item of data) {
+        for (const item of data) {
           if (item.id === payload.block_id) {
             if (item.configs && item.configs.content) {
-              let type = payload.type;
+              const type = payload.type;
               item.configs.content[type] = payload.content;
 
               return;

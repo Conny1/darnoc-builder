@@ -33,7 +33,7 @@ export const blockConfigs: BlockConfigs = {
   column: {
     styles: {
       column: {
-        width: "250px",
+        width: "295px",
         height: "250px",
         maxWidth: "100%",
         backgroundColor: "#ffffff",
@@ -49,12 +49,13 @@ export const blockConfigs: BlockConfigs = {
         position: "static",
         fontWeight: "normal",
         color: "#00000",
-        marginTop: "4px",
-        marginBottom: "4px",
-        marginLeft: "4px",
-        marginRight: "4px",
+        marginTop: "0px",
+        marginBottom: "0px",
+        marginLeft: "0px",
+        marginRight: "0px",
         // constants
         display: "inline-block",
+        
         verticalAlign: "top",
         // fontSize:"0px"
       },
@@ -229,12 +230,12 @@ export const blockConfigs: BlockConfigs = {
 export const removeCSSvalues = (style: string) => {
   let newVal = style;
   if (style?.includes("px")) {
-    let temp = style.split("px");
+    const temp = style.split("px");
     newVal = temp[0];
   }
 
   if (style?.includes("%")) {
-    let temp = style.split("%");
+    const temp = style.split("%");
     newVal = temp[0];
   }
 

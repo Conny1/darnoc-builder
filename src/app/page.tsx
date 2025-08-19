@@ -6,7 +6,6 @@ import {
   Smartphone,
   Palette,
   Zap,
-  Users,
   CheckCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";

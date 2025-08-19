@@ -1,7 +1,7 @@
 import { removeCSSvalues } from "@/lib/uiconfigs";
 import { updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
-import React, { ChangeEvent, CSSProperties, useEffect } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
@@ -107,37 +107,34 @@ const ContainerStyleEditor = () => {
   const activeKey = useSelector(
     (state: RootState) => state.email.currentElementKey
   );
-  let style:Record<string, string > ={}
-  if(activeKey){
-    if(activeBlock?.configs?.styles){
-      style = activeBlock?.configs?.styles[activeKey] as Record<string,  string > 
-    
-
+  let style: Record<string, string> = {};
+  if (activeKey) {
+    if (activeBlock?.configs?.styles) {
+      style = activeBlock?.configs?.styles[activeKey] as Record<string, string>;
     }
-
   }
 
   // central state object named "names"
   const [names, setNames] = React.useState<Record<string, string>>({
-    width: removeCSSvalues(style?.width ) ,
-    height:  removeCSSvalues(style?.height ) ,
-    paddingTop:  removeCSSvalues(style?.paddingTop ) , 
-    paddingRight:  removeCSSvalues(style?.paddingRight) ,
-    paddingBottom:  removeCSSvalues(style?.paddingBottom ) ,
-    paddingLeft:  removeCSSvalues(style?.paddingLeft ) ,
-    marginTop:  removeCSSvalues(style?.marginTop ) ,
-    marginRight:  removeCSSvalues(style?.marginRight ) ,
-    marginBottom:  removeCSSvalues(style?.margingBottom) ,
-    marginLeft:  removeCSSvalues(style?.marginLeft ) ,
-    backgroundColor:  removeCSSvalues(style?.backgroundColor ) ,
-    backgroundImage:  removeCSSvalues(style?.backgroundImage ) ,
-    borderWidth:  removeCSSvalues(style?.borderWidth ) ,
-    borderColor:  removeCSSvalues(style?.borderColor ) ,
-    borderRadius:  removeCSSvalues(style?.borderRadius ) ,
-    textAlign:  removeCSSvalues(style?.textAlign ) ,
-    fontSize:  removeCSSvalues(style?.fontSize) ,
-    fontWeight:  removeCSSvalues(style?.fontWeight ) ,
-    fontColor:  removeCSSvalues(style?.color ) ,
+    width: removeCSSvalues(style?.width),
+    height: removeCSSvalues(style?.height),
+    paddingTop: removeCSSvalues(style?.paddingTop),
+    paddingRight: removeCSSvalues(style?.paddingRight),
+    paddingBottom: removeCSSvalues(style?.paddingBottom),
+    paddingLeft: removeCSSvalues(style?.paddingLeft),
+    marginTop: removeCSSvalues(style?.marginTop),
+    marginRight: removeCSSvalues(style?.marginRight),
+    marginBottom: removeCSSvalues(style?.margingBottom),
+    marginLeft: removeCSSvalues(style?.marginLeft),
+    backgroundColor: removeCSSvalues(style?.backgroundColor),
+    backgroundImage: removeCSSvalues(style?.backgroundImage),
+    borderWidth: removeCSSvalues(style?.borderWidth),
+    borderColor: removeCSSvalues(style?.borderColor),
+    borderRadius: removeCSSvalues(style?.borderRadius),
+    textAlign: removeCSSvalues(style?.textAlign),
+    fontSize: removeCSSvalues(style?.fontSize),
+    fontWeight: removeCSSvalues(style?.fontWeight),
+    fontColor: removeCSSvalues(style?.color),
   });
   const dispatch = useDispatch();
   const handleChange = (
@@ -149,8 +146,8 @@ const ContainerStyleEditor = () => {
       name.includes("padding") ||
       name.includes("margin") ||
       name.includes("borderWid") ||
-       name.includes("widt") ||
-        name.includes("height") ||
+      name.includes("height") ||
+      name.includes("widt") ||
       name.includes("borderRadi")
     ) {
       newVal += "px";
@@ -173,31 +170,29 @@ const ContainerStyleEditor = () => {
 
   // array of all name values (formerly "values")
   // const namesArray = useMemo(() => Object.values(names), [names]);
-useEffect(() => {
-  setNames({
-    width: removeCSSvalues(style?.width ) ,
-    height:  removeCSSvalues(style?.height ) ,
-    paddingTop:  removeCSSvalues(style?.paddingTop ) , 
-    paddingRight:  removeCSSvalues(style?.paddingRight) ,
-    paddingBottom:  removeCSSvalues(style?.paddingBottom ) ,
-    paddingLeft:  removeCSSvalues(style?.paddingLeft ) ,
-    marginTop:  removeCSSvalues(style?.marginTop ) ,
-    marginRight:  removeCSSvalues(style?.marginRight ) ,
-    marginBottom:  removeCSSvalues(style?.marginBottom) ,
-    marginLeft:  removeCSSvalues(style?.marginLeft ) ,
-    backgroundColor:  removeCSSvalues(style?.backgroundColor ) ,
-    backgroundImage:  removeCSSvalues(style?.backgroundImage ) ,
-    borderWidth:  removeCSSvalues(style?.borderWidth ) ,
-    borderColor:  removeCSSvalues(style?.borderColor ) ,
-    borderRadius:  removeCSSvalues(style?.borderRadius ) ,
-    textAlign:  removeCSSvalues(style?.textAlign ) ,
-    fontSize:  removeCSSvalues(style?.fontSize) ,
-    fontWeight:  removeCSSvalues(style?.fontWeight ) ,
-    fontColor:  removeCSSvalues(style?.color ) ,
-  })
-
- 
-}, [activeBlock])
+  useEffect(() => {
+    setNames({
+      width: removeCSSvalues(style?.width),
+      height: removeCSSvalues(style?.height),
+      paddingTop: removeCSSvalues(style?.paddingTop),
+      paddingRight: removeCSSvalues(style?.paddingRight),
+      paddingBottom: removeCSSvalues(style?.paddingBottom),
+      paddingLeft: removeCSSvalues(style?.paddingLeft),
+      marginTop: removeCSSvalues(style?.marginTop),
+      marginRight: removeCSSvalues(style?.marginRight),
+      marginBottom: removeCSSvalues(style?.marginBottom),
+      marginLeft: removeCSSvalues(style?.marginLeft),
+      backgroundColor: removeCSSvalues(style?.backgroundColor),
+      backgroundImage: removeCSSvalues(style?.backgroundImage),
+      borderWidth: removeCSSvalues(style?.borderWidth),
+      borderColor: removeCSSvalues(style?.borderColor),
+      borderRadius: removeCSSvalues(style?.borderRadius),
+      textAlign: removeCSSvalues(style?.textAlign),
+      fontSize: removeCSSvalues(style?.fontSize),
+      fontWeight: removeCSSvalues(style?.fontWeight),
+      fontColor: removeCSSvalues(style?.color),
+    });
+  }, [activeBlock]);
 
   return (
     <div className="w-full max-w-sm bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
@@ -206,34 +201,36 @@ useEffect(() => {
       </h3>
 
       {/* Dimensions */}
-   { activeBlock?.name !=="section" &&    <Section title="Dimensions (px only)">
-        <div className="grid grid-cols-2 gap-2">
-          {activeKey === "column" && (
-            <div>
-              <Label text="Width" />
-              <NumberInput
+      {activeBlock?.name !== "section" && (
+        <Section title="Dimensions">
+          <div className="grid grid-cols-2 gap-2">
+            {activeKey === "column" && (
+              <div>
+                <Label text="Width" />
+                <NumberInput
                   name="width"
-                  placeholder="350px"
+                  placeholder="eg 350"
                   value={names.width || ""}
                   onChange={handleChange}
                 />
-            </div>
-          )}
-          <div>
-            <Label text="Height" />
+              </div>
+            )}
+            <div>
+              <Label text="Height" />
 
-           <NumberInput
-                  name="height"
-                  placeholder="350px"
-                  value={names.height|| ""}
-                  onChange={handleChange}
-                />
+              <NumberInput
+                name="height"
+                placeholder="eg 350"
+                value={names.height || ""}
+                onChange={handleChange}
+              />
+            </div>
           </div>
-        </div>
-      </Section>}
+        </Section>
+      )}
 
       {/* Padding */}
-      <Section title="Padding (px)">
+      <Section title="Padding">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `padding${pos}` as const;
@@ -253,7 +250,7 @@ useEffect(() => {
       </Section>
 
       {/* Margin */}
-      <Section title="Margin (px)">
+      <Section title="Margin ">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `margin${pos}` as const;
@@ -279,7 +276,7 @@ useEffect(() => {
           <ColorInput
             name="backgroundColor"
             value={names.backgroundColor}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div className="space-y-1">
@@ -310,7 +307,7 @@ useEffect(() => {
             <ColorInput
               name="borderColor"
               value={names.borderColor}
-              onChange={(e) => handleChange(e as any)}
+              onChange={(e) => handleChange(e)}
             />
           </div>
           <div>
@@ -332,7 +329,7 @@ useEffect(() => {
           <SelectInput
             name="textAlign"
             value={names.textAlign}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e)}
             options={[
               { label: "Left", value: "left" },
               { label: "Center", value: "center" },

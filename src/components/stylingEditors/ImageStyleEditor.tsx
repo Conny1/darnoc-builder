@@ -1,7 +1,7 @@
 import { removeCSSvalues } from "@/lib/uiconfigs";
 import { updateContent, updateStyle } from "@/redux/emailTemplateSlice";
 import { RootState } from "@/redux/store";
-import React, { ChangeEvent, useEffect, useMemo } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Label = ({ text }: { text: string }) => (
@@ -240,7 +240,7 @@ const ImageStyleEditor = () => {
           <ColorInput
             name="borderColor"
             value={names.borderColor}
-            onChange={(e) => handleChange(e as any)}
+            onChange={(e) => handleChange(e )}
           />
         </div>
         <div>

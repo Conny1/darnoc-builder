@@ -1,27 +1,16 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Droppable from "./Droppable";
-import { BlockDataType, Droppableids } from "@/types";
+import {  Droppableids } from "@/types";
 import Block from "./Block";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+
 import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { SortableItem } from "./Sortable";
-import { updateSortedBlocks } from "@/redux/emailTemplateSlice";
+
 import StyleEditor from "./StyleEditor";
 import { Code, Monitor, Smartphone } from "lucide-react";
 import DisplayCode from "./DisplayCode";
@@ -132,8 +121,8 @@ const Canva = () => {
                   style={{
                     display: "inline-block",
                     textAlign: "center",
-                    width: "601px",
-                    maxWidth: "100%",
+                    width: "600px",
+                    maxWidth: "95%",
                     height:"100%",
                     backgroundColor: "#ffffff",
                   }}

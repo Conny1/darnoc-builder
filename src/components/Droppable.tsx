@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDroppable } from "@dnd-kit/core";
 type Props = {
   id: string;
   children: React.ReactNode;
-  parent_id?: String;
+  parent_id?: string;
 };
 function Droppable({ id, children, parent_id }: Props) {
-  const { isOver, setNodeRef } = useDroppable({
+  const {  setNodeRef } = useDroppable({
     id: id,
     data: {
       parent_id,

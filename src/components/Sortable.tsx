@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React  from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
@@ -6,14 +6,16 @@ import { GripVertical } from "lucide-react";
 type Props = {
   id: string;
   children: React.ReactNode;
+  parent_id?:string
 };
 
-export function SortableItem({ id, children}: Props) {
+export function SortableItem({ id, children,parent_id}: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: id,
       data: {
         type: "sortable",
+        parent_id
       },
     });
 

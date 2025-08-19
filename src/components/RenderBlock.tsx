@@ -1,5 +1,5 @@
-import { BlockDataType, BlockType, Droppableids } from "@/types";
-import React, { JSX, useEffect, useState } from "react";
+import { BlockDataType,  Droppableids } from "@/types";
+import React, { JSX } from "react";
 import Droppable from "./Droppable";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,21 +10,22 @@ import {
 import { RootState } from "@/redux/store";
 import "../app/globals.css";
 import { SortableItem } from "./Sortable";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 type Props = {
   block: BlockDataType;
+  parent_id?: string;
 };
 
-const RenderBlock = ({ block }: Props): JSX.Element | null => {
-  const [active, setactive] = useState(false);
-  const [closeChild, setcloseChild] = useState(false);
+const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
   const dispatch = useDispatch();
   const activeid = useSelector(
     (state: RootState) => state.email.activeBlock?.id
   );
-  const activeKey = useSelector(
-    (state: RootState) => state.email.currentElementKey
-  );
+
   const handleClick = (e: React.MouseEvent) => {
     const elementType = (e.target as HTMLElement).getAttribute(
       "data-element-type"
@@ -41,8 +42,8 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
   switch (block.name) {
     case "section":
       return (
-        <SortableItem id={block.id} >
-          <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
+        <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
+          <SortableItem id={block.id} parent_id={parent_id}>
             <div
               data-element-type="container"
               data-element-key="parent"
@@ -53,8 +54,6 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
               <div
                 onClick={(e) => {
                   e.stopPropagation();
-
-                  setactive((prev) => !prev);
                   dispatch(setActiveBlock(block.id));
                   handleClick(e);
                 }}
@@ -62,23 +61,32 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
                 data-element-type="container"
                 data-element-key="parent"
               >
-                {block?.blocks && block.blocks.length === 0 ? (
-                  <p>Section Container</p>
-                ) : (
-                  block.blocks?.map((child) => (
-                    <RenderBlock key={child.id} block={child} />
-                  ))
-                )}
+                <SortableContext
+                  items={block.blocks || []}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {block?.blocks && block.blocks.length === 0 ? (
+                    <p>Section Container</p>
+                  ) : (
+                    block.blocks?.map((child) => (
+                      <RenderBlock
+                        key={child.id}
+                        block={child}
+                        parent_id={block.id}
+                      />
+                    ))
+                  )}
+                </SortableContext>
               </div>
             </div>
-          </Droppable>
-        </SortableItem>
+          </SortableItem>
+        </Droppable>
       );
 
     case "column":
       return (
-        <SortableItem id={block.id} >
-          <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
+        <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
+          <SortableItem id={block.id} parent_id={parent_id}>
             <div
               data-element-type="container"
               data-element-key="column"
@@ -90,7 +98,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
                 onClick={(e) => {
                   e.stopPropagation();
 
-                  setactive((prev) => !prev);
+                  
                   dispatch(setActiveBlock(block.id));
                   handleClick(e);
                 }}
@@ -98,18 +106,23 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
                 data-element-type="container"
                 data-element-key="column"
               >
-                {block.blocks?.map((child) => (
-                  <RenderBlock key={child.id} block={child} />
-                ))}
+                <SortableContext
+                  items={block.blocks || []}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {block.blocks?.map((child) => (
+                    <RenderBlock key={child.id} block={child} parent_id={block.id} />
+                  ))}
+                </SortableContext>
               </div>
             </div>
-          </Droppable>
-        </SortableItem>
+          </SortableItem>
+        </Droppable>
       );
 
     case "text":
       return (
-        <SortableItem id={block.id} >
+        <SortableItem id={block.id} parent_id={parent_id}>
           <div
             data-element-type="text"
             data-element-key="text"
@@ -121,7 +134,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
               onClick={(e) => {
                 e.stopPropagation();
 
-                setactive((prev) => !prev);
+                
                 dispatch(setActiveBlock(block.id));
                 handleClick(e);
               }}
@@ -137,7 +150,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
 
     case "image":
       return (
-        <SortableItem id={block.id} >
+        <SortableItem id={block.id} parent_id={parent_id}>
           <div
             data-element-type="text"
             data-element-key="text"
@@ -148,7 +161,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
             <img
               onClick={(e) => {
                 e.stopPropagation();
-                setactive((prev) => !prev);
+                
                 dispatch(setActiveBlock(block.id));
                 handleClick(e);
               }}
@@ -166,7 +179,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
 
     case "button":
       return (
-        <SortableItem id={block.id} >
+        <SortableItem id={block.id} parent_id={parent_id}>
           <div
             data-element-type="button"
             data-element-key="button"
@@ -178,7 +191,7 @@ const RenderBlock = ({ block }: Props): JSX.Element | null => {
               onClick={(e) => {
                 e.stopPropagation();
 
-                setactive((prev) => !prev);
+                
                 dispatch(setActiveBlock(block.id));
                 handleClick(e);
               }}
