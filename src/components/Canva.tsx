@@ -115,16 +115,17 @@ const Canva = () => {
               items={dropableData}
               strategy={verticalListSortingStrategy}
             >
-              <div className=" h-[90vh] p-3 border-2 border-dashed border-gray-300 bg-red">
+              <div className=" h-[90vh]  border-2 border-dashed border-gray-300 bg-red flex  justify-center ">
                 <div
                   ref={containerRef}
                   style={{
                     display: "inline-block",
+                    margin:" 0px auto",
                     textAlign: "center",
-                    width: "600px",
-                    maxWidth: "95%",
+                    width: "602px",
+                    maxWidth: "100%",
                     height:"100%",
-                    backgroundColor: "#ffffff",
+                    backgroundColor: "inherit",
                   }}
                 >
                   {dropableData.length === 0 ? (

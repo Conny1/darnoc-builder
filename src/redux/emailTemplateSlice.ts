@@ -151,6 +151,16 @@ export const emailtemplateSlice = createSlice({
           if (item.id === payload.block_id) {
             const temp = item.configs?.styles;
             if (temp) {
+              // update width of the column parent component -unique to column
+            const parent = item.configs?.styles?.parent
+            
+            if(parent && payload.styleKey === "width" && payload.key !== "section" ){
+            
+              parent["maxWidth"] = payload.styleValue
+    
+              return
+            }
+            // other styles updating
               temp[payload.key] = {
                 ...temp[payload.key],
                 [payload.styleKey]: payload.styleValue,

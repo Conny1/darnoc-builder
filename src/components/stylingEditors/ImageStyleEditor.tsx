@@ -83,13 +83,16 @@ const ImageStyleEditor = () => {
     (state: RootState) => state.email.currentElementKey
   );
   let style: Record<string, string> = {};
+  let width = "40%";
   if (activeKey) {
     if (activeBlock?.configs?.styles) {
       style = activeBlock?.configs?.styles[activeKey] as Record<string, string>;
+      width = (activeBlock?.configs?.styles["parent"].maxWidth ||
+        activeBlock?.configs?.styles[activeKey].width) as string;
     }
   }
   const [names, setNames] = React.useState<Record<string, string>>({
-    width: removeCSSvalues(style?.width),
+    width: removeCSSvalues(width),
     height: removeCSSvalues(style?.height),
     borderRadius: removeCSSvalues(style?.borderRadius),
     borderColor: removeCSSvalues(style?.borderColor),
@@ -109,7 +112,7 @@ const ImageStyleEditor = () => {
 
   useEffect(() => {
     setNames({
-      width: removeCSSvalues(style?.width),
+      width: removeCSSvalues(width),
       height: removeCSSvalues(style?.height),
       borderRadius: removeCSSvalues(style?.borderRadius),
       borderColor: removeCSSvalues(style?.borderColor),
@@ -138,8 +141,8 @@ const ImageStyleEditor = () => {
       name.includes("borderRadi") ||
       name.includes("fontSi") ||
       name.includes("letterSpaci") ||
-      name.includes("width") ||
-      name.includes("height")
+      name.includes("height") ||
+      name.includes("width")
     ) {
       newVal += "px";
     }
@@ -181,7 +184,11 @@ const ImageStyleEditor = () => {
               onClick={() => {
                 if (activeBlock?.id && link) {
                   dispatch(
-                    updateContent({ content: link, block_id: activeBlock?.id, type:"link" })
+                    updateContent({
+                      content: link,
+                      block_id: activeBlock?.id,
+                      type: "link",
+                    })
                   );
                 }
               }}
@@ -240,7 +247,7 @@ const ImageStyleEditor = () => {
           <ColorInput
             name="borderColor"
             value={names.borderColor}
-            onChange={(e) => handleChange(e )}
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div>

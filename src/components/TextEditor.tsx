@@ -1,4 +1,3 @@
-import "../app/styles.scss";
 import { Content, EditorContent, useEditor } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
@@ -13,7 +12,7 @@ const TextEditor = ({ element }: Props) => {
     immediatelyRender: false,
     content: element,
   });
-
+  
   const [showMenu] = React.useState(true);
 
   useEffect(() => {

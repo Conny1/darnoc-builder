@@ -29,7 +29,7 @@ export function SortableItem({ id, children,parent_id}: Props) {
   };
 
   return (
-    <div style={style} className="removable relative w-fit  group h-fit   " >
+    <div style={style} className="removable relative w-full  group h-fit   " >
       {/* Styled drag handle */}
       <button
         ref={setNodeRef}

@@ -1,4 +1,4 @@
-import { BlockDataType,  Droppableids } from "@/types";
+import { BlockDataType, Droppableids } from "@/types";
 import React, { JSX } from "react";
 import Droppable from "./Droppable";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,18 +45,18 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
         <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
           <SortableItem id={block.id} parent_id={parent_id}>
             <div
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(setActiveBlock(block.id));
+                handleClick(e);
+              }}
               data-element-type="container"
               data-element-key="parent"
-              className={` removable   hover:border hover:border-dashed  m-0 p-0 h-fit w-fit  ${
+              className={`  removable  hover:border hover:border-dashed  m-0 p-0 h-fit w-full    ${
                 activeid === block.id ? "border" : null
               } `}
             >
               <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setActiveBlock(block.id));
-                  handleClick(e);
-                }}
                 style={block.configs?.styles?.parent}
                 data-element-type="container"
                 data-element-key="parent"
@@ -85,20 +85,20 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
 
     case "column":
       return (
-        <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
-          <SortableItem id={block.id} parent_id={parent_id}>
-            <div
-              data-element-type="container"
-              data-element-key="column"
-              className={` removable inline-block  align-top hover:border hover:border-dashed  m-0 p-0 p-b h-fit w-fit  ${
-                activeid === block.id ? "border" : null
-              } `}
-            >
+        <div
+          style={block.configs?.styles?.parent}
+          data-element-type="container"
+          data-element-key="column"
+          className={`hover:border hover:border-dashed    ${
+            activeid === block.id ? "border" : null
+          } `}
+        >
+          <Droppable id={block.id + Droppableids.inline} parent_id={block.id}>
+            <SortableItem id={block.id} parent_id={parent_id}>
               <div
                 onClick={(e) => {
                   e.stopPropagation();
 
-                  
                   dispatch(setActiveBlock(block.id));
                   handleClick(e);
                 }}
@@ -111,30 +111,34 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
                   strategy={verticalListSortingStrategy}
                 >
                   {block.blocks?.map((child) => (
-                    <RenderBlock key={child.id} block={child} parent_id={block.id} />
+                    <RenderBlock
+                      key={child.id}
+                      block={child}
+                      parent_id={block.id}
+                    />
                   ))}
                 </SortableContext>
               </div>
-            </div>
-          </SortableItem>
-        </Droppable>
+            </SortableItem>
+          </Droppable>
+        </div>
       );
 
     case "text":
       return (
-        <SortableItem id={block.id} parent_id={parent_id}>
-          <div
-            data-element-type="text"
-            data-element-key="text"
-            className={` removable inline-block  align-top hover:border hover:border-dashed  p-0 m-0 text-center  h-fit w-fit  ${
-              activeid === block.id ? "border" : null
-            } `}
-          >
+        <div
+          style={block.configs?.styles?.parent}
+          data-element-type="text"
+          data-element-key="text"
+          className={`align-top hover:border hover:border-dashed   ${
+            activeid === block.id ? "border" : null
+          } `}
+        >
+          <SortableItem id={block.id} parent_id={parent_id}>
             <div
               onClick={(e) => {
                 e.stopPropagation();
 
-                
                 dispatch(setActiveBlock(block.id));
                 handleClick(e);
               }}
@@ -144,24 +148,24 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
             >
               {block.configs?.content?.text || "text area."}
             </div>
-          </div>
-        </SortableItem>
+          </SortableItem>
+        </div>
       );
 
     case "image":
       return (
-        <SortableItem id={block.id} parent_id={parent_id}>
-          <div
-            data-element-type="text"
-            data-element-key="text"
-            className={`  removable inline-block  align-top hover:border hover:border-dashed  p-0 m-0 text-center  h-fit w-fit  ${
-              activeid === block.id ? "border" : null
-            } `}
-          >
+        <div
+          style={block.configs?.styles?.parent}
+          data-element-type="image"
+          data-element-key="image"
+          className={` hover:border hover:border-dashed   ${
+            activeid === block.id ? "border" : null
+          } `}
+        >
+          <SortableItem id={block.id} parent_id={parent_id}>
             <img
               onClick={(e) => {
                 e.stopPropagation();
-                
                 dispatch(setActiveBlock(block.id));
                 handleClick(e);
               }}
@@ -173,25 +177,25 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
               data-element-type="image"
               data-element-key="image"
             />
-          </div>
-        </SortableItem>
+          </SortableItem>
+        </div>
       );
 
     case "button":
       return (
-        <SortableItem id={block.id} parent_id={parent_id}>
-          <div
-            data-element-type="button"
-            data-element-key="button"
-            className={` removable inline-block  align-top  hover:border hover:border-dashed  m-0 p-0 h-fit w-fit  ${
-              activeid === block.id ? "border" : null
-            } `}
-          >
+        <div
+          style={block.configs?.styles?.parent}
+          data-element-type="button"
+          data-element-key="button"
+          className={` hover:border hover:border-dashed  ${
+            activeid === block.id ? "border" : null
+          } `}
+        >
+          <SortableItem id={block.id} parent_id={parent_id}>
             <a
               onClick={(e) => {
                 e.stopPropagation();
 
-                
                 dispatch(setActiveBlock(block.id));
                 handleClick(e);
               }}
@@ -202,8 +206,8 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
             >
               {block.configs?.content?.text || "Click me"}
             </a>
-          </div>
-        </SortableItem>
+          </SortableItem>
+        </div>
       );
 
     // case "divider":

@@ -108,15 +108,18 @@ const ContainerStyleEditor = () => {
     (state: RootState) => state.email.currentElementKey
   );
   let style: Record<string, string> = {};
+  let width = "70%";
   if (activeKey) {
     if (activeBlock?.configs?.styles) {
       style = activeBlock?.configs?.styles[activeKey] as Record<string, string>;
+      width = (activeBlock?.configs?.styles["parent"].maxWidth ||
+        activeBlock?.configs?.styles[activeKey].width) as string;
     }
   }
 
   // central state object named "names"
   const [names, setNames] = React.useState<Record<string, string>>({
-    width: removeCSSvalues(style?.width),
+    width: removeCSSvalues(width),
     height: removeCSSvalues(style?.height),
     paddingTop: removeCSSvalues(style?.paddingTop),
     paddingRight: removeCSSvalues(style?.paddingRight),
@@ -147,11 +150,12 @@ const ContainerStyleEditor = () => {
       name.includes("margin") ||
       name.includes("borderWid") ||
       name.includes("height") ||
-      name.includes("widt") ||
-      name.includes("borderRadi")
+      name.includes("borderRadi") ||
+      name.includes("width")
     ) {
       newVal += "px";
     }
+
     setNames((prev) => ({
       ...prev,
       [name]: value,
@@ -172,7 +176,7 @@ const ContainerStyleEditor = () => {
   // const namesArray = useMemo(() => Object.values(names), [names]);
   useEffect(() => {
     setNames({
-      width: removeCSSvalues(style?.width),
+      width: removeCSSvalues(width),
       height: removeCSSvalues(style?.height),
       paddingTop: removeCSSvalues(style?.paddingTop),
       paddingRight: removeCSSvalues(style?.paddingRight),

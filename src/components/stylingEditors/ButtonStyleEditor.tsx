@@ -108,9 +108,12 @@ const ButtonStyleEditor = () => {
     (state: RootState) => state.email.currentElementKey
   );
   let style: Record<string, string> = {};
+  let width = "40%";
   if (activeKey) {
     if (activeBlock?.configs?.styles) {
       style = activeBlock?.configs?.styles[activeKey] as Record<string, string>;
+      width = (activeBlock?.configs?.styles["parent"].maxWidth ||
+        activeBlock?.configs?.styles[activeKey].width) as string;
     }
   }
 
@@ -131,6 +134,7 @@ const ButtonStyleEditor = () => {
     marginBottom: removeCSSvalues(style.marginBottom),
     marginLeft: removeCSSvalues(style.marginBottom),
     textTransform: removeCSSvalues(style?.textTransform),
+    width: removeCSSvalues(width),
   });
 
   const [text, settext] = React.useState<string>(
@@ -155,6 +159,7 @@ const ButtonStyleEditor = () => {
       marginBottom: removeCSSvalues(style.marginBottom),
       marginLeft: removeCSSvalues(style.marginBottom),
       textTransform: removeCSSvalues(style?.textTransform),
+      width: removeCSSvalues(width),
     });
   }, [activeBlock]);
 
@@ -170,7 +175,8 @@ const ButtonStyleEditor = () => {
       name.includes("borderWid") ||
       name.includes("borderRadi") ||
       name.includes("fontSi") ||
-      name.includes("letterSpaci")
+      name.includes("letterSpaci") ||
+      name.includes("width")
     ) {
       newVal += "px";
     }
@@ -212,7 +218,11 @@ const ButtonStyleEditor = () => {
 
               if (activeBlock?.id) {
                 dispatch(
-                  updateContent({ content: val, block_id: activeBlock?.id, type:"text" })
+                  updateContent({
+                    content: val,
+                    block_id: activeBlock?.id,
+                    type: "text",
+                  })
                 );
               }
             }}
@@ -266,6 +276,17 @@ const ButtonStyleEditor = () => {
 
       {/* Background and Border */}
       <Section title="Button Design">
+        {/* Dimentions */}
+        <div>
+          <Label text=" Width " />
+          <NumberInput
+            name="width"
+            placeholder="16"
+            value={names.width}
+            onChange={handleChange}
+          />
+        </div>
+
         <div>
           <Label text="Background Color" />
           <ColorInput

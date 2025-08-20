@@ -117,13 +117,16 @@ const TextStyleEditor = () => {
     (state: RootState) => state.email.currentElementKey
   );
   let style: Record<string, string> = {};
+  let width = "40%";
   if (activeKey) {
     if (activeBlock?.configs?.styles) {
       style = activeBlock?.configs?.styles[activeKey] as Record<string, string>;
+       width = (activeBlock?.configs?.styles["parent"].maxWidth ||
+        activeBlock?.configs?.styles[activeKey].width) as string;
     }
   }
   const [names, setNames] = React.useState<Record<string, string>>({
-    width: removeCSSvalues(style?.width),
+    width: removeCSSvalues(width),
     fontSize: removeCSSvalues(style?.fontSize),
     fontWeight: removeCSSvalues(style?.fontWeight),
     color: removeCSSvalues(style?.color),
@@ -146,7 +149,7 @@ const TextStyleEditor = () => {
 
   useEffect(() => {
     setNames({
-      width: removeCSSvalues(style?.width),
+      width: removeCSSvalues(width),
       fontSize: removeCSSvalues(style?.fontSize),
       fontWeight: removeCSSvalues(style?.fontWeight),
       color: removeCSSvalues(style?.color),
@@ -177,7 +180,7 @@ const TextStyleEditor = () => {
       name.includes("borderWid") ||
       name.includes("borderRadi") ||
       name.includes("fontSi") ||
-      name.includes("width") ||
+      name.includes("width")||
       name.includes("letterSpaci")
     ) {
       newVal += "px";
