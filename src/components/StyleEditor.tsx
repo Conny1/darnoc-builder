@@ -18,8 +18,10 @@ const StyleEditor = () => {
   );
   const dispatch = useDispatch();
 
+  
+
   return (
-    <div className=" overflow-y-scroll w-full flex flex-col items-center max-w-lg bg-white p-4 rounded-xl shadow border space-y-5 text-sm">
+    <div className=" overflow-y-scroll flex-1  flex flex-col items-center max-w-lg bg-white p-3 rounded-xl shadow border space-y-5 text-sm">
       <h3 className="text-base font-semibold text-gray-800">Style Panel</h3>
  {  activeBlock   && <div className="flex  items-center gap-2" >
        <h5 className="text-base font-semibold text-gray-800    ">

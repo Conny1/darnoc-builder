@@ -234,7 +234,7 @@ const ContainerStyleEditor = () => {
       )}
 
       {/* Padding */}
-      <Section title="Padding">
+      {/* <Section title="Padding">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `padding${pos}` as const;
@@ -251,7 +251,7 @@ const ContainerStyleEditor = () => {
             );
           })}
         </Grid4>
-      </Section>
+      </Section> */}
 
       {/* Margin */}
       <Section title="Margin ">

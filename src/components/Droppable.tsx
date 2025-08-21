@@ -6,7 +6,7 @@ type Props = {
   parent_id?: string;
 };
 function Droppable({ id, children, parent_id }: Props) {
-  const {  setNodeRef } = useDroppable({
+  const { isOver, setNodeRef } = useDroppable({
     id: id,
     data: {
       parent_id,
@@ -19,8 +19,9 @@ function Droppable({ id, children, parent_id }: Props) {
         verticalAlign: "top",
   };
 
+
   return (
-    <div className=" removable h-auto w-full   " ref={setNodeRef} style={style}>
+    <div className={ `  removable h-fit w-full   ${isOver?" outline-4 outline-green-500":"outline-none"} `} ref={setNodeRef} style={style}>
       {children}
     </div>
   );

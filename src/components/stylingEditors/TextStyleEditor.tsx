@@ -214,8 +214,7 @@ const TextStyleEditor = () => {
             name="text"
             value={text}
             onChange={(e) => {
-              console.log(e.target.value);
-              let val = e.target.value as string;
+              const val = e.target.value as string;
               if (val.length === 0) return;
 
               settext(() => val);
@@ -339,7 +338,7 @@ const TextStyleEditor = () => {
       </Section>
 
       {/* Padding */}
-      <Section title="Padding ">
+      {/* <Section title="Padding ">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `padding${pos}` as const;
@@ -356,7 +355,7 @@ const TextStyleEditor = () => {
             );
           })}
         </Grid4>
-      </Section>
+      </Section> */}
 
       {/* Margin */}
       <Section title="Margin ">

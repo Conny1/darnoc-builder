@@ -72,9 +72,7 @@ export const emailtemplateSlice = createSlice({
       const data = action.payload;
       const recisiveUpdate = (blocks?: BlockDataType[]) => {
         if (!blocks) return;
-        console.log("recusive running, inline block");
         for (const item of blocks) {
-          console.log("running");
           if (item.id === data.parent_id) {
             const ph = { ...data.data, configs: blockConfigs[data.data.name] };
             if (item.blocks) {
@@ -103,6 +101,11 @@ export const emailtemplateSlice = createSlice({
           .filter((block) => block.id !== id);
       };
       state.dropableData = recusiveRemove(state.dropableData);
+      if(state.dropableData.length === 0){
+        state.activeBlock = null
+        state.currentElementKey = ""
+        state.currentElementType = ""
+      }
     },
 
     setActiveBlock: (state, action: PayloadAction<string>) => {
@@ -125,12 +128,10 @@ export const emailtemplateSlice = createSlice({
       state.activeBlock = others || null;
     },
     setcurrentElementType: (state, action: PayloadAction<string>) => {
-      console.log(action.payload);
 
       state.currentElementType = action.payload;
     },
     setcurrentElementKey: (state, action: PayloadAction<string>) => {
-      console.log(action.payload);
 
       state.currentElementKey = action.payload;
     },
@@ -165,9 +166,7 @@ export const emailtemplateSlice = createSlice({
                 ...temp[payload.key],
                 [payload.styleKey]: payload.styleValue,
               };
-              console.log("temp changed", {
-                [payload.styleKey]: payload.styleValue,
-              });
+            
               return;
             }
           }

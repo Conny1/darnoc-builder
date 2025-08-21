@@ -262,7 +262,7 @@ const ImageStyleEditor = () => {
       </Section>
 
       {/* Padding */}
-      <Section title="Padding (px)">
+      {/* <Section title="Padding (px)">
         <Grid4>
           {["Top", "Right", "Bottom", "Left"].map((pos) => {
             const key = `padding${pos}` as const;
@@ -279,7 +279,7 @@ const ImageStyleEditor = () => {
             );
           })}
         </Grid4>
-      </Section>
+      </Section> */}
 
       {/* Margin */}
       <Section title="Margin (px)">

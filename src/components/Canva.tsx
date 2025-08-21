@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import Droppable from "./Droppable";
 import {  Droppableids } from "@/types";
 import Block from "./Block";
@@ -27,20 +27,7 @@ const Canva = () => {
   );
 
   // Apply mobile scaling transform
-  useEffect(() => {
-    if (!containerRef.current) return;
 
-    if (previewMode === "mobile") {
-      const containerWidth = containerRef.current.offsetWidth;
-      const mobileWidth = 300; // Standard mobile width
-      const scale = mobileWidth / containerWidth;
-
-      containerRef.current.style.transform = `scale(${scale})`;
-      containerRef.current.style.transformOrigin = "top left";
-    } else {
-      containerRef.current.style.transform = "none";
-    }
-  }, [previewMode]);
   const generateCode = () => {
     if (!containerRef.current) {
       console.warn("Email container not found");
@@ -115,14 +102,14 @@ const Canva = () => {
               items={dropableData}
               strategy={verticalListSortingStrategy}
             >
-              <div className=" h-[90vh]  border-2 border-dashed border-gray-300 bg-red flex  justify-center ">
+              <div className=" h-[90vh]  overflow-x-scroll border-2 border-dashed border-gray-300 bg-red flex  justify-center ">
                 <div
                   ref={containerRef}
                   style={{
                     display: "inline-block",
                     margin:" 0px auto",
                     textAlign: "center",
-                    width: "602px",
+                    width: previewMode ==="desktop"? "602px":"360px",
                     maxWidth: "100%",
                     height:"100%",
                     backgroundColor: "inherit",

@@ -5,9 +5,10 @@ import Link from "next/link";
 
 const Nav = () => {
   const [modal, setmodal] = useState(false);
+  const [auth] = useState(false)
   return (
     <nav className=" relative  flex   border   w-full items-center h-15 justify-end  p-3">
-      <div className="  flex  items-center   gap-3   ">
+     { auth ? <div className="  flex  items-center   gap-3   ">
         <button className=" cursor-pointer ">
           <BellIcon className=" text-gray-400 " />
         </button>
@@ -35,7 +36,22 @@ const Nav = () => {
             </button>
           </div>
         )}
-      </div>
+      </div>: <div className="flex gap-3">
+  {/* Primary button */}
+  <button
+    className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-medium 
+               shadow-sm hover:bg-blue-700 active:scale-95 transition">
+    Sign in
+  </button>
+
+  {/* Secondary button */}
+  <button
+    className="px-5 py-2.5 rounded-xl border border-blue-600 text-blue-600 font-medium 
+               hover:bg-blue-50 active:scale-95 transition">
+    Sign up
+  </button>
+</div>
+ }
     </nav>
   );
 };

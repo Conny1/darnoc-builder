@@ -34,7 +34,6 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
       "data-element-key"
     );
 
-    console.log("Clicked:", elementType, elementKey);
     dispatch(setcurrentElementType(elementType as string));
     dispatch(setcurrentElementKey(elementKey as string));
   };
@@ -107,6 +106,7 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
                 data-element-key="column"
               >
                 <SortableContext
+                   
                   items={block.blocks || []}
                   strategy={verticalListSortingStrategy}
                 >
