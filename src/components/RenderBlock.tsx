@@ -31,8 +31,9 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
       "data-element-type"
     );
     const elementKey = (e.target as HTMLElement).getAttribute(
-      "data-element-key"
+      "data-element-key" 
     );
+    console.log(elementType, elementType)
 
     dispatch(setcurrentElementType(elementType as string));
     dispatch(setcurrentElementKey(elementKey as string));
@@ -106,7 +107,6 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
                 data-element-key="column"
               >
                 <SortableContext
-                   
                   items={block.blocks || []}
                   strategy={verticalListSortingStrategy}
                 >
@@ -200,6 +200,7 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
                 handleClick(e);
               }}
               href={block.configs?.content?.link || "#"}
+              target={block.configs?.content?.link ? "_blank" : "_parent"}
               style={block.configs?.styles?.button}
               data-element-type="button"
               data-element-key="button"
@@ -210,20 +211,35 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
         </div>
       );
 
-    // case "divider":
-    //   return (
-    //     <div
-    //       style={
-    //         block.configs?.styles?.divider || {
-    //           height: "1px",
-    //           margin: "16px 0",
-    //           backgroundColor: "#e0e0e0",
-    //         }
-    //       }
-    //       data-element-type="divider"
-    //       data-element-key="divider"
-    //     />
-    //   );
+    case "divider":
+      return (
+        <div
+          style={block.configs?.styles?.parent}
+          data-element-type="container"
+          data-element-key="divider"
+          className={` hover:border hover:border-dashed  ${
+            activeid === block.id ? "border" : null
+          } `}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(setActiveBlock(block.id));
+            handleClick(e);
+          }}
+        >
+          <SortableItem id={block.id} parent_id={parent_id}  etype="container" ekey="divider" >
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(setActiveBlock(block.id));
+                handleClick(e);
+              }}
+              style={block.configs?.styles?.divider}
+              data-element-type="container"
+              data-element-key="divider"
+            />
+          </SortableItem>
+        </div>
+      );
 
     // case "table":
     //   return (

@@ -2,10 +2,12 @@
 import React, { useState } from "react";
 import { BellIcon, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
   const [modal, setmodal] = useState(false);
   const [auth] = useState(false)
+  const route = useRouter()
   return (
     <nav className=" relative  flex   border   w-full items-center h-15 justify-end  p-3">
      { auth ? <div className="  flex  items-center   gap-3   ">
@@ -39,15 +41,18 @@ const Nav = () => {
       </div>: <div className="flex gap-3">
   {/* Primary button */}
   <button
+  onClick={()=>route.push("/commingSoon")}
     className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-medium 
-               shadow-sm hover:bg-blue-700 active:scale-95 transition">
+               shadow-sm hover:bg-blue-700 active:scale-95 transition  cursor-pointer ">
     Sign in
   </button>
 
   {/* Secondary button */}
   <button
+    onClick={()=>route.push("/commingSoon")}
+
     className="px-5 py-2.5 rounded-xl border border-blue-600 text-blue-600 font-medium 
-               hover:bg-blue-50 active:scale-95 transition">
+               hover:bg-blue-50 active:scale-95 transition cursor-pointer ">
     Sign up
   </button>
 </div>

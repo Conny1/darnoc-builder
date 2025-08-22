@@ -5,6 +5,7 @@ import {
   Type,
   ImageIcon,
   TextCursor,
+  Minus,
 
 } from "lucide-react"; // replace with your actual icon imports
 import Draggable from "./Draggable";
@@ -15,7 +16,7 @@ const blockItems = [
   { name: "text", icon: Type },
   { name: "image", icon: ImageIcon },
   { name: "button", icon: TextCursor },
-  // { name: "divider", icon: Minus },
+  { name: "divider", icon: Minus },
   // { name: "table", icon: Table },
   // { name: "raw_html", icon: Code },
 ];

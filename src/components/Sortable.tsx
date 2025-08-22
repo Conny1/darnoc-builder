@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
@@ -6,30 +6,36 @@ import { GripVertical } from "lucide-react";
 type Props = {
   id: string;
   children: React.ReactNode;
-  parent_id?:string
+  parent_id?: string;
+  etype?:"container",
+  ekey?:"divider"
 };
 
-export function SortableItem({ id, children,parent_id}: Props) {
+export function SortableItem({ id, children, parent_id , etype, ekey}: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: id,
       data: {
         type: "sortable",
-        parent_id
+        parent_id,
       },
     });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    
-        display: "inline-block",
-        verticalAlign: "top",
-      
+
+    display: "inline-block",
+    verticalAlign: "top",
   };
 
   return (
-    <div style={style} className="removable relative w-full  group h-fit   " >
+    <div
+      data-element-type={etype}
+      data-element-key={ekey}
+      style={style}
+      className=" relative w-full  group h-fit   "
+    >
       {/* Styled drag handle */}
       <button
         ref={setNodeRef}

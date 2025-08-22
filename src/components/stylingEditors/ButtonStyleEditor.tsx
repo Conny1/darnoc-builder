@@ -140,6 +140,9 @@ const ButtonStyleEditor = () => {
   const [text, settext] = React.useState<string>(
     activeBlock?.configs?.content?.text || ""
   );
+  const [link, setlink] = React.useState<string>(
+    activeBlock?.configs?.content?.link || ""
+  );
 
   useEffect(() => {
     setNames({
@@ -367,12 +370,32 @@ const ButtonStyleEditor = () => {
       <Section title="Link">
         <div>
           <Label text="Href / URL" />
-          <TextInput
-            name="href"
-            placeholder="https://example.com"
-            value={names.href}
-            onChange={handleChange}
-          />
+          <div className="flex gap-1 ">
+            <TextInput
+              name="href"
+              placeholder="https://example.com"
+              value={link}
+              onChange={(e) => setlink(e.target.value)}
+            />
+
+            <button
+              className="bg-blue-600 p-1 cursor-pointer text-white text-[10px] font-bold rounded  "
+              onClick={() => {
+                if (activeBlock?.id) {
+                  dispatch(
+                    updateContent({
+                      content: link,
+                      block_id: activeBlock?.id,
+                      type: "link",
+                    })
+                  );
+                }
+              }}
+            >
+              {" "}
+              Appy
+            </button>
+          </div>
         </div>
       </Section>
 

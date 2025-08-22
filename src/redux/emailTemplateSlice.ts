@@ -124,7 +124,7 @@ export const emailtemplateSlice = createSlice({
         }
       };
       const others = recusiveSet(state.dropableData);
-
+     
       state.activeBlock = others || null;
     },
     setcurrentElementType: (state, action: PayloadAction<string>) => {

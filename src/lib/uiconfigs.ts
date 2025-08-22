@@ -62,8 +62,8 @@ export const blockConfigs: BlockConfigs = {
         display: "inline-block",
         verticalAlign: "top",
         textAlign: "center",
-        margin:"0px",
-        padding:"0px"
+        margin: "0px",
+        padding: "0px",
       },
     },
   },
@@ -177,23 +177,42 @@ export const blockConfigs: BlockConfigs = {
         display: "inline-block",
         verticalAlign: "top",
         textAlign: "center",
-        margin:"0px",
-        padding:"0px"
+        margin: "0px",
+        padding: "0px",
       },
     },
     content: {
       text: "Click me",
+      link: "",
     },
   },
 
   divider: {
     styles: {
       divider: {
-        width: "500px",
+        width: "100%",
         height: "1px",
         backgroundColor: "#e6ecf5",
-        margin: "20px 0",
         lineHeight: "1px",
+        marginRight: "0px",
+        marginTop: "10px",
+        marginBottom: "10px",
+        marginLeft: "0px",
+        display: "inline-block",
+        verticalAlign: "top",
+      
+      },
+      parent: {
+        width: "100%",
+        maxWidth: "300px",
+        display: "inline-block",
+        verticalAlign: "top",
+        textAlign: "center",
+        margin: "0px",
+        padding: "0px",
+        zIndex:7,
+        position:"relative"
+        
       },
     },
   },

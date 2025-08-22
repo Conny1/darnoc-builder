@@ -5,7 +5,6 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
-  DragOverEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,

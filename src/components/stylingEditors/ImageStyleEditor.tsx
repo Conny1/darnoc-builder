@@ -182,7 +182,7 @@ const ImageStyleEditor = () => {
             <button
               className="bg-blue-600 p-1 cursor-pointer text-white text-[10px] font-bold rounded  "
               onClick={() => {
-                if (activeBlock?.id && link) {
+                if (activeBlock?.id) {
                   dispatch(
                     updateContent({
                       content: link,

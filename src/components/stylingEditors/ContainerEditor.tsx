@@ -31,7 +31,7 @@ const NumberInput = ({ name, placeholder, value, onChange }: InputProps) => (
     name={name}
     type="number"
     placeholder={placeholder}
-    value={value}
+    value={value || 0}
     onChange={onChange}
     className="w-full border rounded px-2 py-1 text-sm"
   />
@@ -171,6 +171,7 @@ const ContainerStyleEditor = () => {
       );
     }
   };
+  
 
   // array of all name values (formerly "values")
   // const namesArray = useMemo(() => Object.values(names), [names]);
@@ -283,7 +284,7 @@ const ContainerStyleEditor = () => {
             onChange={(e) => handleChange(e)}
           />
         </div>
-        <div className="space-y-1">
+        {/* <div className="space-y-1">
           <Label text="Background Image URL" />
           <TextInput
             name="backgroundImage"
@@ -291,11 +292,11 @@ const ContainerStyleEditor = () => {
             value={names.backgroundImage}
             onChange={handleChange}
           />
-        </div>
+        </div> */}
       </Section>
 
       {/* Border */}
-      <Section title="Border">
+   { activeBlock?.name !=="divider" && <Section title="Border">
         <div className="grid grid-cols-3 gap-2">
           <div>
             <Label text="Width" />
@@ -324,7 +325,7 @@ const ContainerStyleEditor = () => {
             />
           </div>
         </div>
-      </Section>
+      </Section>}
 
       {/* Text Alignment */}
       <Section title="Text Alignment">
