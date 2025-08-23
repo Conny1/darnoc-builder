@@ -13,14 +13,14 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-gray-50">
+    <div className="min-h-screen flex flex-col  bg-gradient-to-b from-white to-gray-50">
       {/* Header */}
   <header className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200 shadow-sm">
-  <div className="flex justify-between items-center max-w-6xl mx-auto px-6 py-4">
-    <h1 className="text-2xl font-extrabold tracking-tight text-gray-800 flex items-center gap-2">
+  <div className="flex flex-wrap justify-center sm:justify-between items-center max-w-6xl mx-auto px-6 py-4">
+    <h1 className="text-2xl  font-extrabold tracking-tight text-gray-800 flex items-center gap-2">
       🚀 Darnoc <span className="text-blue-600">Builder</span>
     </h1>
-    <nav className="flex items-center space-x-8">
+    <nav className="flex items-center space-x-8  ">
       {[
         { href: "#features", label: "Features" },
         { href: "#how-it-works", label: "How It Works" },
@@ -60,9 +60,8 @@ export default function Home() {
         </Link>
 
         {/* Animated Preview */}
-        {/* Animated Preview */}
         <motion.div
-          className="mt-16 relative rounded-xl overflow-hidden border shadow-lg bg-white"
+          className=" mt-16 relative rounded-xl overflow-hidden border shadow-lg bg-white"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -75,7 +74,7 @@ export default function Home() {
           </div>
 
           {/* Live Drag-Drop Mock */}
-          <div className="flex gap-4 p-6 bg-gray-50 min-h-[200px] items-start justify-center">
+          <div className="flex flex-wrap gap-4 p-6 bg-gray-50 min-h-[200px] items-start justify-center">
             <motion.div
               className="w-40 h-28 bg-white border rounded-lg shadow flex items-center justify-center cursor-grab"
               drag

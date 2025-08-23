@@ -209,7 +209,7 @@ const ContainerStyleEditor = () => {
       {activeBlock?.name !== "section" && (
         <Section title="Dimensions">
           <div className="grid grid-cols-2 gap-2">
-            {activeKey === "column" && (
+            {activeKey !== "section" && (
               <div>
                 <Label text="Width" />
                 <NumberInput

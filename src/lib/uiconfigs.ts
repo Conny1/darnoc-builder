@@ -13,7 +13,7 @@ export const blockConfigs: BlockConfigs = {
         paddingLeft: "0px",
         paddingBottom: "0px",
         paddingRight: "0px",
-        textAlign: "center",
+        textAlign: "left",
         borderWidth: "0",
         borderRadius: "0px",
         borderColor: "#ffffff",
@@ -210,7 +210,6 @@ export const blockConfigs: BlockConfigs = {
         textAlign: "center",
         margin: "0px",
         padding: "0px",
-        zIndex:7,
         position:"relative"
         
       },

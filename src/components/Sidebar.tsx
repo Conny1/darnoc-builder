@@ -24,7 +24,7 @@ const blockItems = [
 const Sidebar = () => {
   return (
     <aside className="  w-[260px]  border-r bg-gray-50 shadow-sm flex flex-col ">
-      <div className="p-5 border-b bg-white sticky top-0 z-10">
+      <div className="p-5 border-b bg-white sticky top-0 ">
         <h2 className="text-xl font-semibold text-gray-900">📦 Blocks</h2>
         <p className="text-sm text-gray-500 mt-1">i will put something here</p>
       </div>
