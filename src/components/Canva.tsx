@@ -1,9 +1,9 @@
 "use client";
-import React, {  useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Droppable from "./Droppable";
-import {  Droppableids } from "@/types";
+import { Droppableids } from "@/types";
 import Block from "./Block";
-import {  useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 import {
@@ -12,19 +12,24 @@ import {
 } from "@dnd-kit/sortable";
 
 import StyleEditor from "./StyleEditor";
-import { Code, Monitor, Smartphone } from "lucide-react";
+import { Code, Monitor, Redo, Smartphone, Undo } from "lucide-react";
 import DisplayCode from "./DisplayCode";
+import { redoAction, undoAction } from "@/redux/emailTemplateSlice";
 
 const Canva = () => {
   const dropableData = useSelector(
     (state: RootState) => state.email.dropableData
   );
+  const undo = useSelector((state: RootState) => state.email.prevCanvasState);
+  const redo = useSelector((state: RootState) => state.email.nextCanvaState);
+
   const [showCode, setshowCode] = useState(false);
   const [code, setcode] = useState("");
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">(
     "desktop"
   );
+  const dispatch = useDispatch();
 
   // Apply mobile scaling transform
 
@@ -59,41 +64,84 @@ const Canva = () => {
     setshowCode(true);
   };
 
+
   return (
-    <div className="  flex  gap-3  flex-1  bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
+    <div className=" flex gap-3  flex-1  bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
       <div className="flex-1 flex flex-col items-center  ">
-        <div className="flex w-full max-w-[800px] gap-3 bg-blue-300 p-3 items-center justify-center text-white ">
+        <div className="flex w-full max-w-[800px] gap-3 bg-blue-500 p-3 items-center justify-center text-white rounded-xl shadow-md">
+          {/* Undo / Redo */}
+          <div className="flex gap-3.5">
+            <button
+              onClick={() => dispatch(undoAction())}
+              disabled={undo.length === 0}
+              className={`p-2 rounded-xl flex items-center justify-center transition-colors duration-200
+        ${
+          undo.length > 0
+            ? "bg-white/20 hover:bg-white/30 text-white"
+            : "bg-white/10 text-white/50 cursor-not-allowed"
+        }`}
+            >
+              <Undo className="w-5 h-5" />
+            </button>
+
+            <button
+              onClick={() => dispatch(redoAction())}
+              disabled={redo.length === 0}
+              className={`p-2 rounded-xl flex items-center justify-center transition-colors duration-200
+        ${
+          redo.length > 0
+            ? "bg-white/20 hover:bg-white/30 text-white"
+            : "bg-white/10 text-white/50 cursor-not-allowed"
+        }`}
+            >
+              <Redo className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Desktop Preview */}
           <button
             onClick={() => {
               setPreviewMode("desktop");
               setshowCode(false);
             }}
-            className={` p-1 rounded-2xl cursor-pointer ${
-              !showCode && previewMode === "desktop"
-                ? "bg-blue-600"
-                : "bg-inherit"
-            } `}
+            className={`p-2 rounded-xl flex items-center justify-center transition-colors duration-200
+      ${
+        !showCode && previewMode === "desktop"
+          ? "bg-white/30 text-white shadow-inner"
+          : "bg-white/10 hover:bg-white/20 text-white/80"
+      }`}
           >
-            <Monitor />
+            <Monitor className="w-5 h-5" />
           </button>
+
+          {/* Mobile Preview */}
           <button
             onClick={() => {
               setPreviewMode("mobile");
               setshowCode(false);
             }}
-            className={` p-1 rounded-2xl cursor-pointer ${
-              !showCode && previewMode === "mobile"
-                ? "bg-blue-600"
-                : "bg-inherit"
-            } `}
+            className={`p-2 rounded-xl flex items-center justify-center transition-colors duration-200
+      ${
+        !showCode && previewMode === "mobile"
+          ? "bg-white/30 text-white shadow-inner"
+          : "bg-white/10 hover:bg-white/20 text-white/80"
+      }`}
           >
-            <Smartphone />
+            <Smartphone className="w-5 h-5" />
           </button>
 
-      { previewMode !=="mobile" &&   <button onClick={generateCode} className=" cursor-pointer  ">
-            <Code />
-          </button>}
+          {/* Code Button */}
+          {previewMode !== "mobile" && (
+            <button
+              onClick={generateCode}
+              className="p-2 rounded-xl flex items-center justify-center transition-colors duration-200
+        bg-white/10 hover:bg-white/20 text-white/80"
+            >
+              <Code className="w-5 h-5" />
+            </button>
+          )}
         </div>
+
         {showCode ? (
           <DisplayCode code={code} />
         ) : (
@@ -107,11 +155,11 @@ const Canva = () => {
                   ref={containerRef}
                   style={{
                     display: "inline-block",
-                    margin:" 0px auto",
+                    margin: " 0px auto",
                     textAlign: "center",
-                    width: previewMode ==="desktop"? "602px":"360px",
+                    width: previewMode === "desktop" ? "602px" : "360px",
                     maxWidth: "100%",
-                    height:"100%",
+                    height: "100%",
                     backgroundColor: "inherit",
                   }}
                 >

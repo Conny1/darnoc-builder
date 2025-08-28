@@ -9,6 +9,8 @@ export interface emailtemplateState {
   activeBlock: BlockDataType | null;
   currentElementType?: string;
   currentElementKey?: string;
+  prevCanvasState: Array<BlockDataType[]>;
+  nextCanvaState: Array<BlockDataType[]>;
 }
 
 const initialState: emailtemplateState = {
@@ -16,6 +18,8 @@ const initialState: emailtemplateState = {
   activeBlock: null,
   currentElementType: "",
   currentElementKey: "",
+  prevCanvasState: [],
+  nextCanvaState: [],
 };
 
 export const emailtemplateSlice = createSlice({
@@ -27,11 +31,16 @@ export const emailtemplateSlice = createSlice({
       if (data.name in blockConfigs) {
         data.configs = blockConfigs[data.name];
       }
-
+      //   update state for redo action.
+      if (state.dropableData.length !== 0) {
+        state.prevCanvasState.push(state.dropableData);
+      }
       state.dropableData.push(data);
     },
     updateSortedBlocks: (state, action: PayloadAction<BlockDataType[]>) => {
       const data: BlockDataType[] = action.payload;
+      //   update state for redo action.
+      state.prevCanvasState.push(state.dropableData);
       state.dropableData = data;
     },
     updateInlineSortedBlocks: (
@@ -43,7 +52,7 @@ export const emailtemplateSlice = createSlice({
       }>
     ) => {
       const payload = action.payload;
-      function swapNodes(data?: BlockDataType[]):BlockDataType[] | undefined {
+      function swapNodes(data?: BlockDataType[]): BlockDataType[] | undefined {
         if (!data) return;
         return data.map((item) => {
           if (item.id === payload.parent_id && item.blocks) {
@@ -54,7 +63,7 @@ export const emailtemplateSlice = createSlice({
               (val) => val.id === payload.over_id
             );
             item.blocks = arrayMove(item.blocks, oldIndex, newIndex);
-            return item
+            return item;
           }
           return {
             ...item,
@@ -62,8 +71,9 @@ export const emailtemplateSlice = createSlice({
           };
         });
       }
-
-      swapNodes(state.dropableData)
+      //   update state for redo action.
+      state.prevCanvasState.push(state.dropableData);
+      swapNodes(state.dropableData);
     },
     addInlineBlock: (
       state,
@@ -86,6 +96,8 @@ export const emailtemplateSlice = createSlice({
           }
         }
       };
+      //   update state for redo action.
+      state.prevCanvasState.push(state.dropableData);
       recisiveUpdate(state.dropableData);
     },
 
@@ -100,11 +112,13 @@ export const emailtemplateSlice = createSlice({
           })
           .filter((block) => block.id !== id);
       };
+      //   update state for redo action.
+      state.prevCanvasState.push(state.dropableData);
       state.dropableData = recusiveRemove(state.dropableData);
-      if(state.dropableData.length === 0){
-        state.activeBlock = null
-        state.currentElementKey = ""
-        state.currentElementType = ""
+      if (state.dropableData.length === 0) {
+        state.activeBlock = null;
+        state.currentElementKey = "";
+        state.currentElementType = "";
       }
     },
 
@@ -124,15 +138,13 @@ export const emailtemplateSlice = createSlice({
         }
       };
       const others = recusiveSet(state.dropableData);
-     
+
       state.activeBlock = others || null;
     },
     setcurrentElementType: (state, action: PayloadAction<string>) => {
-
       state.currentElementType = action.payload;
     },
     setcurrentElementKey: (state, action: PayloadAction<string>) => {
-
       state.currentElementKey = action.payload;
     },
 
@@ -153,20 +165,23 @@ export const emailtemplateSlice = createSlice({
             const temp = item.configs?.styles;
             if (temp) {
               // update width of the column parent component -unique to column
-            const parent = item.configs?.styles?.parent
-            
-            if(parent && payload.styleKey === "width" && payload.key !== "section" ){
-            
-              parent["maxWidth"] = payload.styleValue
-    
-              return
-            }
-            // other styles updating
+              const parent = item.configs?.styles?.parent;
+
+              if (
+                parent &&
+                payload.styleKey === "width" &&
+                payload.key !== "section"
+              ) {
+                parent["maxWidth"] = payload.styleValue;
+
+                return;
+              }
+              // other styles updating
               temp[payload.key] = {
                 ...temp[payload.key],
                 [payload.styleKey]: payload.styleValue,
               };
-            
+
               return;
             }
           }
@@ -175,6 +190,8 @@ export const emailtemplateSlice = createSlice({
           }
         }
       };
+      //   update state for redo action.
+      state.prevCanvasState.push(state.dropableData);
 
       recusiveUpdate(state.dropableData);
     },
@@ -204,8 +221,29 @@ export const emailtemplateSlice = createSlice({
           }
         }
       };
-
+      //   update state for redo action.
+      state.prevCanvasState.push(state.dropableData);
       recusiveUpdate(state.dropableData);
+    },
+
+    undoAction: (state) => {
+      if (state.prevCanvasState.length === 0) return;
+      let temp = state.prevCanvasState.pop();
+      if (temp) {
+        // store data for redo
+        state.nextCanvaState.push(state.dropableData);
+        state.dropableData = temp;
+      }
+    },
+
+    redoAction: (state) => {
+      if (state.nextCanvaState.length === 0) return;
+      let temp = state.nextCanvaState.pop();
+      if (temp) {
+        // store data for redo
+        state.prevCanvasState.push(state.dropableData);
+        state.dropableData = temp;
+      }
     },
   },
 });
@@ -222,6 +260,8 @@ export const {
   setcurrentElementKey,
   updateStyle,
   updateContent,
+  redoAction,
+  undoAction,
 } = emailtemplateSlice.actions;
 
 export default emailtemplateSlice.reducer;

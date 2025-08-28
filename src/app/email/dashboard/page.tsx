@@ -1,6 +1,6 @@
 "use client";
 import { Canva, Sidebar } from "@/components";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   closestCenter,
   DndContext,
@@ -22,6 +22,16 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
 const Dashboard = () => {
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const checkSize = () => setIsDesktop(window.innerWidth >= 1024); // 1024px = Tailwind lg breakpoint
+    checkSize();
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
+
+
   const dropableData = useSelector(
     (state: RootState) => state.email.dropableData
   );
@@ -98,8 +108,19 @@ const Dashboard = () => {
       }
     }
   };
+
+    if (!isDesktop) {
+    return (
+      <div className="flex items-center justify-center h-[94vh] w-full bg-gray-100">
+        <p className="text-gray-600 text-center text-lg font-medium px-4">
+          📱 This editor is currently only available on desktop devices.  
+          Please switch to a laptop or desktop for the best experience.
+        </p>
+      </div>
+    );
+  }
   return (
-    <div className="h-[94svh] w-full flex gap-3">
+    <div className="h-[94svh] w-full flex gap-3  " >
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

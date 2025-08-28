@@ -60,6 +60,7 @@ export const blockConfigs: BlockConfigs = {
         width: "100%",
         maxWidth: "300px",
         display: "inline-block",
+        
         verticalAlign: "top",
         textAlign: "center",
         margin: "0px",
