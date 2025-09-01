@@ -66,7 +66,7 @@ const RenderBlock = ({ block, parent_id }: Props): JSX.Element | null => {
                   strategy={verticalListSortingStrategy}
                 >
                   {block?.blocks && block.blocks.length === 0 ? (
-                    <p>Section Container</p>
+                    <p  >Section Container. Drop your blocks here</p>
                   ) : (
                     block.blocks?.map((child) => (
                       <RenderBlock

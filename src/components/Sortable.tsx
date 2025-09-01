@@ -34,7 +34,7 @@ export function SortableItem({ id, children, parent_id , etype, ekey}: Props) {
       data-element-type={etype}
       data-element-key={ekey}
       style={style}
-      className=" relative w-full  group h-fit   "
+      className=" removable  relative w-full  group h-fit   "
     >
       {/* Styled drag handle */}
       <button
