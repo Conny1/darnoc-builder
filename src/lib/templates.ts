@@ -1,8 +1,9 @@
-const { data } = require("framer-motion/client");
+import { BlockDataType } from "@/types";
 
-export const templates = [
+
+export const templates:Array<{name:string, id:string, data:BlockDataType[]}> = [
     {
-        name:"Welcome Email",
+        name:"welcome email",
         id:"1",
         data:[{
       id: 'section-2025-09-01T12:55:58.590Z',
@@ -138,7 +139,7 @@ export const templates = [
                 verticalAlign: 'top',
                 paddingTop: '10px',
                 paddingLeft: '0px',
-                paddingBottom: '0px',
+                paddingBottom: '10px',
                 paddingRight: '0px',
                 marginRight: '0px',
                 marginTop: '0px',
@@ -172,7 +173,7 @@ export const templates = [
     }]
     },
     {
-        name:"newsletter",
+        name:"news letter",
         id:"2",
         data: [
     {

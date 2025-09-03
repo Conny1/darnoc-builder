@@ -15,16 +15,16 @@ type InputProps = {
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 };
 
-const TextInput = ({ name, placeholder, value, onChange }: InputProps) => (
-  <input
-    name={name}
-    type="text"
-    placeholder={placeholder}
-    value={value}
-    onChange={onChange}
-    className="w-full border rounded px-2 py-1 text-sm"
-  />
-);
+// const TextInput = ({ name, placeholder, value, onChange }: InputProps) => (
+//   <input
+//     name={name}
+//     type="text"
+//     placeholder={placeholder}
+//     value={value}
+//     onChange={onChange}
+//     className="w-full border rounded px-2 py-1 text-sm"
+//   />
+// );
 
 const NumberInput = ({ name, placeholder, value, onChange }: InputProps) => (
   <input

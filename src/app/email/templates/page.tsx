@@ -1,48 +1,58 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { templates } from "../../../lib/templates";
+import RenderTemplate from "@/components/RenderTemplate";
+import { useDispatch } from "react-redux";
+import { setTemplate } from "@/redux/emailTemplateSlice";
 
 const Templates = () => {
   const router = useRouter();
-
-  const templateList = [
-    { id: 1, name: "Newsletter", preview: "https://placehold.co/300x200" },
-    { id: 2, name: "Welcome Email", preview: "https://placehold.co/300x200" },
-    { id: 3, name: "Product Launch", preview: "https://placehold.co/300x200" },
-  ];
-
+  const templatesArr = useMemo(() => templates, []);
+  const dispatch = useDispatch();
+const route = useRouter()
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       {/* Top Bar with Back Button */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-10">
         <button
           onClick={() => router.back()}
           className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
         >
           ← Previous
         </button>
-        <h1 className="text-3xl font-bold text-gray-800">Email Templates</h1>
-        <div></div> {/* placeholder for spacing */}
+        <h1 className="text-3xl font-extrabold text-gray-800">
+          Email Templates
+        </h1>
+        <div /> {/* keeps spacing consistent */}
       </div>
 
       {/* Templates Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {templateList.map((template) => (
+      <div className="flex flex-wrap gap-3">
+        {templatesArr.map((item) => (
           <div
-            key={template.id}
-            className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
+            key={item.id}
+            className="bg-white  shadow-md rounded-xl p-5 flex flex-col gap-4 hover:shadow-lg transition"
           >
-            <img
-              src={template.preview}
-              alt={template.name}
-              className="w-full h-40 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-lg font-semibold text-gray-700">{template.name}</h2>
-              <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Use Template
-              </button>
+            {/* Template Title */}
+            <h2 className="text-lg font-semibold text-gray-700 border-b pb-2 capitalize ">
+              {item.name}
+            </h2>
+
+            {/* Template Preview */}
+            <div className="flex flex-wrap gap-3 justify-center">
+              <RenderTemplate dropableData={item.data} />
             </div>
+
+            {/* Action Button (optional for future use) */}
+            <button 
+            onClick={()=>{
+              dispatch(setTemplate(item.data  ))
+              route.push("/email/dashboard")
+            }}
+            className="w-full mt-3 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+              Use Template
+            </button>
           </div>
         ))}
       </div>

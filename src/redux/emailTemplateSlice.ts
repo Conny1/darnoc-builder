@@ -228,7 +228,7 @@ export const emailtemplateSlice = createSlice({
 
     undoAction: (state) => {
       if (state.prevCanvasState.length === 0) return;
-      let temp = state.prevCanvasState.pop();
+      const temp = state.prevCanvasState.pop();
       if (temp) {
         // store data for redo
         state.nextCanvaState.push(state.dropableData);
@@ -238,13 +238,17 @@ export const emailtemplateSlice = createSlice({
 
     redoAction: (state) => {
       if (state.nextCanvaState.length === 0) return;
-      let temp = state.nextCanvaState.pop();
+      const temp = state.nextCanvaState.pop();
       if (temp) {
         // store data for redo
         state.prevCanvasState.push(state.dropableData);
         state.dropableData = temp;
       }
     },
+
+    setTemplate:(state, action:PayloadAction<BlockDataType[]>)=>{
+      state.dropableData = action.payload
+    }
   },
 });
 
@@ -262,6 +266,7 @@ export const {
   updateContent,
   redoAction,
   undoAction,
+  setTemplate
 } = emailtemplateSlice.actions;
 
 export default emailtemplateSlice.reducer;
