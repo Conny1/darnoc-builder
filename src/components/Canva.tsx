@@ -64,7 +64,6 @@ const Canva = () => {
     setshowCode(true);
   };
 
-
   return (
     <div className=" flex gap-3  flex-1  bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
       <div className="flex-1 flex flex-col items-center  ">

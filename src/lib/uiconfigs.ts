@@ -163,7 +163,7 @@ export const blockConfigs: BlockConfigs = {
         marginTop: "0px",
         marginBottom: "0px",
         marginLeft: "0px",
-
+        textDecoration:"none",
         textTransform: "none",
         height: "auto",
         overflowWrap: "break-word",
@@ -178,8 +178,7 @@ export const blockConfigs: BlockConfigs = {
         display: "inline-block",
         verticalAlign: "top",
         textAlign: "center",
-        margin: "0px",
-        padding: "0px",
+     
       },
     },
     content: {
