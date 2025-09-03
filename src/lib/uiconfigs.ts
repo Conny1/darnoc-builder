@@ -216,16 +216,6 @@ export const blockConfigs: BlockConfigs = {
     },
   },
 
-  raw_html: {
-    styles: {
-      wrapper: {
-        width: "100%",
-        boxSizing: "border-box" as const,
-        margin: 0,
-        padding: "40px 20px",
-      },
-    },
-  },
 };
 
 export const removeCSSvalues = (style: string) => {

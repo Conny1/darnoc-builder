@@ -41,7 +41,7 @@ export function SortableItem({ id, children, parent_id , etype, ekey}: Props) {
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        className=" removable cursor-grab absolute -left-7 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-gray-200"
+        className=" removable cursor-grab absolute -left-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-gray-200"
       >
         <GripVertical className="  removable w-6 h-6  text-gray-500" />
       </button>

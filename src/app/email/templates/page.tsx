@@ -28,7 +28,7 @@ const route = useRouter()
       </div>
 
       {/* Templates Grid */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3 justify-around">
         {templatesArr.map((item) => (
           <div
             key={item.id}

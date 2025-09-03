@@ -9,7 +9,7 @@ type Props = {
 const RenderTemplate = ({ dropableData }: Props) => {
   return (
     <div>
-      <div className=" border-2 border-dashed border-gray-300 bg-red flex  justify-center ">
+      <div >
         <div
           style={{
             display: "inline-block",
