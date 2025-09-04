@@ -7,6 +7,8 @@ type Props = {
 };
 
 const RenderTemplate = ({ dropableData }: Props) => {
+
+
   return (
     <div>
       <div >

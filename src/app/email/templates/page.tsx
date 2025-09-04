@@ -27,12 +27,11 @@ const route = useRouter()
         <div /> {/* keeps spacing consistent */}
       </div>
 
-      {/* Templates Grid */}
-      <div className="flex flex-wrap gap-3 justify-around">
+      <div className="flex flex-wrap ">
         {templatesArr.map((item) => (
           <div
             key={item.id}
-            className="bg-white  shadow-md rounded-xl p-5 flex flex-col gap-4 hover:shadow-lg transition"
+            className=" scale-75 origin-top-left   bg-white  shadow-md rounded-xl p-5 flex flex-col gap-4 hover:shadow-lg transition"
           >
             {/* Template Title */}
             <h2 className="text-lg font-semibold text-gray-700 border-b pb-2 capitalize ">
