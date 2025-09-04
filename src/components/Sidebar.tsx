@@ -9,6 +9,7 @@ import {
 } from "lucide-react"; 
 import Draggable from "./Draggable";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const blockItems = [
   { name: "section", icon: Layout },
@@ -24,11 +25,14 @@ const Sidebar = () => {
   const navigate = useRouter() ; // ✅ router navigation
 
   return (
-    <aside className="w-[260px] border-r bg-gray-50 shadow-sm flex flex-col">
+    <aside className= "  w-[260px] border-r bg-gray-50 shadow-sm flex flex-col">
       {/* Header */}
       <div className="p-5 border-b bg-white sticky top-0">
-        <h2 className="text-xl font-semibold text-gray-900">📦 Builder</h2>
-        <div className="flex gap-2 mt-3">
+<Link href="/" >
+  <h1 className="text-2xl  font-extrabold tracking-tight text-gray-800 flex items-center gap-2">
+      🚀 Darnoc <span className="text-blue-600">Builder</span>
+    </h1>
+    </Link>        <div className="flex gap-2 mt-3">
           {/* Blocks Button */}
           <button
             onClick={() => setView("blocks")}
@@ -38,7 +42,7 @@ const Sidebar = () => {
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
-            Blocks
+          📦   Blocks
           </button>
 
           {/* Templates Button (Redirects) */}
@@ -52,11 +56,12 @@ const Sidebar = () => {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-2 p-4">
+      <div className="w-[250px] fixed top-45 left-2  z-10  flex flex-col gap-2 p-4  ">
         {view === "blocks" &&
           blockItems.map(({ name, icon: Icon }, i) => (
+            
             <Draggable key={i} id={`${name}`} name={name}>
-              <div className="flex items-center gap-3 px-3 py-2 bg-white rounded-md shadow-sm hover:bg-gray-100 border">
+              <div className="  flex items-center gap-3 px-3 py-2 bg-white rounded-md shadow-sm hover:bg-gray-100 border">
                 <Icon className="w-5 h-5 text-gray-600" />
                 <span className="capitalize text-sm font-medium text-gray-700">
                   {name}
@@ -66,10 +71,10 @@ const Sidebar = () => {
           ))}
       </div>
 
-      {/* Footer */}
-      <footer className="p-4 border-t text-[11px] text-gray-400 text-center">
+      {/* Footer
+      <footer className= "   p-4 border-t text-[11px] text-gray-400 text-center">
         © 2025 Darnoc Builder
-      </footer>
+      </footer> */}
     </aside>
   );
 };

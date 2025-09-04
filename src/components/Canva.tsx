@@ -149,12 +149,12 @@ const Canva = () => {
               items={dropableData}
               strategy={verticalListSortingStrategy}
             >
-              <div className=" h-[90vh]  overflow-x-scroll border-2 border-dashed border-gray-300 bg-red flex  justify-center ">
+              <div className=" h-[100vh]  overflow-x-scroll border-2 border-dashed border-gray-300 bg-red flex  justify-center ">
                 <div
                   ref={containerRef}
                   style={{
                     display: "inline-block",
-                    margin: " 0px auto",
+                    margin: " 0 auto",
                     textAlign: "center",
                     width: previewMode === "desktop" ? "602px" : "360px",
                     maxWidth: "100%",
